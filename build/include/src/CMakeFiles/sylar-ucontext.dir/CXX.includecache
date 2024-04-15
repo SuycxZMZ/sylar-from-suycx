@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/fiber.h
+functional
+-
+memory
+-
+ucontext.h
+-
+
+/home/codeCpp/sylar-from-suycx/include/src/fiber.cc
+atomic
+-
+fiber.h
+/home/codeCpp/sylar-from-suycx/include/src/fiber.h
+
