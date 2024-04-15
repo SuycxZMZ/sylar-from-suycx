@@ -44,7 +44,7 @@ Fiber::Fiber()
     m_state = RUNNING;
 
     if (getcontext(&m_ctx)) {
-        LOG_DEBUG("Fiber::Fiber() getcontext error");
+        LOG_FATAL("Fiber::Fiber() getcontext error");
         // std::cout << "main fiber getcontext error" << std::endl;
     }
 
@@ -123,6 +123,77 @@ Fiber::~Fiber()
             SetThis(nullptr);
         }
     }
+}
+
+/**
+ * @brief 简化状态管理，只有处于TERM状态的协程才能被重置
+*/
+void Fiber::reset(std::function<void()> cb)
+{
+    if (!m_stack || m_state != TERM) {
+        LOG_FATAL("Fiber::reset() Error id = %u, m_state = %d", m_id, m_state);
+    }
+
+    m_cb = cb;
+    if (getcontext(&m_ctx)) {
+        LOG_FATAL("Fiber::reset() getcontext error");
+    }
+
+    m_ctx.uc_link = nullptr;
+    m_ctx.uc_stack.ss_sp = m_stack;
+    m_ctx.uc_stack.ss_size = m_stacksize;
+
+    makecontext(&m_ctx, &Fiber::MainFunc, 0);
+    m_state = READY;
+}
+
+void Fiber::resume()
+{
+    if (!(m_state != TERM && m_state != RUNNING)) {
+        LOG_FATAL("Fiber::resume() Error id = %u, m_state = %d", m_id, m_state);
+    }
+
+    SetThis(this);
+    m_state = RUNNING;
+
+    // 如果协程参与调度器调度，则需要和调度器的主协程进行swap，而不是线程的主协程
+    if (swapcontext(&(t_thread_fiber->m_ctx), &m_ctx)) {
+        LOG_FATAL("Fiber::resume() swapcontext error");
+    }
+}
+
+void Fiber::yield()
+{
+    // 协程执行完之后会自动yield一次，用于回到主协程，此时状态已经是结束状态
+    if (!(m_state == RUNNING || m_state == TERM)) {
+        LOG_FATAL("Fiber::yield() Error id = %u, m_state = %d", m_id, m_state);
+    }
+
+    SetThis(t_thread_fiber.get());
+    if (m_state != TERM) {
+        m_state = READY;
+    }
+
+    if (swapcontext(&m_ctx, &(t_thread_fiber->m_ctx))) {
+        LOG_FATAL("Fiber::yield() swapcontext error");
+    }
+}
+
+void Fiber::MainFunc()
+{
+    Fiber::ptr cur = GetThis();
+    if (cur == nullptr) {
+        LOG_FATAL("Fiber::MainFunc() GetThis() == nullptr");
+    }
+
+    cur->m_cb();
+    cur->m_cb = nullptr;
+    cur->m_state = TERM;
+
+    // 手动让t_fiber的引用计数减1
+    auto raw_ptr = cur.get();
+    cur.reset();
+    raw_ptr->yield();
 }
 
 }
