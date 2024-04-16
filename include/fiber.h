@@ -1,4 +1,5 @@
-#pragma once
+#ifndef FIBER_H
+#define FIBER_H
 
 #include <functional>
 #include <memory>
@@ -99,3 +100,5 @@ private:
     bool m_runInScheduler;
 };
 }
+
+#endif

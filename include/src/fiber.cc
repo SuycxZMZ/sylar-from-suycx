@@ -3,6 +3,7 @@
 
 #include "logger.h"
 #include "fiber.h"
+#include "scheduler.h"
 
 namespace sylar
 {
@@ -50,7 +51,7 @@ Fiber::Fiber()
 
     ++s_fiber_count;
     m_id = s_fiber_id++;
-    LOG_DEBUG("Fiber::Fiber() id = %u", m_id);
+    LOG_DEBUG("Fiber::Fiber() id = %lu", m_id);
     // std::cout << "Fiber::Fiber() main id = " << m_id << std::endl;
 }
 
@@ -75,7 +76,7 @@ Fiber::ptr Fiber::GetThis()
     return t_fiber->shared_from_this();
 }
 
-Fiber::Fiber(std::function<void()> cb, size_t stacksize = 0, bool run_in_scheduler = true) :
+Fiber::Fiber(std::function<void()> cb, size_t stacksize, bool run_in_scheduler) :
     m_id(s_fiber_id++),
     m_cb(cb),
     m_runInScheduler(run_in_scheduler)
@@ -94,27 +95,27 @@ Fiber::Fiber(std::function<void()> cb, size_t stacksize = 0, bool run_in_schedul
 
     makecontext(&m_ctx, &Fiber::MainFunc, 0);
 
-    LOG_DEBUG("Fiber::Fiber() id = %u", m_id);
+    LOG_DEBUG("Fiber::Fiber() id = %lu", m_id);
     // std::cout << "Fiber::Fiber() id = " << m_id << std::endl;
 }
 
 Fiber::~Fiber()
 {
-    LOG_DEBUG("Fiber::~Fiber() id = %u", m_id);
+    LOG_DEBUG("Fiber::~Fiber() id = %lu", m_id);
     --s_fiber_count;
     if (m_stack) {
         // 有栈说明是子协程，需要进一步确保子协程是结束状态
         if (m_state != TERM) {
-            LOG_FATAL("Fiber::~Fiber() Error id = %u, m_state = %d", m_id, m_state);
+            LOG_FATAL("Fiber::~Fiber() Error id = %lu, m_state = %d", m_id, m_state);
         }
 
         StackAllocator::Dealloc(m_stack, m_stacksize);
-        LOG_DEBUG("dealloc fiber stack id = %u", m_id);
+        LOG_DEBUG("dealloc fiber stack id = %lu", m_id);
     }
     else {
         // 没有栈说明是主协程
         if (m_cb || m_state != RUNNING) {
-            LOG_FATAL("Fiber::~Fiber() Error id = %u, m_state = %d", m_id, m_state);
+            LOG_FATAL("Fiber::~Fiber() Error id = %lu, m_state = %d", m_id, m_state);
         }
 
         // 当前协程就是自己
@@ -131,7 +132,7 @@ Fiber::~Fiber()
 void Fiber::reset(std::function<void()> cb)
 {
     if (!m_stack || m_state != TERM) {
-        LOG_FATAL("Fiber::reset() Error id = %u, m_state = %d", m_id, m_state);
+        LOG_FATAL("Fiber::reset() Error id = %lu, m_state = %d", m_id, m_state);
     }
 
     m_cb = cb;
@@ -150,23 +151,32 @@ void Fiber::reset(std::function<void()> cb)
 void Fiber::resume()
 {
     if (!(m_state != TERM && m_state != RUNNING)) {
-        LOG_FATAL("Fiber::resume() Error id = %u, m_state = %d", m_id, m_state);
+        LOG_FATAL("Fiber::resume() Error id = %lu, m_state = %d", m_id, m_state);
     }
 
     SetThis(this);
     m_state = RUNNING;
 
     // 如果协程参与调度器调度，则需要和调度器的主协程进行swap，而不是线程的主协程
-    if (swapcontext(&(t_thread_fiber->m_ctx), &m_ctx)) {
-        LOG_FATAL("Fiber::resume() swapcontext error");
+    if (m_runInScheduler) {
+        if (swapcontext(&(Scheduler::GetMainFiber()->m_ctx), &m_ctx)) {
+            LOG_FATAL("Fiber::resume() swapcontext error");
+        }
+    } else {
+        if (swapcontext(&(t_thread_fiber->m_ctx), &m_ctx)) {
+            LOG_FATAL("Fiber::resume() swapcontext error");
+        }
     }
+    // if (swapcontext(&(t_thread_fiber->m_ctx), &m_ctx)) {
+    //     LOG_FATAL("Fiber::resume() swapcontext error");
+    // }
 }
 
 void Fiber::yield()
 {
     // 协程执行完之后会自动yield一次，用于回到主协程，此时状态已经是结束状态
     if (!(m_state == RUNNING || m_state == TERM)) {
-        LOG_FATAL("Fiber::yield() Error id = %u, m_state = %d", m_id, m_state);
+        LOG_FATAL("Fiber::yield() Error id = %lu, m_state = %d", m_id, m_state);
     }
 
     SetThis(t_thread_fiber.get());
@@ -174,26 +184,36 @@ void Fiber::yield()
         m_state = READY;
     }
 
-    if (swapcontext(&m_ctx, &(t_thread_fiber->m_ctx))) {
-        LOG_FATAL("Fiber::yield() swapcontext error");
+    if (m_runInScheduler) {
+        if (swapcontext(&m_ctx, &(Scheduler::GetMainFiber()->m_ctx))) {
+            LOG_FATAL("Fiber::yield() swapcontext error");
+        }
+    } else {
+        if (swapcontext(&m_ctx, &(t_thread_fiber->m_ctx))) {
+            LOG_FATAL("Fiber::yield() swapcontext error");
+        }
     }
+
+    // if (swapcontext(&m_ctx, &(t_thread_fiber->m_ctx))) {
+    //     LOG_FATAL("Fiber::yield() swapcontext error");
+    // }
 }
 
 void Fiber::MainFunc()
 {
-    Fiber::ptr cur = GetThis();
+    Fiber::ptr cur = GetThis(); // GetThis()的shared_from_this()⽅法让引⽤计数加1
     if (cur == nullptr) {
         LOG_FATAL("Fiber::MainFunc() GetThis() == nullptr");
     }
 
-    cur->m_cb();
+    cur->m_cb();            // 这⾥真正执⾏协程的⼊⼝函数
     cur->m_cb = nullptr;
     cur->m_state = TERM;
 
     // 手动让t_fiber的引用计数减1
     auto raw_ptr = cur.get();
     cur.reset();
-    raw_ptr->yield();
+    raw_ptr->yield();       // 协程结束时⾃动yield，以回到主协程
 }
 
 }
