@@ -3,4 +3,40 @@
 
 include/src/CMakeFiles/sylar-ucontext.dir/fiber.cc.o
  ../include/fiber.h
+ ../include/logger.h
+ ../include/mutex.h
+ ../include/noncopyable.h
+ ../include/scheduler.h
+ ../include/thread.h
  /home/codeCpp/sylar-from-suycx/include/src/fiber.cc
+include/src/CMakeFiles/sylar-ucontext.dir/logger.cc.o
+ ../include/logger.h
+ ../include/noncopyable.h
+ ../include/timestamp.h
+ /home/codeCpp/sylar-from-suycx/include/src/logger.cc
+include/src/CMakeFiles/sylar-ucontext.dir/mutex.cc.o
+ ../include/mutex.h
+ ../include/noncopyable.h
+ /home/codeCpp/sylar-from-suycx/include/src/mutex.cc
+include/src/CMakeFiles/sylar-ucontext.dir/scheduler.cc.o
+ ../include/fiber.h
+ ../include/logger.h
+ ../include/mutex.h
+ ../include/noncopyable.h
+ ../include/scheduler.h
+ ../include/thread.h
+ ../include/util.h
+ /home/codeCpp/sylar-from-suycx/include/src/scheduler.cc
+include/src/CMakeFiles/sylar-ucontext.dir/thread.cc.o
+ ../include/logger.h
+ ../include/mutex.h
+ ../include/noncopyable.h
+ ../include/thread.h
+ ../include/util.h
+ /home/codeCpp/sylar-from-suycx/include/src/thread.cc
+include/src/CMakeFiles/sylar-ucontext.dir/timestamp.cc.o
+ ../include/timestamp.h
+ /home/codeCpp/sylar-from-suycx/include/src/timestamp.cc
+include/src/CMakeFiles/sylar-ucontext.dir/util.cc.o
+ ../include/util.h
+ /home/codeCpp/sylar-from-suycx/include/src/util.cc

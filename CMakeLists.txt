@@ -12,6 +12,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++17 -fPIC")
 
 add_subdirectory(include)
 
+add_subdirectory(tests) 
 # aux_source_directory(. SRC_LIST)
 
 # add_library(tinymuduo SHARED ${SRC_LIST})

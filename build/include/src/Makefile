@@ -179,6 +179,87 @@ logger.cc.s:
 	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/logger.cc.s
 .PHONY : logger.cc.s
 
+mutex.o: mutex.cc.o
+
+.PHONY : mutex.o
+
+# target to build an object file
+mutex.cc.o:
+	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/mutex.cc.o
+.PHONY : mutex.cc.o
+
+mutex.i: mutex.cc.i
+
+.PHONY : mutex.i
+
+# target to preprocess a source file
+mutex.cc.i:
+	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/mutex.cc.i
+.PHONY : mutex.cc.i
+
+mutex.s: mutex.cc.s
+
+.PHONY : mutex.s
+
+# target to generate assembly for a file
+mutex.cc.s:
+	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/mutex.cc.s
+.PHONY : mutex.cc.s
+
+scheduler.o: scheduler.cc.o
+
+.PHONY : scheduler.o
+
+# target to build an object file
+scheduler.cc.o:
+	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/scheduler.cc.o
+.PHONY : scheduler.cc.o
+
+scheduler.i: scheduler.cc.i
+
+.PHONY : scheduler.i
+
+# target to preprocess a source file
+scheduler.cc.i:
+	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/scheduler.cc.i
+.PHONY : scheduler.cc.i
+
+scheduler.s: scheduler.cc.s
+
+.PHONY : scheduler.s
+
+# target to generate assembly for a file
+scheduler.cc.s:
+	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/scheduler.cc.s
+.PHONY : scheduler.cc.s
+
+thread.o: thread.cc.o
+
+.PHONY : thread.o
+
+# target to build an object file
+thread.cc.o:
+	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/thread.cc.o
+.PHONY : thread.cc.o
+
+thread.i: thread.cc.i
+
+.PHONY : thread.i
+
+# target to preprocess a source file
+thread.cc.i:
+	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/thread.cc.i
+.PHONY : thread.cc.i
+
+thread.s: thread.cc.s
+
+.PHONY : thread.s
+
+# target to generate assembly for a file
+thread.cc.s:
+	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/thread.cc.s
+.PHONY : thread.cc.s
+
 timestamp.o: timestamp.cc.o
 
 .PHONY : timestamp.o
@@ -206,6 +287,33 @@ timestamp.cc.s:
 	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/timestamp.cc.s
 .PHONY : timestamp.cc.s
 
+util.o: util.cc.o
+
+.PHONY : util.o
+
+# target to build an object file
+util.cc.o:
+	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/util.cc.o
+.PHONY : util.cc.o
+
+util.i: util.cc.i
+
+.PHONY : util.i
+
+# target to preprocess a source file
+util.cc.i:
+	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/util.cc.i
+.PHONY : util.cc.i
+
+util.s: util.cc.s
+
+.PHONY : util.s
+
+# target to generate assembly for a file
+util.cc.s:
+	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/util.cc.s
+.PHONY : util.cc.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -221,9 +329,21 @@ help:
 	@echo "... logger.o"
 	@echo "... logger.i"
 	@echo "... logger.s"
+	@echo "... mutex.o"
+	@echo "... mutex.i"
+	@echo "... mutex.s"
+	@echo "... scheduler.o"
+	@echo "... scheduler.i"
+	@echo "... scheduler.s"
+	@echo "... thread.o"
+	@echo "... thread.i"
+	@echo "... thread.s"
 	@echo "... timestamp.o"
 	@echo "... timestamp.i"
 	@echo "... timestamp.s"
+	@echo "... util.o"
+	@echo "... util.i"
+	@echo "... util.s"
 .PHONY : help
 
 

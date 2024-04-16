@@ -123,6 +123,19 @@ sylar-ucontext/fast:
 	$(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/build
 .PHONY : sylar-ucontext/fast
 
+#=============================================================================
+# Target rules for targets named simple-scheduler
+
+# Build rule for target.
+simple-scheduler: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 simple-scheduler
+.PHONY : simple-scheduler
+
+# fast build rule for target.
+simple-scheduler/fast:
+	$(MAKE) -f tests/fiber/CMakeFiles/simple-scheduler.dir/build.make tests/fiber/CMakeFiles/simple-scheduler.dir/build
+.PHONY : simple-scheduler/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -132,6 +145,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... sylar-ucontext"
+	@echo "... simple-scheduler"
 .PHONY : help
 
 
