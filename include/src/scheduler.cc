@@ -166,11 +166,14 @@ void Scheduler::run()
                 if (it->thread != -1 && it->thread != sylar::GetThreadId()) {
                     ++it;
                     tickle_me = true;
+                    continue;
                 }
                 // 找到一个未指定线程，或是指定了当前线程的任务
                 if (!(it->fiber || it->cb)) {
                     LOG_FATAL("it->fiber == nullptr && it->cb == nullptr");
                 }
+
+                // [BUG FIX]
                 if (it->fiber) {
                     // 任务添加到队列时一定是READY状态
                     if (it->fiber->getState() != Fiber::READY) {

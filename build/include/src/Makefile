@@ -152,6 +152,33 @@ fiber.cc.s:
 	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/fiber.cc.s
 .PHONY : fiber.cc.s
 
+iomanager.o: iomanager.cc.o
+
+.PHONY : iomanager.o
+
+# target to build an object file
+iomanager.cc.o:
+	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o
+.PHONY : iomanager.cc.o
+
+iomanager.i: iomanager.cc.i
+
+.PHONY : iomanager.i
+
+# target to preprocess a source file
+iomanager.cc.i:
+	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.i
+.PHONY : iomanager.cc.i
+
+iomanager.s: iomanager.cc.s
+
+.PHONY : iomanager.s
+
+# target to generate assembly for a file
+iomanager.cc.s:
+	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.s
+.PHONY : iomanager.cc.s
+
 logger.o: logger.cc.o
 
 .PHONY : logger.o
@@ -326,6 +353,9 @@ help:
 	@echo "... fiber.o"
 	@echo "... fiber.i"
 	@echo "... fiber.s"
+	@echo "... iomanager.o"
+	@echo "... iomanager.i"
+	@echo "... iomanager.s"
 	@echo "... logger.o"
 	@echo "... logger.i"
 	@echo "... logger.s"

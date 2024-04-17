@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "../../../lib/libsylar-ucontext.pdb"
   "../../../lib/libsylar-ucontext.so"
   "CMakeFiles/sylar-ucontext.dir/fiber.cc.o"
+  "CMakeFiles/sylar-ucontext.dir/iomanager.cc.o"
   "CMakeFiles/sylar-ucontext.dir/logger.cc.o"
   "CMakeFiles/sylar-ucontext.dir/mutex.cc.o"
   "CMakeFiles/sylar-ucontext.dir/scheduler.cc.o"
