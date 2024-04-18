@@ -9,6 +9,15 @@ include/src/CMakeFiles/sylar-ucontext.dir/fiber.cc.o
  ../include/scheduler.h
  ../include/thread.h
  /home/codeCpp/sylar-from-suycx/include/src/fiber.cc
+include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o
+ ../include/fiber.h
+ ../include/iomanager.h
+ ../include/logger.h
+ ../include/mutex.h
+ ../include/noncopyable.h
+ ../include/scheduler.h
+ ../include/thread.h
+ /home/codeCpp/sylar-from-suycx/include/src/iomanager.cc
 include/src/CMakeFiles/sylar-ucontext.dir/logger.cc.o
  ../include/logger.h
  ../include/noncopyable.h

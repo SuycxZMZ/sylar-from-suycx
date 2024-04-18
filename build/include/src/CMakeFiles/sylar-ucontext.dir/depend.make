@@ -9,6 +9,15 @@ include/src/CMakeFiles/sylar-ucontext.dir/fiber.cc.o: ../include/scheduler.h
 include/src/CMakeFiles/sylar-ucontext.dir/fiber.cc.o: ../include/thread.h
 include/src/CMakeFiles/sylar-ucontext.dir/fiber.cc.o: ../include/src/fiber.cc
 
+include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o: ../include/fiber.h
+include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o: ../include/iomanager.h
+include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o: ../include/logger.h
+include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o: ../include/mutex.h
+include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o: ../include/noncopyable.h
+include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o: ../include/scheduler.h
+include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o: ../include/thread.h
+include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o: ../include/src/iomanager.cc
+
 include/src/CMakeFiles/sylar-ucontext.dir/logger.cc.o: ../include/logger.h
 include/src/CMakeFiles/sylar-ucontext.dir/logger.cc.o: ../include/noncopyable.h
 include/src/CMakeFiles/sylar-ucontext.dir/logger.cc.o: ../include/timestamp.h

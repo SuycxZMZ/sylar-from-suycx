@@ -141,7 +141,7 @@ void IOManager::idle()
 
             int rt2 = epoll_ctl(m_epfd, op, fd_ctx->fd, &event);
             if (rt2) {
-                LOG_ERROR("idle() epoll_ctl error m_epfd = %d, op = %d, fd = %d, rt2 = %d, errno = %d");
+                LOG_ERROR("idle() epoll_ctl error m_epfd = %d, op = %d, fd = %d, rt2 = %d, errno = %d", m_epfd, op, fd_ctx->fd, rt2, errno);
                 continue;
             }
 
@@ -165,6 +165,14 @@ void IOManager::idle()
         cur.reset();      // 释放当前协程的引用计数
         raw_ptr->yield(); // 协程让出执行权，让调度协程(Scheduler::run)重新检查是否有新的任务要调度
     } // while
+}
+
+/**
+ * @brief 返回当前的IOManager
+*/
+IOManager *IOManager::GetThis()
+{
+    return dynamic_cast<IOManager *>(Scheduler::GetThis());
 }
 
 /**
@@ -332,7 +340,142 @@ bool IOManager::cancelEvent(int fd, Event event)
 */
 bool IOManager::cancelAll(int fd)
 {
-    
+    RWMutexType::ReadLock lock(m_mutex);
+    if ((int)m_fdContexts.size() <= fd) {
+        return false;
+    }
+    FdContext *fd_ctx = m_fdContexts[fd];
+    lock.unlock();
+
+    FdContext::MutexType::Lock lock2(fd_ctx->mutex);
+
+    int op = EPOLL_CTL_DEL;
+    epoll_event ep_event;
+    bzero(&ep_event, sizeof(ep_event));
+    ep_event.events  = 0;
+    ep_event.data.ptr = fd_ctx;
+
+    int rt = epoll_ctl(m_epfd, op, fd, &ep_event);
+    if (rt) {
+        LOG_ERROR("cancelAll() epoll_ctl error m_epfd = %d, op = %d, fd = %d, rt = %d, errno = %d", m_epfd, op, fd, rt, errno);
+        return false;
+    }
+
+    // 触发全部已经注册的事件
+    if (fd_ctx->events & READ) {
+        fd_ctx->triggerEvent(READ);
+        --m_pendingEventCount;
+    }
+    if (fd_ctx->events & WRITE) {
+        fd_ctx->triggerEvent(WRITE);
+        --m_pendingEventCount;
+    }
+
+    return true;
+}
+
+IOManager::~IOManager()
+{   // 先等待所有的任务调度完成
+    stop();
+    // 再关闭 epollfd 和 pipfd
+    close(m_epfd);
+    close(m_tickleFds[0]);
+    close(m_tickleFds[1]);
+
+    for (size_t i = 0; i < m_fdContexts.size(); ++i) {
+        if (m_fdContexts[i]) {
+            delete m_fdContexts[i];
+        }
+    }
+}
+
+bool IOManager::stopping() 
+{
+    return m_pendingEventCount == 0 && Scheduler::stopping();
+}
+
+/**
+ * @brief 判断是否可以停止，同时获取最近的一个定时器的超时时间
+ * @param[out] timeout 最近一个定时器的超时时间，用于idle协程的epoll_wait
+ * @return 返回是否可以停止
+*/
+bool IOManager::stopping(uint64_t &timeout)
+{
+    return true;
+}
+
+/**
+ * @brief 重置socket句柄上下文的容器大小
+ * @param[in] size 容量大小
+*/
+void IOManager::contextResize(size_t size)
+{
+    m_fdContexts.resize(size);
+    for (size_t i = 0; i < m_fdContexts.size(); ++i) {
+        if (!m_fdContexts[i]) {
+            m_fdContexts[i] = new FdContext;
+            m_fdContexts[i]->fd = i;
+        }
+    }
+}
+
+/**
+ * @brief 获取事件的上下文类
+ * @param[in] event 事件类型
+ * @return 返回对应事件的上下文
+*/
+IOManager::FdContext::EventContext &IOManager::FdContext::getEventContext(Event event)
+{
+    switch (event)
+    {
+    case IOManager::READ:
+        return read;
+    case IOManager::WRITE:
+        return write;
+    default:
+        break;
+    }
+    throw std::invalid_argument("getContext invalid event");
+}
+
+/**
+ * @brief 重置事件上下文
+ * @param[in, out] ctx 待重置的事件上下文对象
+*/
+void IOManager::FdContext::resetEventContext(EventContext &ctx)
+{
+    ctx.scheduler = nullptr;
+    ctx.fiber.reset();
+    ctx.cb = nullptr;
+}
+
+/**
+ * @brief 触发事件
+ * @details 根据事件类型调用对应上下文结构中的调度器去调度 回调协程或者回调函数
+ * @param[in] event 事件类型
+*/
+void IOManager::FdContext::triggerEvent(Event event)
+{
+    // 待触发的事件必须已经被注册
+    if (!(events & event)) {
+        LOG_FATAL("triggerEvent() not registed event: events = %d, event = %d", events, event);
+    }
+
+    // 清除该事件，表示不再关注该事件了
+    // 注册的IO事件是一次性的，如果想持续关注某个sock fd 上的读写事件，那么每次触发事件之后都要重新添加
+    events = (Event)(events & ~event);
+
+    // 调度对应的协程
+    EventContext &ctx = getEventContext(event);
+    if (ctx.cb) {
+        // fixbug
+        // ctx.scheduler->schedule(ctx.cb);
+    } else if (ctx.fiber) {
+        // fixbug
+        // ctx.scheduler->schedule(ctx.fiber);
+    }
+    resetEventContext(ctx);
+    return;
 }
 
 } // namespace sylar
