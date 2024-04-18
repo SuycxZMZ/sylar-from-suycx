@@ -167,4 +167,172 @@ void IOManager::idle()
     } // while
 }
 
+/**
+ * @brief 添加事件
+ * @details fd描述符发生了event事件时执行cd回调
+ * @param[in] fd sockfd
+ * @param[in] event 事件类型
+ * @param[in] cb 如果为空，则默认把当前协程当作回调 functor
+ * @return 添加成功返回0，否则返回-1，重复添加程序直接退出
+*/
+int IOManager::addEvent(int fd, Event event, std::function<void()> cb)
+{
+    // 找到对应的fd对应的fdContext，如果不存在，就分配一个
+    FdContext *fd_ctx = nullptr;
+    RWMutexType::ReadLock lock(m_mutex);
+    if ((int)m_fdContexts.size() > fd) {
+        fd_ctx = m_fdContexts[fd];
+        lock.unlock();
+    } else {
+        lock.unlock();
+        RWMutexType::WriteLock lock2(m_mutex);
+        contextResize(fd * 1.5);
+        fd_ctx = m_fdContexts[fd];
+    }
+
+    // 同一个 fd 不允许重复添加相同的事件
+    FdContext::MutexType::Lock lock2(fd_ctx->mutex);
+    if (fd_ctx->events & event) {
+        LOG_FATAL("addEvent() add same event: fd = %d, event = %d", fd, event);
+        // return 1;
+    }
+
+    // 将新的事件加入epoll_wait，使用epoll_event的私有 data成员的指针存储 FdContext的位置
+    // 新建的 FdContext 默认不关注任何事件，所以需要先添加事件
+    int op = fd_ctx->events ? EPOLL_CTL_MOD : EPOLL_CTL_ADD;
+    epoll_event ep_event;
+    bzero(&ep_event, sizeof(ep_event));
+    ep_event.events     = EPOLLET | fd_ctx->events | event;
+    ep_event.data.ptr   = fd_ctx;
+    int rt = epoll_ctl(m_epfd, op, fd, &ep_event);
+    if (rt) {
+        LOG_ERROR("addEvent() epoll_ctl error m_epfd = %d, op = %d, fd = %d, rt = %d, errno = %d", m_epfd, op, fd, rt, errno);
+        return -1;
+    }
+
+    // 待执行的IO事件数量加1
+    ++m_pendingEventCount;
+    
+    // 找到事件对应的event事件对应的 EventContext，对其中的scheduler，cb，fiber进行赋值
+    fd_ctx->events                      = (Event)(fd_ctx->events | event); 
+    FdContext::EventContext &event_ctx  = fd_ctx->getEventContext(event);
+    if (!(!event_ctx.scheduler && !event_ctx.fiber && !event_ctx.cb)) {
+        LOG_FATAL("addEvent() event exist: fd = %d, event = %d", fd, event);
+    }
+
+    // 赋值scheduler和回调函数，如果回调函数为空，则把当前协程当成回调函数执行体
+    event_ctx.scheduler = Scheduler::GetThis();
+    if (cb) {
+        event_ctx.cb.swap(cb);
+    } else {
+        event_ctx.fiber = Fiber::GetThis();
+        if (event_ctx.fiber->getState() != Fiber::RUNNING) {
+            LOG_FATAL("addEvent() cb is null, but coroutine not running: fd = %d, event = %d, this = %p", fd, event, this);
+        }
+    }
+    return 0;
+}
+
+/**
+ * @brief 删除事件
+ * @param[in] fd sockfd
+ * @param[in] event 事件类型
+ * @attention 不会触发事件
+ * @return 是否删除成功
+*/
+bool IOManager::delEvent(int fd, Event event)
+{
+    // 找到fd对应的FdContext
+    RWMutexType::ReadLock lock(m_mutex);
+    // 找不到直接返回
+    if ((int)m_fdContexts.size() <= fd) {
+        return false;
+    }
+
+    FdContext *fd_ctx = m_fdContexts[fd];
+    lock.unlock();
+
+    FdContext::MutexType::Lock lock2(fd_ctx->mutex);
+    // 如果事件不存在，直接返回
+    if (!(fd_ctx->events & event)) {
+        return false;
+    }
+
+    // 清除指定事件，表示已经不再关心该事件，如果清除后结果为0，则从epoll_wait中删除该文件描述符
+    Event new_events = (Event)(fd_ctx->events & ~event);
+    int op           = new_events ? EPOLL_CTL_MOD : EPOLL_CTL_DEL;
+    epoll_event ep_event;
+    bzero(&ep_event, sizeof(ep_event));
+    ep_event.events  = EPOLLET | new_events;
+    ep_event.data.ptr = fd_ctx;
+
+    int rt = epoll_ctl(m_epfd, op, fd, &ep_event);
+    if (rt) {
+        LOG_ERROR("delEvent() epoll_ctl error m_epfd = %d, op = %d, fd = %d, rt = %d, errno = %d", m_epfd, op, fd, rt, errno);
+        return false;
+    }
+
+    // 执行事件数减1
+    --m_pendingEventCount;
+    // 重置该 fd 对应的event上下文
+    fd_ctx->events              = new_events;
+    FdContext::EventContext &event_ctx = fd_ctx->getEventContext(event);
+    fd_ctx->resetEventContext(event_ctx);
+    return true;
+}
+
+/**
+ * @brief 取消事件
+ * @param[in] fd sockfd
+ * @param[in] event 事件类型
+ * @attention 如果该事件被注册过回调，则触发一次回调
+ * @return 是否取消成功
+*/
+bool IOManager::cancelEvent(int fd, Event event)
+{
+    RWMutexType::ReadLock lock(m_mutex);
+    if ((int)m_fdContexts.size() <= fd) {
+        return false;
+    }
+
+    FdContext *fd_ctx = m_fdContexts[fd];
+    lock.unlock();
+
+    FdContext::MutexType::Lock lock2(fd_ctx->mutex);
+    if (!(fd_ctx->events & event)) {
+        return false;
+    }
+
+    // 删除事件
+    Event new_events = (Event)(fd_ctx->events & ~event);
+    int op           = new_events ? EPOLL_CTL_MOD : EPOLL_CTL_DEL;
+    epoll_event ep_event;
+    bzero(&ep_event, sizeof(ep_event));
+    ep_event.events  = EPOLLET | new_events;
+    ep_event.data.ptr = fd_ctx;
+
+    int rt = epoll_ctl(m_epfd, op, fd, &ep_event);
+    if (rt) {
+        LOG_ERROR("cancelEvent() epoll_ctl error m_epfd = %d, op = %d, fd = %d, rt = %d, errno = %d", m_epfd, op, fd, rt, errno);   
+        return false;
+    }
+
+    // 删除之前触发一次事件
+    fd_ctx->triggerEvent(event);
+    // 活跃事件数减1
+    --m_pendingEventCount;
+    return true;
+}
+
+/**
+ * @brief 取消所有事件
+ * @details 所有事件的回调在cancel之前都要执行一次
+ * @param[in] fd sockfd
+ * @return 是否取消成功
+*/
+bool IOManager::cancelAll(int fd)
+{
+    
+}
+
 } // namespace sylar
