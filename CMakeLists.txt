@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.0)
 project(sylar-ucontext)
 
 # add_definitions(-DMUDUODEBUG=1)
+add_definitions(-D_XOPEN_SOURCE=600)
+add_definitions(-D_GNU_SOURCE=1006)
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
