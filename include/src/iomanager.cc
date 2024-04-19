@@ -3,6 +3,7 @@
 #include <strings.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <algorithm>
 
 #include "logger.h"
 #include "iomanager.h"
@@ -72,6 +73,7 @@ void IOManager::idle()
 {
     LOG_DEBUG("idle()");
 
+    // 超过256的就绪事件会在下一轮的epoll_wait继续处理
     const uint64_t MAX_EVENTS = 256;
     epoll_event *events       = new epoll_event[MAX_EVENTS];
     // 自定义删除器，delete[] 数组
@@ -80,20 +82,42 @@ void IOManager::idle()
     });
 
     while (true) {
-        if (stopping()) {
+        // 获取下一个定时器的超时时间，顺便判断调度器是否停止
+        uint64_t next_timeout = 0;
+        if (stopping(next_timeout)) {
             LOG_DEBUG("idle() stopping");
             break;
         }
 
         // 阻塞在epoll_wait上，等待事件触发
-        static const int MAX_TIMEOUT = 5000;
-        int rt = epoll_wait(m_epfd, events, MAX_EVENTS, MAX_TIMEOUT);
-        if (rt < 0) {
-            if (errno == EINTR) {
-                continue;
+        int rt = 0;
+        do
+        {
+            // 默认超时时间为5秒，如果下一个定时器的超时时间大于5秒
+            // 仍然以5秒计算超时，避免定时器超时时间太长，epoll_wait一直阻塞
+            static const int MAX_TIMEOUT = 5000;
+            if (next_timeout != ~0ull) {
+                next_timeout = std::min((int)next_timeout, MAX_TIMEOUT);
+            } else {
+                next_timeout = MAX_TIMEOUT;
             }
-            LOG_ERROR("idle() epoll_wait error m_epfd = %d, rt = %d, errno = %d", m_epfd, rt, errno);
-            break;
+            rt = epoll_wait(m_epfd, events, MAX_EVENTS, (int)next_timeout);
+            if (rt < 0 && errno == EINTR) {
+                continue;
+            } else {
+                break;
+            }
+
+        } while (true);
+
+        // 收集所有的已经超时定时器，执行回调函数
+        std::vector<std::function<void()>> cbs;
+        listExpiredCb(cbs);
+        if (!cbs.empty()) {
+            for (auto &cb : cbs) {
+                schedule(cb);
+            }
+            cbs.clear();
         }
 
         // 遍历发生的所有事件，根据epoll_event的私有指针找到对应的FdContext，事件处理
@@ -401,7 +425,10 @@ bool IOManager::stopping()
 */
 bool IOManager::stopping(uint64_t &timeout)
 {
-    return true;
+    // 对于IOManager而言，必须等所有待调度的IO事件都执行完了才可以退出
+    // 增加定时器功能后，还应该保证没有剩余的定时器待触发
+    timeout = getNextTimer();
+    return timeout == ~0ull && m_pendingEventCount == 0 && Scheduler::stopping();
 }
 
 /**
@@ -469,10 +496,10 @@ void IOManager::FdContext::triggerEvent(Event event)
     EventContext &ctx = getEventContext(event);
     if (ctx.cb) {
         // fixbug
-        // ctx.scheduler->schedule(ctx.cb);
+        ctx.scheduler->schedule(ctx.cb);
     } else if (ctx.fiber) {
         // fixbug
-        // ctx.scheduler->schedule(ctx.fiber);
+        ctx.scheduler->schedule(ctx.fiber);
     }
     resetEventContext(ctx);
     return;

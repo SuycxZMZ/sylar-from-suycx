@@ -2,10 +2,11 @@
 #define IOMANAGER_H
 
 #include "scheduler.h"
+#include "timer.h"
 
 namespace sylar
 {
-class IOManager : public Scheduler
+class IOManager : public Scheduler, public TimerManager
 {
 public:
     using ptr = std::shared_ptr<IOManager>;

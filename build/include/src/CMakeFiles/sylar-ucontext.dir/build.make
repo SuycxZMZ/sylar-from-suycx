@@ -135,9 +135,22 @@ include/src/CMakeFiles/sylar-ucontext.dir/thread.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sylar-ucontext.dir/thread.cc.s"
 	cd /home/codeCpp/sylar-from-suycx/build/include/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/codeCpp/sylar-from-suycx/include/src/thread.cc -o CMakeFiles/sylar-ucontext.dir/thread.cc.s
 
+include/src/CMakeFiles/sylar-ucontext.dir/timer.cc.o: include/src/CMakeFiles/sylar-ucontext.dir/flags.make
+include/src/CMakeFiles/sylar-ucontext.dir/timer.cc.o: ../include/src/timer.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/codeCpp/sylar-from-suycx/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object include/src/CMakeFiles/sylar-ucontext.dir/timer.cc.o"
+	cd /home/codeCpp/sylar-from-suycx/build/include/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sylar-ucontext.dir/timer.cc.o -c /home/codeCpp/sylar-from-suycx/include/src/timer.cc
+
+include/src/CMakeFiles/sylar-ucontext.dir/timer.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sylar-ucontext.dir/timer.cc.i"
+	cd /home/codeCpp/sylar-from-suycx/build/include/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/codeCpp/sylar-from-suycx/include/src/timer.cc > CMakeFiles/sylar-ucontext.dir/timer.cc.i
+
+include/src/CMakeFiles/sylar-ucontext.dir/timer.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sylar-ucontext.dir/timer.cc.s"
+	cd /home/codeCpp/sylar-from-suycx/build/include/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/codeCpp/sylar-from-suycx/include/src/timer.cc -o CMakeFiles/sylar-ucontext.dir/timer.cc.s
+
 include/src/CMakeFiles/sylar-ucontext.dir/timestamp.cc.o: include/src/CMakeFiles/sylar-ucontext.dir/flags.make
 include/src/CMakeFiles/sylar-ucontext.dir/timestamp.cc.o: ../include/src/timestamp.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/codeCpp/sylar-from-suycx/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object include/src/CMakeFiles/sylar-ucontext.dir/timestamp.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/codeCpp/sylar-from-suycx/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object include/src/CMakeFiles/sylar-ucontext.dir/timestamp.cc.o"
 	cd /home/codeCpp/sylar-from-suycx/build/include/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sylar-ucontext.dir/timestamp.cc.o -c /home/codeCpp/sylar-from-suycx/include/src/timestamp.cc
 
 include/src/CMakeFiles/sylar-ucontext.dir/timestamp.cc.i: cmake_force
@@ -150,7 +163,7 @@ include/src/CMakeFiles/sylar-ucontext.dir/timestamp.cc.s: cmake_force
 
 include/src/CMakeFiles/sylar-ucontext.dir/util.cc.o: include/src/CMakeFiles/sylar-ucontext.dir/flags.make
 include/src/CMakeFiles/sylar-ucontext.dir/util.cc.o: ../include/src/util.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/codeCpp/sylar-from-suycx/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object include/src/CMakeFiles/sylar-ucontext.dir/util.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/codeCpp/sylar-from-suycx/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object include/src/CMakeFiles/sylar-ucontext.dir/util.cc.o"
 	cd /home/codeCpp/sylar-from-suycx/build/include/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sylar-ucontext.dir/util.cc.o -c /home/codeCpp/sylar-from-suycx/include/src/util.cc
 
 include/src/CMakeFiles/sylar-ucontext.dir/util.cc.i: cmake_force
@@ -169,6 +182,7 @@ sylar__ucontext_OBJECTS = \
 "CMakeFiles/sylar-ucontext.dir/mutex.cc.o" \
 "CMakeFiles/sylar-ucontext.dir/scheduler.cc.o" \
 "CMakeFiles/sylar-ucontext.dir/thread.cc.o" \
+"CMakeFiles/sylar-ucontext.dir/timer.cc.o" \
 "CMakeFiles/sylar-ucontext.dir/timestamp.cc.o" \
 "CMakeFiles/sylar-ucontext.dir/util.cc.o"
 
@@ -181,11 +195,12 @@ sylar__ucontext_EXTERNAL_OBJECTS =
 ../lib/libsylar-ucontext.so: include/src/CMakeFiles/sylar-ucontext.dir/mutex.cc.o
 ../lib/libsylar-ucontext.so: include/src/CMakeFiles/sylar-ucontext.dir/scheduler.cc.o
 ../lib/libsylar-ucontext.so: include/src/CMakeFiles/sylar-ucontext.dir/thread.cc.o
+../lib/libsylar-ucontext.so: include/src/CMakeFiles/sylar-ucontext.dir/timer.cc.o
 ../lib/libsylar-ucontext.so: include/src/CMakeFiles/sylar-ucontext.dir/timestamp.cc.o
 ../lib/libsylar-ucontext.so: include/src/CMakeFiles/sylar-ucontext.dir/util.cc.o
 ../lib/libsylar-ucontext.so: include/src/CMakeFiles/sylar-ucontext.dir/build.make
 ../lib/libsylar-ucontext.so: include/src/CMakeFiles/sylar-ucontext.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/codeCpp/sylar-from-suycx/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX shared library ../../../lib/libsylar-ucontext.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/codeCpp/sylar-from-suycx/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX shared library ../../../lib/libsylar-ucontext.so"
 	cd /home/codeCpp/sylar-from-suycx/build/include/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sylar-ucontext.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -7,6 +7,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/sylar-ucontext.dir/mutex.cc.o"
   "CMakeFiles/sylar-ucontext.dir/scheduler.cc.o"
   "CMakeFiles/sylar-ucontext.dir/thread.cc.o"
+  "CMakeFiles/sylar-ucontext.dir/timer.cc.o"
   "CMakeFiles/sylar-ucontext.dir/timestamp.cc.o"
   "CMakeFiles/sylar-ucontext.dir/util.cc.o"
 )

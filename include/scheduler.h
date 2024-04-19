@@ -54,7 +54,7 @@ public:
      * @param[in] thread 指定在哪个线程上调度，-1表示任意线程
     */
     template <class FiberOrCb>
-    void scheduler(FiberOrCb fc, int thread = -1)
+    void schedule(FiberOrCb fc, int thread = -1)
     {
         bool need_tickle = false;
         {

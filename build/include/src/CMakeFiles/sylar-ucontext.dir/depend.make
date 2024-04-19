@@ -16,6 +16,8 @@ include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o: ../include/mutex.h
 include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o: ../include/noncopyable.h
 include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o: ../include/scheduler.h
 include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o: ../include/thread.h
+include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o: ../include/timer.h
+include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o: ../include/util.h
 include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o: ../include/src/iomanager.cc
 
 include/src/CMakeFiles/sylar-ucontext.dir/logger.cc.o: ../include/logger.h
@@ -42,6 +44,12 @@ include/src/CMakeFiles/sylar-ucontext.dir/thread.cc.o: ../include/noncopyable.h
 include/src/CMakeFiles/sylar-ucontext.dir/thread.cc.o: ../include/thread.h
 include/src/CMakeFiles/sylar-ucontext.dir/thread.cc.o: ../include/util.h
 include/src/CMakeFiles/sylar-ucontext.dir/thread.cc.o: ../include/src/thread.cc
+
+include/src/CMakeFiles/sylar-ucontext.dir/timer.cc.o: ../include/mutex.h
+include/src/CMakeFiles/sylar-ucontext.dir/timer.cc.o: ../include/noncopyable.h
+include/src/CMakeFiles/sylar-ucontext.dir/timer.cc.o: ../include/timer.h
+include/src/CMakeFiles/sylar-ucontext.dir/timer.cc.o: ../include/util.h
+include/src/CMakeFiles/sylar-ucontext.dir/timer.cc.o: ../include/src/timer.cc
 
 include/src/CMakeFiles/sylar-ucontext.dir/timestamp.cc.o: ../include/timestamp.h
 include/src/CMakeFiles/sylar-ucontext.dir/timestamp.cc.o: ../include/src/timestamp.cc

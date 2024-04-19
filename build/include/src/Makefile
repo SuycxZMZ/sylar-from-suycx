@@ -287,6 +287,33 @@ thread.cc.s:
 	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/thread.cc.s
 .PHONY : thread.cc.s
 
+timer.o: timer.cc.o
+
+.PHONY : timer.o
+
+# target to build an object file
+timer.cc.o:
+	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/timer.cc.o
+.PHONY : timer.cc.o
+
+timer.i: timer.cc.i
+
+.PHONY : timer.i
+
+# target to preprocess a source file
+timer.cc.i:
+	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/timer.cc.i
+.PHONY : timer.cc.i
+
+timer.s: timer.cc.s
+
+.PHONY : timer.s
+
+# target to generate assembly for a file
+timer.cc.s:
+	cd /home/codeCpp/sylar-from-suycx/build && $(MAKE) -f include/src/CMakeFiles/sylar-ucontext.dir/build.make include/src/CMakeFiles/sylar-ucontext.dir/timer.cc.s
+.PHONY : timer.cc.s
+
 timestamp.o: timestamp.cc.o
 
 .PHONY : timestamp.o
@@ -368,6 +395,9 @@ help:
 	@echo "... thread.o"
 	@echo "... thread.i"
 	@echo "... thread.s"
+	@echo "... timer.o"
+	@echo "... timer.i"
+	@echo "... timer.s"
 	@echo "... timestamp.o"
 	@echo "... timestamp.i"
 	@echo "... timestamp.s"
