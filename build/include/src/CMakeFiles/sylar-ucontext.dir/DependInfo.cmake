@@ -1,33 +1,30 @@
+
+# Consider dependencies only in project.
+set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
+
 # The set of languages for which implicit dependencies are needed:
 set(CMAKE_DEPENDS_LANGUAGES
-  "CXX"
-  )
-# The set of files for implicit dependencies of each language:
-set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/codeCpp/sylar-from-suycx/include/src/fiber.cc" "/home/codeCpp/sylar-from-suycx/build/include/src/CMakeFiles/sylar-ucontext.dir/fiber.cc.o"
-  "/home/codeCpp/sylar-from-suycx/include/src/iomanager.cc" "/home/codeCpp/sylar-from-suycx/build/include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o"
-  "/home/codeCpp/sylar-from-suycx/include/src/logger.cc" "/home/codeCpp/sylar-from-suycx/build/include/src/CMakeFiles/sylar-ucontext.dir/logger.cc.o"
-  "/home/codeCpp/sylar-from-suycx/include/src/mutex.cc" "/home/codeCpp/sylar-from-suycx/build/include/src/CMakeFiles/sylar-ucontext.dir/mutex.cc.o"
-  "/home/codeCpp/sylar-from-suycx/include/src/scheduler.cc" "/home/codeCpp/sylar-from-suycx/build/include/src/CMakeFiles/sylar-ucontext.dir/scheduler.cc.o"
-  "/home/codeCpp/sylar-from-suycx/include/src/thread.cc" "/home/codeCpp/sylar-from-suycx/build/include/src/CMakeFiles/sylar-ucontext.dir/thread.cc.o"
-  "/home/codeCpp/sylar-from-suycx/include/src/timer.cc" "/home/codeCpp/sylar-from-suycx/build/include/src/CMakeFiles/sylar-ucontext.dir/timer.cc.o"
-  "/home/codeCpp/sylar-from-suycx/include/src/timestamp.cc" "/home/codeCpp/sylar-from-suycx/build/include/src/CMakeFiles/sylar-ucontext.dir/timestamp.cc.o"
-  "/home/codeCpp/sylar-from-suycx/include/src/util.cc" "/home/codeCpp/sylar-from-suycx/build/include/src/CMakeFiles/sylar-ucontext.dir/util.cc.o"
-  )
-set(CMAKE_CXX_COMPILER_ID "GNU")
-
-# Preprocessor definitions for this target.
-set(CMAKE_TARGET_DEFINITIONS_CXX
-  "sylar_ucontext_EXPORTS"
   )
 
-# The include file search paths:
-set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "../include"
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/Users/yuansu/serverall/sylar-from-suycx/include/src/fiber.cc" "include/src/CMakeFiles/sylar-ucontext.dir/fiber.cc.o" "gcc" "include/src/CMakeFiles/sylar-ucontext.dir/fiber.cc.o.d"
+  "/Users/yuansu/serverall/sylar-from-suycx/include/src/iomanager.cc" "include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o" "gcc" "include/src/CMakeFiles/sylar-ucontext.dir/iomanager.cc.o.d"
+  "/Users/yuansu/serverall/sylar-from-suycx/include/src/logger.cc" "include/src/CMakeFiles/sylar-ucontext.dir/logger.cc.o" "gcc" "include/src/CMakeFiles/sylar-ucontext.dir/logger.cc.o.d"
+  "/Users/yuansu/serverall/sylar-from-suycx/include/src/mutex.cc" "include/src/CMakeFiles/sylar-ucontext.dir/mutex.cc.o" "gcc" "include/src/CMakeFiles/sylar-ucontext.dir/mutex.cc.o.d"
+  "/Users/yuansu/serverall/sylar-from-suycx/include/src/scheduler.cc" "include/src/CMakeFiles/sylar-ucontext.dir/scheduler.cc.o" "gcc" "include/src/CMakeFiles/sylar-ucontext.dir/scheduler.cc.o.d"
+  "/Users/yuansu/serverall/sylar-from-suycx/include/src/thread.cc" "include/src/CMakeFiles/sylar-ucontext.dir/thread.cc.o" "gcc" "include/src/CMakeFiles/sylar-ucontext.dir/thread.cc.o.d"
+  "/Users/yuansu/serverall/sylar-from-suycx/include/src/timer.cc" "include/src/CMakeFiles/sylar-ucontext.dir/timer.cc.o" "gcc" "include/src/CMakeFiles/sylar-ucontext.dir/timer.cc.o.d"
+  "/Users/yuansu/serverall/sylar-from-suycx/include/src/timestamp.cc" "include/src/CMakeFiles/sylar-ucontext.dir/timestamp.cc.o" "gcc" "include/src/CMakeFiles/sylar-ucontext.dir/timestamp.cc.o.d"
+  "/Users/yuansu/serverall/sylar-from-suycx/include/src/util.cc" "include/src/CMakeFiles/sylar-ucontext.dir/util.cc.o" "gcc" "include/src/CMakeFiles/sylar-ucontext.dir/util.cc.o.d"
   )
 
-# Targets to which this target links.
-set(CMAKE_TARGET_LINKED_INFO_FILES
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_LINKED_INFO_FILES
+  )
+
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_FORWARD_LINKED_INFO_FILES
   )
 
 # Fortran module output directory.
