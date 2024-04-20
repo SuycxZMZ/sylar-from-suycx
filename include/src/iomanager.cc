@@ -446,6 +446,10 @@ void IOManager::contextResize(size_t size)
     }
 }
 
+void IOManager::onTimerInsertedAtFront() {
+    tickle();
+}
+
 /**
  * @brief 获取事件的上下文类
  * @param[in] event 事件类型

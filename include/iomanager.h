@@ -27,10 +27,10 @@ public:
     /**
      * @brief 构造函数
      * @param[in] threads 线程数量
-     * @param[in] use_caller 是否包含调用线程
-     * @param[in] name 
-    */ 
-    IOManager(size_t threads = -1, bool use_caller = true, const std::string &name = "IOManager");
+     * @param[in] use_caller 是否将调用线程包含进去
+     * @param[in] name 调度器的名称
+     */
+    IOManager(size_t threads = 1, bool use_caller = true, const std::string &name = "IOManager");
     ~IOManager();
 
     /**
@@ -95,6 +95,11 @@ protected:
      *          idle退出的时机是epoll_wait返回，对应的操作是tickle或者注册的IO事件发生
     */
     void idle() override;
+
+    /**
+     * @brief 当有定时器插入到头部时，要重新更新epoll_wait的超时时间，这里是唤醒idle协程以便于使用新的超时时间
+     */
+    void onTimerInsertedAtFront() override;
 
     /**
      * @brief 判断是否可以停止，同时获取最近的一个定时器的超时时间
