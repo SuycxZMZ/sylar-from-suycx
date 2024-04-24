@@ -1,5 +1,6 @@
 #include <atomic>
 #include <iostream>
+#include <assert.h>
 
 #include "logger.h"
 #include "fiber.h"
@@ -140,10 +141,14 @@ void Fiber::reset(std::function<void()> cb)
         LOG_FATAL("Fiber::reset() getcontext error");
     }
 
+    // 当前上下⽂结束后，下⼀个激活的上下⽂对象的指针，
+    // 只在当前上下⽂是由makecontext创建时有效
     m_ctx.uc_link = nullptr;
+
     m_ctx.uc_stack.ss_sp = m_stack;
     m_ctx.uc_stack.ss_size = m_stacksize;
 
+    // makecontext执⾏完后，ucp就与函数func绑定了
     makecontext(&m_ctx, &Fiber::MainFunc, 0);
     m_state = READY;
 }
