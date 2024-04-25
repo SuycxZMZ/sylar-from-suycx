@@ -88,7 +88,7 @@ void test_iomanager()
     fcntl(sock_listen_fd, F_SETFL, O_NONBLOCK);
 
     // sylar::IOManager::GetThis()->addEvent(sock_listen_fd, sylar::IOManager::READ, test_accept);
-    sylar::IOManager iom;
+    sylar::IOManager iom(6);
     iom.addEvent(sock_listen_fd, sylar::IOManager::READ, test_accept);
 }
 

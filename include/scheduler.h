@@ -69,7 +69,7 @@ public:
     }
 
     /**
-     * @brief 启动调度器
+     * @brief 启动调度器，初始化调度器的线程池
     */
     void start();
 

@@ -227,6 +227,8 @@ int connect_with_timeout(int fd, const struct sockaddr *addr, socklen_t addrlen,
         return n;
     }
 
+    // LOG_INFO("----------------hook conn init success !!!--------------------");
+
     sylar::IOManager *iom = sylar::IOManager::GetThis();
     sylar::Timer::ptr timer;
     std::shared_ptr<timer_info> tinfo(new timer_info);
@@ -282,6 +284,7 @@ int accept(int s, struct sockaddr *addr, socklen_t *addrlen) {
     if(fd >= 0) {
         sylar::FdMgr::GetInstance()->get(fd, true);
     }
+    // LOG_INFO("----------------hook init success !!!--------------------");
     return fd;
 }
 

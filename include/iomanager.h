@@ -97,7 +97,8 @@ protected:
     void idle() override;
 
     /**
-     * @brief 当有定时器插入到头部时，要重新更新epoll_wait的超时时间，这里是唤醒idle协程以便于使用新的超时时间
+     * @brief 当有定时器插入到头部时，要重新更新epoll_wait的超时时间，
+     *        这里是唤醒idle协程以便于使用新的超时时间
      */
     void onTimerInsertedAtFront() override;
 
@@ -116,11 +117,18 @@ protected:
 private:
     /**
      * @brief sockfd上下文类
-     * @details 每个sock fd 都对应一个FdContext, 包括fd的值，fd上的事件，以及fd的读写事件上下文
+     * @details 每个sock fd 都对应一个FdContext,
+     *          包括fd的值，fd上的事件，以及fd的读写事件上下文
     */
     struct FdContext {
         using MutexType = Mutex;
 
+        /**
+         * @brief 事件上下文类
+         * @details 每个事件都对应一个EventContext,
+         *          包括事件类型，事件回调的调度器，
+         *          事件回调的协程，事件回调函数
+        */
         struct EventContext {
             // 执行回调的调度器
             Scheduler *scheduler = nullptr;
@@ -145,7 +153,8 @@ private:
 
         /**
          * @brief 触发事件
-         * @details 根据事件类型调用对应上下文结构中的调度器去调度 回调协程或者回调函数
+         * @details 根据事件类型调用对应上下文结构中的调度器去调度 
+         *          回调协程或者回调函数
          * @param[in] event 事件类型
         */
         void triggerEvent(Event event);

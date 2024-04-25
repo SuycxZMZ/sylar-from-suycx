@@ -43,12 +43,14 @@ IOManager::IOManager(size_t threads, bool use_caller, const std::string &name) :
 
     contextResize(32);
 
+    // 直接开启调度器
     start();
 }
 
 /**
  * @brief 通知调度器有任务要调度
- * @details 写pipe 让idle协程从epoll_wait中返回,待idle协程yield后,Scheduler::run() 就可以调度其他任务
+ * @details 写pipe 让idle协程从epoll_wait中返回,
+ *          待idle协程yield后,Scheduler::run() 就可以调度其他任务
  *          如果当前没有空闲调度线程，那就没有必要发通知
 */
 void IOManager::tickle()
@@ -65,8 +67,11 @@ void IOManager::tickle()
 }
 
 /**
- * 调度器无调度任务时会阻塞在idle协程上，对IO调度器而言，idle状态应该关注两件事，一是有没有新的调度任务，对应Schduler::schedule()，
- * 如果有新的调度任务，那应该立即退出idle状态，并执行对应的任务；二是关注当前注册的所有IO事件有没有触发，如果有触发，那么应该执行
+ * 调度器无调度任务时会阻塞在idle协程上，对IO调度器而言，idle状态应该关注两件事，
+ * 一是有没有新的调度任务，对应Schduler::schedule()，
+ * 如果有新的调度任务，那应该立即退出idle状态，并执行对应的任务；
+ * 
+ * 二是关注当前注册的所有IO事件有没有触发，如果有触发，那么应该执行
  * IO事件对应的回调函数
  */
 void IOManager::idle() 
@@ -140,7 +145,8 @@ void IOManager::idle()
             /**
              * EPOLLERR 出错，比如往读端已经关闭的 pipe 写东西
              * EPOLLHUP 挂断，比如客户端断开连接
-             * 这两种情况应该同时触发 fd的读和写事件，否则有可能出现注册的事件永远执行不到的情况
+             * 这两种情况应该同时触发 fd的读和写事件，
+             * 否则有可能出现注册的事件永远执行不到的情况
             */
             if (event.events & (EPOLLERR | EPOLLHUP)) {
                 event.events |= (EPOLLIN | EPOLLOUT) & fd_ctx->events;
@@ -181,13 +187,20 @@ void IOManager::idle()
         } // for
 
         /**
-         * ⼀旦处理完所有的事件，idle协程yield，这样可以让调度协程(Scheduler::run)重新检查是否有新的任务要调度
-         * triggerEvent 实际上也只是把对应的fiber重新加入调度，要执行的话还要等idle协程退出
+         * ⼀旦处理完所有的事件，idle协程yield，
+         * 这样可以让调度协程(Scheduler::run)重新检查是否有新的任务要调度
+         * 
+         * triggerEvent 实际上也只是把对应的fiber重新加入调度，
+         * 要执行的话还要等idle协程退出
         */
         Fiber::ptr cur = Fiber::GetThis();
         auto raw_ptr = cur.get();
-        cur.reset();      // 释放当前协程的引用计数
-        raw_ptr->yield(); // 协程让出执行权，让调度协程(Scheduler::run)重新检查是否有新的任务要调度
+        // 释放当前协程的引用计数
+        cur.reset();      
+
+        // 协程让出执行权，让调度协程(Scheduler::run)
+        // 重新检查是否有新的任务要调度
+        raw_ptr->yield(); 
     } // while
 }
 
@@ -229,7 +242,8 @@ int IOManager::addEvent(int fd, Event event, std::function<void()> cb)
         // return 1;
     }
 
-    // 将新的事件加入epoll_wait，使用epoll_event的私有 data成员的指针存储 FdContext的位置
+    // 将新的事件加入epoll_wait，
+    // 使用epoll_event的私有 data成员的指针存储 FdContext的位置
     // 新建的 FdContext 默认不关注任何事件，所以需要先添加事件
     int op = fd_ctx->events ? EPOLL_CTL_MOD : EPOLL_CTL_ADD;
     epoll_event ep_event;
@@ -251,7 +265,6 @@ int IOManager::addEvent(int fd, Event event, std::function<void()> cb)
     if (!(!event_ctx.scheduler && !event_ctx.fiber && !event_ctx.cb)) {
         LOG_FATAL("addEvent() event exist: fd = %d, event = %d", fd, event);
     }
-
     // 赋值scheduler和回调函数，如果回调函数为空，则把当前协程当成回调函数执行体
     event_ctx.scheduler = Scheduler::GetThis();
     if (cb) {
@@ -447,6 +460,8 @@ void IOManager::contextResize(size_t size)
 }
 
 void IOManager::onTimerInsertedAtFront() {
+    // tickle之后 epoll_wait 返回
+    // idle重新执行，更新epoll_wait的超时时间
     tickle();
 }
 
@@ -493,7 +508,8 @@ void IOManager::FdContext::triggerEvent(Event event)
     }
 
     // 清除该事件，表示不再关注该事件了
-    // 注册的IO事件是一次性的，如果想持续关注某个sock fd 上的读写事件，那么每次触发事件之后都要重新添加
+    // 注册的IO事件是一次性的，如果想持续关注某个sock fd 上的读写事件，
+    // 那么每次触发事件之后都要重新添加
     events = (Event)(events & ~event);
 
     // 调度对应的协程

@@ -9,7 +9,12 @@
 
 namespace sylar
 {
-    
+
+/**
+ * @brief 文件句柄类
+ * @details 管理文件句柄类型(是否是socket)
+ *          是否阻塞，是否关闭，读写超时时间
+*/
 class FdCtx : public std::enable_shared_from_this<FdCtx>
 {
 public:
@@ -124,6 +129,9 @@ private:
     uint64_t m_sendTimeout;
 };
 
+/**
+ * @brief 文件句柄管理类
+*/
 class FdManager
 {
 public:

@@ -25,7 +25,7 @@ Scheduler::Scheduler(size_t threads, bool use_caller, const std::string &name)
 
         /**
          * caller线程的主协程不会被线程的调度协程run进行调度，且，线程的调度协程停止时，应该返回caller线程的主协程
-         * 在use caller情况下，把caller线程的主协程赞时保存起来，等调度协程结束时，再resume caller协程
+         * 在use caller情况下，把caller线程的主协程暂时保存起来，等调度协程结束时，再resume caller协程
         */
        m_rootFiber.reset(new Fiber(std::bind(&Scheduler::run, this), 0, false));
 
@@ -66,7 +66,7 @@ Scheduler::~Scheduler()
 
 void Scheduler::start()
 {
-    LOG_DEBUG("Scheduler::start() begin");
+    LOG_DEBUG("%s:Scheduler::start() begin", m_name.c_str());
     MutexType::Lock lock(m_mutex);
     if (m_stopping) {
         LOG_ERROR("Scheduler::start(), m_stopping = true");
@@ -141,10 +141,15 @@ void Scheduler::stop()
     }
 }
 
+/**
+ * 调度协程，每个线程都要跑
+*/
 void Scheduler::run()
 {
     LOG_DEBUG("Scheduler::run() begin");
     setThis();
+
+    // 不等于caller时要创建调度协程
     if (sylar::GetThreadId() != m_rootThread) {
         t_scheduler_fiber = sylar::Fiber::GetThis().get();
     }
@@ -155,7 +160,9 @@ void Scheduler::run()
     ScheduleTask task;
     while (true) {
         task.reset();
-        bool tickle_me = false; // 是否tickle 其他线程进行任务调度
+        
+        // 是否tickle 其他线程进行任务调度
+        bool tickle_me = false; 
         {
             MutexType::Lock lock(m_mutex);
             auto it = m_tasks.begin();
