@@ -126,6 +126,7 @@ private:
         if (task.fiber || task.cb) {
             m_tasks.push_back(task);
         }
+        // 任务队列非空的话就不tickle了
         return need_tickle;
     }
 
