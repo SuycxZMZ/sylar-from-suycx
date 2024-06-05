@@ -19,6 +19,10 @@
 依赖：`yaml-cpp` `protobuf`
 
 ```shell
+# 装一些工具
+sudo apt-get update
+sudo apt-get install -y build-essential autoconf automake libtool curl git unzip
+
 # 源码安装，最好放到一个之后可以随时查看的地方
 git clone https://github.com/jbeder/yaml-cpp.git
 cd cd yaml-cpp
@@ -27,9 +31,19 @@ cd build
 cmake ..
 make -j4
 make install
-```
 
-[protobuf安装](https://github.com/SuycxZMZ/KVstorageBaseRaft-cpp)
+# protobuf安装 本项目的根目录下的tools-packages里放的有3.12.4源码包，最好放到一个之后可以随时查看的地方
+sudo unzip protobuf-3.12.4.zip
+cd protobuf-3.12.4
+./autogen.sh
+./configure
+make -j4
+sudo make install
+sudo ldconfig
+# 检查安装是否成功
+protoc --version
+
+```
 
 编译本项目：
 
