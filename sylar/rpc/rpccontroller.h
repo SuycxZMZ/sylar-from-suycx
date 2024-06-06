@@ -1,5 +1,5 @@
-#ifndef RPCCONtROLLER_H
-#define RPCCONtROLLER_H
+#ifndef RPCCONTROLLER_H
+#define RPCCONTROLLER_H
 
 #include <google/protobuf/service.h>
 #include <string>

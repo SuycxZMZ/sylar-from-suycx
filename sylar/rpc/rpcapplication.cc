@@ -29,23 +29,18 @@ void MprpcApplication::Init(int argc, char ** argv)
         {
         case 'i' :
             config_file = optarg;
-            // std::cout << "Debug : " << config_file << std::endl;
             break;
         case '?' :
-            // std::cout << "invalid args !!!" << std::endl;
             ShowArgsHelp();
             exit(EXIT_FAILURE);
             break;
         default:
-            // std::cout << "pase args error !!!" << std::endl;
             break;
         }
     }
 
     // 处理完命令行参数，开始加载配置文件
     m_config.LoadConfigFile(config_file.c_str());
-
-    // std::cout << "rpcserverip : " << m_config.Load("rpcserverip") << std::endl;
 }
 
 MprpcApplication& MprpcApplication::GetInstance()
