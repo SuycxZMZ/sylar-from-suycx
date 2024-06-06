@@ -1,12 +1,20 @@
 #include "rpcprovider.h"
-#include "mprpcapplication.h"
+#include "rpcapplication.h"
 #include "rpcheader.pb.h"
 #include "zookeeperutil.h"
+#include "macro.h"
+#include <vector>
+#include <string>
 
 namespace sylar
 {
 namespace rpc
 {
+
+static sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
+
+RpcProvider::RpcProvider() : m_iom(2) {}
+
 void RpcProvider::NotifyService(google::protobuf::Service * service)
 {
     ServiceInfo service_info;
@@ -29,22 +37,22 @@ void RpcProvider::NotifyService(google::protobuf::Service * service)
     m_serviceInfoMap.emplace(serviceName, service_info);
 }
 
-void RpcProvider::Run()
+void RpcProvider::Init()
 {
+    // 创建server，绑定server监听端口
     std::string ip = MprpcApplication::GetInstance().GetConfig().Load("rpcserverip");
-    uint16_t port = atoi(MprpcApplication::GetInstance().GetConfig().Load("rpcserverport").c_str());
-    tinymuduo::InetAddress address(port, ip);
-
-    // 创建 TcpServer
-    tinymuduo::TcpServer server(&m_eventLoop, address, "RpcServer");
-
-    // 绑定事件回调
-    server.setConnCallBack(std::bind(&RpcProvider::OnConnection, this, std::placeholders::_1));
-    server.setMsgCallBack(std::bind(&RpcProvider::OnMessage, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-
-    // 设置server线程数量
-    server.setThreadNum(4);
-
+    std::string port = MprpcApplication::GetInstance().GetConfig().Load("rpcserverport");
+    sylar::TcpServer::ptr server(new RpcTcpServer(this));
+    auto addr = sylar::Address::LookupAny(ip + ":" + port);
+    SYLAR_ASSERT(addr);
+    std::vector<sylar::Address::ptr> addrs;
+    addrs.push_back(addr);
+    std::vector<sylar::Address::ptr> fails;
+    while(!server->bind(addrs, fails)) {
+        sleep(2);
+    }
+    SYLAR_LOG_INFO(g_logger) << "bind success, " << server->toString();
+    
     // 注册到 zk 上， rpcclient可以从zkserver上发现服务
     ZkClient zkcli;
     zkcli.start();
@@ -62,121 +70,99 @@ void RpcProvider::Run()
         }
     }
 
-    // 启动server
-    server.start();
-    m_eventLoop.loop();
+    server->start();
 }
 
-void RpcProvider::OnConnection(const tinymuduo::TcpConnectionPtr &conn)
-{
-    if (!conn->connected())
-    {
-        conn->shutdown();
-    }
+void RpcProvider::Run() {
+    m_iom.schedule(std::bind(&RpcProvider::Init, this));
 }
 
-void RpcProvider::OnMessage(const tinymuduo::TcpConnectionPtr &conn, 
-                            tinymuduo::Buffer * buffer, 
-                            tinymuduo::Timestamp time)
-{
-    std::string recv_buf = buffer->retriveAllAsString();
+RpcProvider::RpcTcpServer::RpcTcpServer(RpcProvider* _rpcprovider) : m_rpcprovider(_rpcprovider) {}
+
+void RpcProvider::InnerHandleClient(sylar::Socket::ptr client) {
+    SYLAR_LOG_INFO(g_logger) << "new msg";
+    std::string recv_buf;
+    recv_buf.resize(1024);
+    client->recv(&recv_buf[0], recv_buf.size());
 
     // 读取头部大小
     uint32_t header_size = 0;
     recv_buf.copy((char*)&header_size, 4, 0);
-
-    // 读取头部原始字符流
+    // 读取头部
     std::string header_str = recv_buf.substr(4, header_size);
 
     // 反序列化
-    mprpc::RpcHeader rpcHeader;
+    sylar_rpc::RpcHeader rpcHeader;
     std::string service_name;
     std::string method_name;
     uint32_t args_size;
-    if (rpcHeader.ParseFromString(header_str))
-    {
+    if (rpcHeader.ParseFromString(header_str)) {
         service_name = rpcHeader.service_name();
         method_name = rpcHeader.method_name();
         args_size = rpcHeader.args_size();
+    } else { // 反序列化失败
+        SYLAR_LOG_ERROR(g_logger) << "rpcHeader header_str : " << header_str << " pase error !!!";
+        return;
     }
-    else
-    {
-        // 反序列化失败
-        std::cout << "rpcHeader header_str : " << header_str << " pase error !!!" << std::endl;
-        return; 
-    }
-    // 取出参数
+
+    // 取参数
     std::string args_str = recv_buf.substr(4 + header_size, args_size);
-
-    // 调试信息
-    std::cout << "=======================================" << std::endl;
-    std::cout << "header_size : " << header_size << std::endl;
-    std::cout << "service_name : " << service_name << std::endl;
-    std::cout << "method_name : " << method_name << std::endl;
-    std::cout << "args_size : " << args_size << std::endl;
-    std::cout << "args_str : " << args_str << std::endl;
-    std::cout << "=======================================" << std::endl;
-
+    // [DEBUG INFO]
+    SYLAR_LOG_DEBUG(g_logger) << "-----------------------------\n" 
+                << "header_size : " << header_size << "\n"
+                << "service_name : " << service_name << "\n"
+                << "method_name : " << method_name << "\n"
+                << "args_size : " << args_size << "\n"
+                << "args_str : " << args_str << "\n"
+                << "-----------------------------\n" ;
+    
     // 获取service对象和method对象
+
     auto it = m_serviceInfoMap.find(service_name);
-    if (m_serviceInfoMap.end() == it)
-    {
-        // 找不到对应的服务对象
-        std::cout << service_name << " is not exist !!! " << std::endl;
+    if (m_serviceInfoMap.end() == it) {
+        SYLAR_LOG_ERROR(g_logger) << service_name << " is not exist !!!";
         return;
     }
     auto mit = it->second.m_methodMap.find(method_name);
-    if (it->second.m_methodMap.end() == mit)
-    {
-        std::cout << service_name << " method_name: " << method_name << " is not exist !!! " << std::endl;
+    if (it->second.m_methodMap.end() == mit) {
+        SYLAR_LOG_ERROR(g_logger) << method_name << " is not exist !!!";
         return;
     }
 
-    google::protobuf::Service * service = it->second.m_service;
+    // 取出服务对象
+    google::protobuf::Service* service = it->second.m_service;
     const google::protobuf::MethodDescriptor * method = mit->second;
-
     // 生成rpc方法的请求request 和 response响应参数
     google::protobuf::Message * request = service->GetRequestPrototype(method).New();
     if (!request->ParseFromString(args_str))
     {
-        std::cout << "request parse error : " << args_str << std::endl;
+        SYLAR_LOG_ERROR(g_logger) << "request parse error : " << args_str;
         return;
-    }
+    }   
     google::protobuf::Message * response = service->GetResponsePrototype(method).New();
-
-    // 绑定Closure回调
-    google::protobuf::Closure * done = 
-        google::protobuf::NewCallback<RpcProvider, 
-                                  const tinymuduo::TcpConnectionPtr &, 
-                                  google::protobuf::Message *>
-                                  (this, &RpcProvider::SendRpcResponse, 
-                                   conn, response);
-
-    // 根据远端rpc请求，调用本地发布的方法，这里走的是 protobuf 生成的 rpcservice 中的 CallMethod 
-    // CallMethod 调用具体的 rpcservice 方法，
-    // 具体的 rpcservice 方法 用户的服务发布代码中被重写
+    google::protobuf::Closure* done = 
+        google::protobuf::NewCallback<sylar::rpc::RpcProvider, sylar::Socket::ptr, 
+                                      google::protobuf::Message*> 
+        (this, &RpcProvider::SendRpcResopnse, client, response);
     service->CallMethod(method, nullptr, request, response, done);
 }
 
-void RpcProvider::SendRpcResponse(const tinymuduo::TcpConnectionPtr & conn, google::protobuf::Message * response)
-{
-    // 把rpc响应序列化为字符流发送给远程调用方
-    std::string response_str;
-    if (response->SerializeToString(&response_str))
-    {
-        // 序列化成功之后把执行结果返回给调用方
-        conn->send(response_str);
+void RpcProvider::RpcTcpServer::handleClient(sylar::Socket::ptr client) {
+    if (nullptr == m_rpcprovider) {
+        SYLAR_LOG_FATAL(g_logger) << "server not correct init !!!";
     }
-    else
-    {
-        std::cout << "response SerializeToString error !!! " << std::endl;
-    }
-    // 模拟http短链接，发送完服务器主动断开
-    conn->shutdown();
+    m_rpcprovider->InnerHandleClient(client);
 }
 
-void RpcProvider::RpcTcpServer::handleClient(sylar::Socket::ptr client) {
-    
+void RpcProvider::SendRpcResopnse(sylar::Socket::ptr client, google::protobuf::Message* response) {
+    // 把rpc响应序列化为字符流发送给远程调用方
+    std::string response_str;
+    if (response->SerializeToString(&response_str)) {
+        client->send(&response_str[0], response_str.size());
+    } else {
+        SYLAR_LOG_ERROR(g_logger) << "response SerializeToString error !!! ";
+    }
+    // client->close();
 }
 
 } // namespace rpc

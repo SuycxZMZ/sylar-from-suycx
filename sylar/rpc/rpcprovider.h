@@ -19,6 +19,8 @@ namespace rpc
 class RpcProvider
 {
 public:
+    RpcProvider::RpcProvider();
+
     ///@brief 框架提供给外部使用的，可以发布rpc调用的接口
     ///@details 发布方要重写 protobuf 生成的 RPC 方法, 通过该函数将服务发布
     ///@param service 传入用户继承自 rpc 方法的子类
@@ -30,6 +32,9 @@ public:
     ///         2. 创建TcpServer对象，绑定回调函数
     ///         3. 往zk上创建节点，注册服务信息
     ///         4. 启动事件循环，开始工作
+    void Init();
+
+    /// @brief 启动调度器，开始工作
     void Run();
 private:
 
@@ -45,11 +50,28 @@ private:
     ///@brief 存储注册成功的服务对象和其服务方法的所有信息 {service_name : service_info}
     std::unordered_map<std::string, ServiceInfo> m_serviceInfoMap;
 
-    class RpcTcpServer : public sylar::TcpServer {
-        virtual void handleClient(sylar::Socket::ptr client) override;
-    };
+    /// @brief 调用完本地服务后给客户端回发消息的函数，将response转为字符流发出
+    /// @param client 客户端来连接sock指针
+    /// @param response rpc响应，protobuf负责填写
+    void SendRpcResopnse(sylar::Socket::ptr client, google::protobuf::Message* response);
 
+    /// @brief 客户端请求的工具函数
+    /// @param client 客户端连接 socket
+    void InnerHandleClient(sylar::Socket::ptr client);
+
+    /// @brief io调度器
     sylar::IOManager m_iom;
+private:
+    /// @brief RpcTcpServer类负责底层网络收发
+    class RpcTcpServer : public sylar::TcpServer {
+    public:
+        /// @brief RpcTcpServer构造函数
+        /// @param _rpcprovider 绑定的 rpcprovider，one provider per server
+        RpcTcpServer(RpcProvider* _rpcprovider);
+        virtual void handleClient(sylar::Socket::ptr client) override;
+    private:
+        RpcProvider* m_rpcprovider = nullptr;
+    };
 };
 } // namespace rpc
 

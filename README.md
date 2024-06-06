@@ -16,7 +16,7 @@
 
 ### 编译
 
-依赖：`yaml-cpp` `protobuf`
+依赖：`yaml-cpp` `protobuf` `zookeeper`
 
 ```shell
 # 装一些工具
@@ -43,6 +43,16 @@ sudo ldconfig
 # 检查安装是否成功
 protoc --version
 
+# zookeeper编译安装c开发包
+tar -zxvf zookeeper-3.4.10.tar.gz
+cd zookeeper-3.4.10
+cd src/c
+./configure
+# 修改一下makefile
+sudo vim Makefile
+# 这一行注释掉AM_CFLAGS = -Wall -Werror，保存退出
+make -j4
+sudo make install 
 ```
 
 编译本项目：

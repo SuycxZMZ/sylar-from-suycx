@@ -61,7 +61,9 @@
         "thread": "cpp",
         "cinttypes": "cpp",
         "typeinfo": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "condition_variable": "cpp",
+        "mutex": "cpp"
     },
     "Codegeex.GenerationPreference": "line by line"
 }

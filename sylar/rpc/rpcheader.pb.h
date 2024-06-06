@@ -54,20 +54,20 @@ struct TableStruct_rpcheader_2eproto {
   static const ::PROTOBUF_NAMESPACE_ID::uint32 offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_rpcheader_2eproto;
-namespace mprpc {
+namespace sylar_rpc {
 class RpcHeader;
 class RpcHeaderDefaultTypeInternal;
 extern RpcHeaderDefaultTypeInternal _RpcHeader_default_instance_;
-}  // namespace mprpc
+}  // namespace sylar_rpc
 PROTOBUF_NAMESPACE_OPEN
-template<> ::mprpc::RpcHeader* Arena::CreateMaybeMessage<::mprpc::RpcHeader>(Arena*);
+template<> ::sylar_rpc::RpcHeader* Arena::CreateMaybeMessage<::sylar_rpc::RpcHeader>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
-namespace mprpc {
+namespace sylar_rpc {
 
 // ===================================================================
 
 class RpcHeader PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:mprpc.RpcHeader) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:sylar_rpc.RpcHeader) */ {
  public:
   inline RpcHeader() : RpcHeader(nullptr) {};
   virtual ~RpcHeader();
@@ -156,7 +156,7 @@ class RpcHeader PROTOBUF_FINAL :
   void InternalSwap(RpcHeader* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "mprpc.RpcHeader";
+    return "sylar_rpc.RpcHeader";
   }
   protected:
   explicit RpcHeader(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -242,7 +242,7 @@ class RpcHeader PROTOBUF_FINAL :
   void _internal_set_args_size(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // @@protoc_insertion_point(class_scope:mprpc.RpcHeader)
+  // @@protoc_insertion_point(class_scope:sylar_rpc.RpcHeader)
  private:
   class _Internal;
 
@@ -271,15 +271,15 @@ inline void RpcHeader::clear_service_name() {
   service_name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline const std::string& RpcHeader::service_name() const {
-  // @@protoc_insertion_point(field_get:mprpc.RpcHeader.service_name)
+  // @@protoc_insertion_point(field_get:sylar_rpc.RpcHeader.service_name)
   return _internal_service_name();
 }
 inline void RpcHeader::set_service_name(const std::string& value) {
   _internal_set_service_name(value);
-  // @@protoc_insertion_point(field_set:mprpc.RpcHeader.service_name)
+  // @@protoc_insertion_point(field_set:sylar_rpc.RpcHeader.service_name)
 }
 inline std::string* RpcHeader::mutable_service_name() {
-  // @@protoc_insertion_point(field_mutable:mprpc.RpcHeader.service_name)
+  // @@protoc_insertion_point(field_mutable:sylar_rpc.RpcHeader.service_name)
   return _internal_mutable_service_name();
 }
 inline const std::string& RpcHeader::_internal_service_name() const {
@@ -293,28 +293,28 @@ inline void RpcHeader::set_service_name(std::string&& value) {
   
   service_name_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:mprpc.RpcHeader.service_name)
+  // @@protoc_insertion_point(field_set_rvalue:sylar_rpc.RpcHeader.service_name)
 }
 inline void RpcHeader::set_service_name(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   service_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:mprpc.RpcHeader.service_name)
+  // @@protoc_insertion_point(field_set_char:sylar_rpc.RpcHeader.service_name)
 }
 inline void RpcHeader::set_service_name(const void* value,
     size_t size) {
   
   service_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:mprpc.RpcHeader.service_name)
+  // @@protoc_insertion_point(field_set_pointer:sylar_rpc.RpcHeader.service_name)
 }
 inline std::string* RpcHeader::_internal_mutable_service_name() {
   
   return service_name_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline std::string* RpcHeader::release_service_name() {
-  // @@protoc_insertion_point(field_release:mprpc.RpcHeader.service_name)
+  // @@protoc_insertion_point(field_release:sylar_rpc.RpcHeader.service_name)
   return service_name_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline void RpcHeader::set_allocated_service_name(std::string* service_name) {
@@ -325,10 +325,10 @@ inline void RpcHeader::set_allocated_service_name(std::string* service_name) {
   }
   service_name_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), service_name,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:mprpc.RpcHeader.service_name)
+  // @@protoc_insertion_point(field_set_allocated:sylar_rpc.RpcHeader.service_name)
 }
 inline std::string* RpcHeader::unsafe_arena_release_service_name() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:mprpc.RpcHeader.service_name)
+  // @@protoc_insertion_point(field_unsafe_arena_release:sylar_rpc.RpcHeader.service_name)
   GOOGLE_DCHECK(GetArena() != nullptr);
   
   return service_name_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
@@ -344,7 +344,7 @@ inline void RpcHeader::unsafe_arena_set_allocated_service_name(
   }
   service_name_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       service_name, GetArena());
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:mprpc.RpcHeader.service_name)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:sylar_rpc.RpcHeader.service_name)
 }
 
 // bytes method_name = 2;
@@ -352,15 +352,15 @@ inline void RpcHeader::clear_method_name() {
   method_name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline const std::string& RpcHeader::method_name() const {
-  // @@protoc_insertion_point(field_get:mprpc.RpcHeader.method_name)
+  // @@protoc_insertion_point(field_get:sylar_rpc.RpcHeader.method_name)
   return _internal_method_name();
 }
 inline void RpcHeader::set_method_name(const std::string& value) {
   _internal_set_method_name(value);
-  // @@protoc_insertion_point(field_set:mprpc.RpcHeader.method_name)
+  // @@protoc_insertion_point(field_set:sylar_rpc.RpcHeader.method_name)
 }
 inline std::string* RpcHeader::mutable_method_name() {
-  // @@protoc_insertion_point(field_mutable:mprpc.RpcHeader.method_name)
+  // @@protoc_insertion_point(field_mutable:sylar_rpc.RpcHeader.method_name)
   return _internal_mutable_method_name();
 }
 inline const std::string& RpcHeader::_internal_method_name() const {
@@ -374,28 +374,28 @@ inline void RpcHeader::set_method_name(std::string&& value) {
   
   method_name_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:mprpc.RpcHeader.method_name)
+  // @@protoc_insertion_point(field_set_rvalue:sylar_rpc.RpcHeader.method_name)
 }
 inline void RpcHeader::set_method_name(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   method_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:mprpc.RpcHeader.method_name)
+  // @@protoc_insertion_point(field_set_char:sylar_rpc.RpcHeader.method_name)
 }
 inline void RpcHeader::set_method_name(const void* value,
     size_t size) {
   
   method_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:mprpc.RpcHeader.method_name)
+  // @@protoc_insertion_point(field_set_pointer:sylar_rpc.RpcHeader.method_name)
 }
 inline std::string* RpcHeader::_internal_mutable_method_name() {
   
   return method_name_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline std::string* RpcHeader::release_method_name() {
-  // @@protoc_insertion_point(field_release:mprpc.RpcHeader.method_name)
+  // @@protoc_insertion_point(field_release:sylar_rpc.RpcHeader.method_name)
   return method_name_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline void RpcHeader::set_allocated_method_name(std::string* method_name) {
@@ -406,10 +406,10 @@ inline void RpcHeader::set_allocated_method_name(std::string* method_name) {
   }
   method_name_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), method_name,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:mprpc.RpcHeader.method_name)
+  // @@protoc_insertion_point(field_set_allocated:sylar_rpc.RpcHeader.method_name)
 }
 inline std::string* RpcHeader::unsafe_arena_release_method_name() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:mprpc.RpcHeader.method_name)
+  // @@protoc_insertion_point(field_unsafe_arena_release:sylar_rpc.RpcHeader.method_name)
   GOOGLE_DCHECK(GetArena() != nullptr);
   
   return method_name_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
@@ -425,7 +425,7 @@ inline void RpcHeader::unsafe_arena_set_allocated_method_name(
   }
   method_name_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       method_name, GetArena());
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:mprpc.RpcHeader.method_name)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:sylar_rpc.RpcHeader.method_name)
 }
 
 // uint32 args_size = 3;
@@ -436,7 +436,7 @@ inline ::PROTOBUF_NAMESPACE_ID::uint32 RpcHeader::_internal_args_size() const {
   return args_size_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::uint32 RpcHeader::args_size() const {
-  // @@protoc_insertion_point(field_get:mprpc.RpcHeader.args_size)
+  // @@protoc_insertion_point(field_get:sylar_rpc.RpcHeader.args_size)
   return _internal_args_size();
 }
 inline void RpcHeader::_internal_set_args_size(::PROTOBUF_NAMESPACE_ID::uint32 value) {
@@ -445,7 +445,7 @@ inline void RpcHeader::_internal_set_args_size(::PROTOBUF_NAMESPACE_ID::uint32 v
 }
 inline void RpcHeader::set_args_size(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_args_size(value);
-  // @@protoc_insertion_point(field_set:mprpc.RpcHeader.args_size)
+  // @@protoc_insertion_point(field_set:sylar_rpc.RpcHeader.args_size)
 }
 
 #ifdef __GNUC__
@@ -454,7 +454,7 @@ inline void RpcHeader::set_args_size(::PROTOBUF_NAMESPACE_ID::uint32 value) {
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace mprpc
+}  // namespace sylar_rpc
 
 // @@protoc_insertion_point(global_scope)
 
