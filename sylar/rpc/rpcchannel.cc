@@ -135,12 +135,11 @@ void MpRpcChannel::CallMethod(const google::protobuf::MethodDescriptor* method,
     // 接收响应
     char recv_buf[1024] = {0};
     uint32_t recv_size = 0;
-    if (-1 == (recv_size = recv(clientfd, recv_buf, 1024, 0)))
+    if ((recv_size = recv(clientfd, recv_buf, 1024, 0)) < 0)
     {
         controller->SetFailed("recv error : " + std::to_string(errno));
         // std::cout << "recv error : " << errno << std::endl;
         close(clientfd);
-        // exit(EXIT_FAILURE); 
         return;
     }
 

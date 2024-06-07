@@ -4,5 +4,5 @@ set(LISTPROVIDER userservice.cc user.pb.cc)
 
 add_executable(caller ${LISTCALLER})
 add_executable(provider ${LISTPROVIDER})
-target_link_libraries(caller sylar pthread protobuf)
-target_link_libraries(provider sylar pthread protobuf dl)
+target_link_libraries(caller sylar protobuf yaml-cpp zookeeper_mt)
+target_link_libraries(provider sylar protobuf yaml-cpp zookeeper_mt dl)

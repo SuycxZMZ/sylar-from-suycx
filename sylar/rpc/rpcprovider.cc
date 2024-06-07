@@ -65,7 +65,7 @@ void RpcProvider::Init()
         {
             std::string method_path = service_path + "/" + mp.first;
             char method_path_data[128] = {0};
-            sprintf(method_path_data, "%s:%d", ip.c_str(), port);
+            sprintf(method_path_data, "%s:%s", ip.c_str(), port.c_str());
             zkcli.create(method_path.c_str(), method_path_data, strlen(method_path_data), ZOO_EPHEMERAL);
         }
     }

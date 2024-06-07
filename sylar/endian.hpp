@@ -14,6 +14,8 @@
 
 #include <byteswap.h>
 #include <stdint.h>
+#include <type_traits>
+
 
 namespace sylar {
 

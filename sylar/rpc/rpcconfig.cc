@@ -54,8 +54,8 @@ std::string MprpcConfig::Load(const std::string & key)
 
 void removeSpaces(std::string& str) 
 {
-    int readPos = 0; 
-    int writePos = 0; 
+    size_t readPos = 0; 
+    size_t writePos = 0; 
 
     // 遍历原始字符串
     while (readPos < str.length()) 

@@ -56,6 +56,14 @@ set(LIB_SRC
     sylar/uri.cc 
     sylar/http/http_connection.cc 
     sylar/daemon.cc 
+    
+    sylar/rpc/rpcconfig.cc
+    sylar/rpc/rpccontroller.cc
+    sylar/rpc/rpcheader.pb.cc
+    sylar/rpc/rpcchannel.cc
+    sylar/rpc/rpcapplication.cc
+    sylar/rpc/zookeeperutil.cc
+    sylar/rpc/rpcprovider.cc
     )
 
 add_library(sylar SHARED ${LIB_SRC})

@@ -19,7 +19,7 @@ namespace rpc
 class RpcProvider
 {
 public:
-    RpcProvider::RpcProvider();
+    RpcProvider();
 
     ///@brief 框架提供给外部使用的，可以发布rpc调用的接口
     ///@details 发布方要重写 protobuf 生成的 RPC 方法, 通过该函数将服务发布
