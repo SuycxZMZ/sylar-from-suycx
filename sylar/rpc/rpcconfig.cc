@@ -42,6 +42,11 @@ void MprpcConfig::LoadConfigFile(const char * config_file)
 
         m_configMap.emplace(key, value);
     }
+
+    std::cout << "------------------- configure -------------------" << std::endl;
+    for (auto &info : m_configMap) {
+        std::cout << info.first << ":" << info.second << std::endl;
+    }
 }
 
 // 获取配置项 
