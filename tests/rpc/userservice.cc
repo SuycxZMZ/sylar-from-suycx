@@ -6,6 +6,8 @@
 
 using namespace sylar::rpc;
 
+static sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
+
 class UserService : public fixbug::UserServiceRpc
 {
 public:
@@ -79,8 +81,6 @@ int main(int argc, char ** argv)
     // 把 UserService 发布到节点上
     RpcProvider provider;
     provider.NotifyService(new UserService());
-
-    // run 之后进程阻塞，等待远程rpc调用
     provider.Run();
 
     return 0;
