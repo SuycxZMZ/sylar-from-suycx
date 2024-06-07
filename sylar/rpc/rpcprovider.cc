@@ -38,7 +38,7 @@ void RpcProvider::NotifyService(google::protobuf::Service * service)
     m_serviceInfoMap.emplace(serviceName, service_info);
 }
 
-void RpcProvider::Init()
+void RpcProvider::ToRun()
 {
     // 创建server，绑定server监听端口
     std::string ip = MprpcApplication::GetInstance().GetConfig().Load("rpcserverip");
@@ -74,6 +74,11 @@ void RpcProvider::Init()
 
     server->start();
     
+    // [FIXME]
+    // 由于 server 是基于协程的，本函数如果不sleep，执行完就退出了，
+    // zkclient也就关闭汇话，创建的临时节点就会被销毁，这里先sleep一下
+    // 其实这个sleep是被hook的，协程会被切走干正事，5秒切一下相当于心跳了
+    // 也不会有太大消耗，还没想到特别好的办法
     while (m_isrunning) {
         sleep(5);
     }
@@ -81,7 +86,7 @@ void RpcProvider::Init()
 
 void RpcProvider::Run() {
     m_isrunning = true;
-    m_iom.schedule(std::bind(&RpcProvider::Init, this));
+    m_iom.schedule(std::bind(&RpcProvider::ToRun, this));
 }
 
 RpcProvider::RpcTcpServer::RpcTcpServer(RpcProvider* _rpcprovider) : m_rpcprovider(_rpcprovider) {}

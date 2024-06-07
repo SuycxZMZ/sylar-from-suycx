@@ -32,7 +32,7 @@ public:
     ///         2. 创建TcpServer对象，绑定回调函数
     ///         3. 往zk上创建节点，注册服务信息
     ///         4. 启动事件循环，开始工作
-    void Init();
+    void ToRun();
 
     /// @brief 启动调度器，开始工作
     void Run();
