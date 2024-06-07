@@ -13,7 +13,7 @@ namespace rpc
 
 static sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
 
-RpcProvider::RpcProvider() : m_iom(2) {}
+RpcProvider::RpcProvider() : m_iom(2), m_isrunning(false) {}
 
 void RpcProvider::NotifyService(google::protobuf::Service * service)
 {
@@ -32,6 +32,7 @@ void RpcProvider::NotifyService(google::protobuf::Service * service)
         const google::protobuf::MethodDescriptor * methodPtr = serviceDesc->method(i);
         std::string method_name = methodPtr->name();
         service_info.m_methodMap.emplace(method_name, methodPtr);
+        SYLAR_LOG_INFO(g_logger) << method_name << ":" << methodPtr;
     }
     service_info.m_service = service;
     m_serviceInfoMap.emplace(serviceName, service_info);
@@ -66,14 +67,20 @@ void RpcProvider::Init()
             std::string method_path = service_path + "/" + mp.first;
             char method_path_data[128] = {0};
             sprintf(method_path_data, "%s:%s", ip.c_str(), port.c_str());
+            SYLAR_LOG_INFO(g_logger) << method_path << ":" << method_path_data << " start create !!!";
             zkcli.create(method_path.c_str(), method_path_data, strlen(method_path_data), ZOO_EPHEMERAL);
         }
     }
 
     server->start();
+    
+    while (m_isrunning) {
+        sleep(5);
+    }
 }
 
 void RpcProvider::Run() {
+    m_isrunning = true;
     m_iom.schedule(std::bind(&RpcProvider::Init, this));
 }
 
@@ -108,7 +115,7 @@ void RpcProvider::InnerHandleClient(sylar::Socket::ptr client) {
     // 取参数
     std::string args_str = recv_buf.substr(4 + header_size, args_size);
     // [DEBUG INFO]
-    SYLAR_LOG_DEBUG(g_logger) << "-----------------------------\n" 
+    SYLAR_LOG_INFO(g_logger) << "\n-----------------------------\n" 
                 << "header_size : " << header_size << "\n"
                 << "service_name : " << service_name << "\n"
                 << "method_name : " << method_name << "\n"

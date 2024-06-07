@@ -1,10 +1,12 @@
 #include "zookeeperutil.h"
 #include "rpcapplication.h"
+#include "../log.h"
 
 namespace sylar
 {
 namespace rpc
 {
+static sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
 /**
  * @SuycxZMZ
  * @brief 类型为 watcher_fn 全局观察器，用于处理 ZooKeeper 客户端的会话事件。
@@ -82,6 +84,7 @@ void ZkClient::start()
 
     sem_wait(&sem);
     // LOG_INFO("ZkClient init success");
+    SYLAR_LOG_INFO(g_logger) << "ZkClient init success !!!";
 }
 
 void ZkClient::create(const char * path, const char * data, int datalen, int state)
@@ -92,15 +95,20 @@ void ZkClient::create(const char * path, const char * data, int datalen, int sta
     flag = zoo_exists(m_zhandle, path, 0, nullptr);
     if (ZNONODE == flag)
     {
+        std::cout << "\n before create \n";
         flag = zoo_create(m_zhandle, path, data, datalen, 
                           &ZOO_OPEN_ACL_UNSAFE, 
                           state, path_buffer, buff_len);
+        std::cout << "\n after create \n";
         if (ZOK == flag)
         {
+            SYLAR_LOG_INFO(g_logger) << "znode create success. path : " << std::string(path);
             // LOG_INFO("znode create success. path : %s", path);
         }
         else
         {
+            SYLAR_LOG_ERROR(g_logger) << "znode create error at path : " << std::string(path)
+                << "error flag : " << flag;
             // LOG_ERROR("znode create error. path : %s, flag : %d", path, flag);
             exit(EXIT_FAILURE);
         }

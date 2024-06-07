@@ -61,6 +61,8 @@ private:
 
     /// @brief io调度器
     sylar::IOManager m_iom;
+
+    bool m_isrunning;
 private:
     /// @brief RpcTcpServer类负责底层网络收发
     class RpcTcpServer : public sylar::TcpServer {
