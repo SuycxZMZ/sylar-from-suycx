@@ -16,7 +16,7 @@ namespace rpc
  * @SuycxZMZ
  * @brief RPC调用方使用UserServiceRpc_Stub调用远程方法，其实是通过 RpcChannel 调用 CallMethod
 */
-class MpRpcChannel : public google::protobuf::RpcChannel
+class SylarRpcChannel : public google::protobuf::RpcChannel
 {
 public:
     ///@brief 所有使用 stub 代理类调用的rpc方法都走到这里，进行序列化和网络发送，接收RPC服务方的 response

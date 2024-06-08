@@ -32,8 +32,11 @@ public:
 
     /// @brief 启动调度器，调用 ToRun 开始工作
     void Run();
-private:
 
+    /// @brief 客户端请求的工具函数
+    /// @param client 客户端连接 socket
+    void InnerHandleClient(sylar::Socket::ptr client);
+protected:
     ///@brief Service 服务类型信息
     struct ServiceInfo
     {
@@ -51,26 +54,22 @@ private:
     /// @param response rpc响应，protobuf负责填写
     void SendRpcResopnse(sylar::Socket::ptr client, google::protobuf::Message* response);
 
-    /// @brief 客户端请求的工具函数
-    /// @param client 客户端连接 socket
-    void InnerHandleClient(sylar::Socket::ptr client);
-
     /// @brief io调度器
     sylar::IOManager m_iom;
-
     bool m_isrunning;
-private:
-    /// @brief RpcTcpServer类负责底层网络收发
-    class RpcTcpServer : public sylar::TcpServer {
-    public:
-        /// @brief RpcTcpServer构造函数
-        /// @param _rpcprovider 绑定的 rpcprovider，one provider per server
-        RpcTcpServer(RpcProvider* _rpcprovider);
-        virtual void handleClient(sylar::Socket::ptr client) override;
-    private:
-        RpcProvider* m_rpcprovider = nullptr;
-    };
 };
+
+/// @brief RpcTcpServer类负责底层网络收发
+class RpcTcpServer : public sylar::TcpServer {
+public:
+    /// @brief RpcTcpServer构造函数
+    /// @param _rpcprovider 绑定的 rpcprovider，one provider per server
+    RpcTcpServer(RpcProvider* _rpcprovider);
+    virtual void handleClient(sylar::Socket::ptr client) override;
+private:
+    RpcProvider* m_rpcprovider = nullptr;
+};
+
 } // namespace rpc
 
 } // namespace sylar

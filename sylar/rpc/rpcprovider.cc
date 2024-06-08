@@ -89,7 +89,7 @@ void RpcProvider::Run() {
     m_iom.schedule(std::bind(&RpcProvider::ToRun, this));
 }
 
-RpcProvider::RpcTcpServer::RpcTcpServer(RpcProvider* _rpcprovider) : m_rpcprovider(_rpcprovider) {}
+RpcTcpServer::RpcTcpServer(RpcProvider* _rpcprovider) : m_rpcprovider(_rpcprovider) {}
 
 void RpcProvider::InnerHandleClient(sylar::Socket::ptr client) {
     SYLAR_LOG_INFO(g_logger) << "new msg";
@@ -159,7 +159,7 @@ void RpcProvider::InnerHandleClient(sylar::Socket::ptr client) {
     service->CallMethod(method, nullptr, request, response, done);
 }
 
-void RpcProvider::RpcTcpServer::handleClient(sylar::Socket::ptr client) {
+void RpcTcpServer::handleClient(sylar::Socket::ptr client) {
     if (nullptr == m_rpcprovider) {
         SYLAR_LOG_FATAL(g_logger) << "server not correct init !!!";
     }

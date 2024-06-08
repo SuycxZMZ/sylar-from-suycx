@@ -18,7 +18,7 @@ namespace rpc
 ///@param request 请求参数
 ///@param response 返回结果
 ///@param done 回调函数
-void MpRpcChannel::CallMethod(const google::protobuf::MethodDescriptor* method,
+void SylarRpcChannel::CallMethod(const google::protobuf::MethodDescriptor* method,
                         google::protobuf::RpcController* controller, 
                         const google::protobuf::Message* request,
                         google::protobuf::Message* response, 
