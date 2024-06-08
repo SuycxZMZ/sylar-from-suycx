@@ -58,17 +58,26 @@ sudo make install
 编译本项目：
 
 ```shell
+git clone https://github.com/SuycxZMZ/sylar-from-suycx.git
+cd sylar-from-suycx
+mkdir build
 cd build
-rm -rf *
 cmake ..
 make -j4
-# 正常情况下在 lib 文件夹下已经生成了库文件
-# 在 bin 文件夹下已经生成了 tests 文件夹下测试代码的可执行文件
+# 头文件会安装到 /usr/local/include/sylar 文件夹
+# 编译生成的动态库安装到 /usr/local/lib 文件夹
+sudo make install 
 ```
 
 ### 使用
 
-头文件放到可以搜索到的地方,编译的时候链接库文件
+头文件引入示例：
+
+基本组件头文件引入 #include "sylar/..."
+
+附加应用组件 #include "sylar/rpc/..."
+
+编译的时候链接库文件
 
 ## TODO
 
