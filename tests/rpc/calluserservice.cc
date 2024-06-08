@@ -11,7 +11,7 @@ int main(int argc, char ** argv)
     MprpcApplication::Init(argc, argv);
 
     // 调用远程rpc方法代理类
-    fixbug::UserServiceRpc_Stub stub(new MpRpcChannel());
+    fixbug::UserServiceRpc_Stub stub(new SylarRpcChannel());
 
     // 业务
     fixbug::LoginRequest request;
