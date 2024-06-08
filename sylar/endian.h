@@ -17,6 +17,9 @@
 #include <type_traits>
 
 
+extern "C++"
+{
+
 namespace sylar {
 
 /**
@@ -89,5 +92,7 @@ T byteswapOnBigEndian(T t) {
 #endif
 
 } // namespace sylar
+
+}
 
 #endif

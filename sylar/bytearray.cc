@@ -5,7 +5,7 @@
 #include <iomanip>
 #include <cmath>
 
-#include "endian.hpp"
+#include "endian.h"
 #include "log.h"
 
 namespace sylar {
