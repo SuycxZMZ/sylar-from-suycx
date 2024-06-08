@@ -28,13 +28,9 @@ public:
 
     ///@brief 启动rpc服务节点，提供远程rpc调用服务
     ///@details 启动一个 TCP 服务，监听指定的端口，等待远程的 RPC 调用请求
-    ///         1. 从MprpcApplication获取ip和端口号
-    ///         2. 创建TcpServer对象，绑定回调函数
-    ///         3. 往zk上创建节点，注册服务信息
-    ///         4. 启动事件循环，开始工作
-    void ToRun();
+    virtual void ToRun();
 
-    /// @brief 启动调度器，开始工作
+    /// @brief 启动调度器，调用 ToRun 开始工作
     void Run();
 private:
 
