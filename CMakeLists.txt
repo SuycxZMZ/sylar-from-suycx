@@ -1,7 +1,9 @@
+# 顶层 CMakeLists.txt
+
 cmake_minimum_required(VERSION 3.10)
 project(sylar-from-suycx)
 
-include (cmake/utils.cmake)
+include(cmake/utils.cmake)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
@@ -28,6 +30,7 @@ if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
 endif()
 
+# 源文件列表
 set(LIB_SRC
     sylar/log.cpp
     sylar/util.cpp
@@ -56,7 +59,7 @@ set(LIB_SRC
     sylar/uri.cc 
     sylar/http/http_connection.cc 
     sylar/daemon.cc 
-    
+
     sylar/rpc/rpcconfig.cc
     sylar/rpc/rpccontroller.cc
     sylar/rpc/rpcheader.pb.cc
@@ -64,7 +67,7 @@ set(LIB_SRC
     sylar/rpc/rpcapplication.cc
     sylar/rpc/zookeeperutil.cc
     sylar/rpc/rpcprovider.cc
-    )
+)
 
 add_library(sylar SHARED ${LIB_SRC})
 force_redefine_file_macro_for_sources(sylar)
@@ -79,31 +82,45 @@ set(LIBS
 )
 
 if(BUILD_TEST)
-sylar_add_executable(test_log "tests/test_log.cpp" sylar "${LIBS}")
-sylar_add_executable(test_util "tests/test_util.cpp" sylar "${LIBS}")
-sylar_add_executable(test_env "tests/test_env.cc" sylar "${LIBS}")
-sylar_add_executable(test_config "tests/test_config.cc" sylar "${LIBS}")
-sylar_add_executable(test_thread "tests/test_thread.cc" sylar "${LIBS}")
-sylar_add_executable(test_fiber "tests/test_fiber.cc" sylar "${LIBS}")
-sylar_add_executable(test_fiber2 "tests/test_fiber2.cc" sylar "${LIBS}")
-sylar_add_executable(test_scheduler "tests/test_scheduler.cc" sylar "${LIBS}")
-sylar_add_executable(test_iomanager "tests/test_iomanager.cc" sylar "${LIBS}")
-sylar_add_executable(test_timer "tests/test_timer.cc" sylar "${LIBS}")
-sylar_add_executable(test_hook "tests/test_hook.cc" sylar "${LIBS}")
-sylar_add_executable(test_address "tests/test_address.cc" sylar "${LIBS}")
-sylar_add_executable(test_socket_tcp_server "tests/test_socket_tcp_server.cc" sylar "${LIBS}")
-sylar_add_executable(test_socket_tcp_client "tests/test_socket_tcp_client.cc" sylar "${LIBS}")
-sylar_add_executable(test_bytearray "tests/test_bytearray.cc" sylar "${LIBS}")
-sylar_add_executable(test_tcp_server "tests/test_tcp_server.cc" sylar "${LIBS}")
-sylar_add_executable(test_http "tests/test_http.cc" sylar "${LIBS}")
-sylar_add_executable(test_http_parser "tests/test_http_parser.cc" sylar "${LIBS}")
-sylar_add_executable(test_http_server "tests/test_http_server.cc" sylar "${LIBS}")
-sylar_add_executable(test_uri "tests/test_uri.cc" sylar "${LIBS}")
-sylar_add_executable(test_http_connection "tests/test_http_connection.cc" sylar "${LIBS}")
-sylar_add_executable(test_daemon "tests/test_daemon.cc" sylar "${LIBS}")
+    sylar_add_executable(test_log "tests/test_log.cpp" sylar "${LIBS}")
+    sylar_add_executable(test_util "tests/test_util.cpp" sylar "${LIBS}")
+    sylar_add_executable(test_env "tests/test_env.cc" sylar "${LIBS}")
+    sylar_add_executable(test_config "tests/test_config.cc" sylar "${LIBS}")
+    sylar_add_executable(test_thread "tests/test_thread.cc" sylar "${LIBS}")
+    sylar_add_executable(test_fiber "tests/test_fiber.cc" sylar "${LIBS}")
+    sylar_add_executable(test_fiber2 "tests/test_fiber2.cc" sylar "${LIBS}")
+    sylar_add_executable(test_scheduler "tests/test_scheduler.cc" sylar "${LIBS}")
+    sylar_add_executable(test_iomanager "tests/test_iomanager.cc" sylar "${LIBS}")
+    sylar_add_executable(test_timer "tests/test_timer.cc" sylar "${LIBS}")
+    sylar_add_executable(test_hook "tests/test_hook.cc" sylar "${LIBS}")
+    sylar_add_executable(test_address "tests/test_address.cc" sylar "${LIBS}")
+    sylar_add_executable(test_socket_tcp_server "tests/test_socket_tcp_server.cc" sylar "${LIBS}")
+    sylar_add_executable(test_socket_tcp_client "tests/test_socket_tcp_client.cc" sylar "${LIBS}")
+    sylar_add_executable(test_bytearray "tests/test_bytearray.cc" sylar "${LIBS}")
+    sylar_add_executable(test_tcp_server "tests/test_tcp_server.cc" sylar "${LIBS}")
+    sylar_add_executable(test_http "tests/test_http.cc" sylar "${LIBS}")
+    sylar_add_executable(test_http_parser "tests/test_http_parser.cc" sylar "${LIBS}")
+    sylar_add_executable(test_http_server "tests/test_http_server.cc" sylar "${LIBS}")
+    sylar_add_executable(test_uri "tests/test_uri.cc" sylar "${LIBS}")
+    sylar_add_executable(test_http_connection "tests/test_http_connection.cc" sylar "${LIBS}")
+    sylar_add_executable(test_daemon "tests/test_daemon.cc" sylar "${LIBS}")
 endif()
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+
+# 设置安装前缀
+set(CMAKE_INSTALL_PREFIX /usr/local)
+
+# 添加头文件安装规则
+install(DIRECTORY sylar/
+    DESTINATION include/sylar
+    FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp"
+)
+
+# 添加库文件安装规则
+install(TARGETS sylar
+    LIBRARY DESTINATION lib
+)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/tests/rpc)
