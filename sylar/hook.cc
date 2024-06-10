@@ -1,5 +1,6 @@
 #include "hook.h"
 #include <dlfcn.h>
+#include <stdio.h>
 
 #include "config.h"
 #include "log.h"
@@ -320,6 +321,7 @@ ssize_t writev(int fd, const struct iovec *iov, int iovcnt) {
 }
 
 ssize_t send(int s, const void *msg, size_t len, int flags) {
+    // printf("------------------ hook send");
     return do_io(s, send_f, "send", sylar::IOManager::WRITE, SO_SNDTIMEO, msg, len, flags);
 }
 
