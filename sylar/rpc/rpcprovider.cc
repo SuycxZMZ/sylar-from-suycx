@@ -43,16 +43,17 @@ void RpcProvider::ToRun()
     // 创建server，绑定server监听端口
     std::string ip = MprpcApplication::GetInstance().GetConfig().Load("rpcserverip");
     std::string port = MprpcApplication::GetInstance().GetConfig().Load("rpcserverport");
-    sylar::TcpServer::ptr server(new RpcTcpServer(this));
+    // sylar::TcpServer::ptr server(new RpcTcpServer(this));
+    m_TcpServer = std::make_shared<RpcTcpServer>(this);
     auto addr = sylar::Address::LookupAny(ip + ":" + port);
     SYLAR_ASSERT(addr);
     std::vector<sylar::Address::ptr> addrs;
     addrs.push_back(addr);
     std::vector<sylar::Address::ptr> fails;
-    while(!server->bind(addrs, fails)) {
+    while(!m_TcpServer->bind(addrs, fails)) {
         sleep(2);
     }
-    SYLAR_LOG_INFO(g_logger) << "bind success, " << server->toString();
+    SYLAR_LOG_INFO(g_logger) << "bind success, " << m_TcpServer->toString();
     
     // 注册到 zk 上， rpcclient可以从zkserver上发现服务
     ZkClient zkcli;
@@ -72,21 +73,13 @@ void RpcProvider::ToRun()
         }
     }
 
-    server->start();
-    
-    // [FIXME]
-    // 由于 server 是基于协程的，本函数如果不sleep，执行完就退出了，
-    // zkclient也就关闭汇话，创建的临时节点就会被销毁，这里先sleep一下
-    // 其实这个sleep是被hook的，协程会被切走干正事，5秒切一下相当于心跳了
-    // 也不会有太大消耗，还没想到特别好的办法
-    while (m_isrunning) {
-        sleep(5);
-    }
+    m_TcpServer->start();
 }
 
 void RpcProvider::Run() {
     m_isrunning = true;
     m_iom.schedule(std::bind(&RpcProvider::ToRun, this));
+    // m_iom.schedule(std::bind(*this->ToRun, this));
 }
 
 RpcTcpServer::RpcTcpServer(RpcProvider* _rpcprovider) : m_rpcprovider(_rpcprovider) {}
@@ -94,8 +87,10 @@ RpcTcpServer::RpcTcpServer(RpcProvider* _rpcprovider) : m_rpcprovider(_rpcprovid
 void RpcProvider::InnerHandleClient(sylar::Socket::ptr client) {
     SYLAR_LOG_INFO(g_logger) << "new msg";
     std::string recv_buf;
-    recv_buf.resize(1024);
-    client->recv(&recv_buf[0], recv_buf.size());
+    recv_buf.resize(4096);
+    if (client->recv(&recv_buf[0], recv_buf.size()) <= 0) {
+        SYLAR_LOG_ERROR(g_logger) << "recv rpcrequest error";
+    }
 
     // 读取头部大小
     uint32_t header_size = 0;
@@ -170,7 +165,9 @@ void RpcProvider::SendRpcResopnse(sylar::Socket::ptr client, google::protobuf::M
     // 把rpc响应序列化为字符流发送给远程调用方
     std::string response_str;
     if (response->SerializeToString(&response_str)) {
-        client->send(&response_str[0], response_str.size());
+        if (client->send(&response_str[0], response_str.size()) <= 0) {
+            SYLAR_LOG_ERROR(g_logger) << "send rpcresponse error";
+        }
     } else {
         SYLAR_LOG_ERROR(g_logger) << "response SerializeToString error !!! ";
     }

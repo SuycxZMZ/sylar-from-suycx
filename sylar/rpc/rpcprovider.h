@@ -12,6 +12,9 @@ namespace sylar
 {
 namespace rpc
 {
+
+class RpcTcpServer;
+
 /**
  * @SuycxZMZ
  * @brief RPC提供方
@@ -31,7 +34,7 @@ public:
     virtual void ToRun();
 
     /// @brief 启动调度器，调用 ToRun 开始工作
-    void Run();
+    virtual void Run();
 
     /// @brief 客户端请求的工具函数
     /// @param client 客户端连接 socket
@@ -57,6 +60,7 @@ protected:
     /// @brief io调度器
     sylar::IOManager m_iom;
     bool m_isrunning;
+    std::shared_ptr<sylar::rpc::RpcTcpServer> m_TcpServer;
 };
 
 /// @brief RpcTcpServer类负责底层网络收发
@@ -66,7 +70,7 @@ public:
     /// @param _rpcprovider 绑定的 rpcprovider，one provider per server
     RpcTcpServer(RpcProvider* _rpcprovider);
     virtual void handleClient(sylar::Socket::ptr client) override;
-private:
+protected:
     RpcProvider* m_rpcprovider = nullptr;
 };
 
