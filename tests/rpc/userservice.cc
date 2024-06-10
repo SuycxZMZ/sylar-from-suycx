@@ -78,9 +78,12 @@ int main(int argc, char ** argv)
     // 框架初始化
     MprpcApplication::Init(argc, argv);
 
+    sylar::IOManager iom(1);
+
     // 把 UserService 发布到节点上
-    RpcProvider provider;
+    RpcProvider provider(&iom);
     provider.NotifyService(new UserService());
+    // iom.schedule(std::bind(&RpcProvider::Run, &provider));
     provider.Run();
 
     return 0;

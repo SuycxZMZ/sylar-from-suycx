@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <google/protobuf/descriptor.h>
 #include "../tcp_server.h"
+#include "zookeeperutil.h"
 
 namespace sylar
 {
@@ -22,23 +23,22 @@ class RpcTcpServer;
 class RpcProvider
 {
 public:
-    RpcProvider();
-
     ///@brief 框架提供给外部使用的，可以发布rpc调用的接口
     ///@details 发布方要重写 protobuf 生成的 RPC 方法, 通过该函数将服务发布
     ///@param service 传入用户继承自 rpc 方法的子类
     void NotifyService(google::protobuf::Service * service);
 
-    ///@brief 启动rpc服务节点，提供远程rpc调用服务
-    ///@details 启动一个 TCP 服务，监听指定的端口，等待远程的 RPC 调用请求
-    virtual void ToRun();
+    virtual void InnerStart();
 
-    /// @brief 启动调度器，调用 ToRun 开始工作
+    /// @brief 开启server
     virtual void Run();
 
     /// @brief 客户端请求的工具函数
     /// @param client 客户端连接 socket
     void InnerHandleClient(sylar::Socket::ptr client);
+
+    RpcProvider(sylar::IOManager* iom);
+    ~RpcProvider();
 protected:
     ///@brief Service 服务类型信息
     struct ServiceInfo
@@ -57,17 +57,15 @@ protected:
     /// @param response rpc响应，protobuf负责填写
     void SendRpcResopnse(sylar::Socket::ptr client, google::protobuf::Message* response);
 
-    /// @brief io调度器
-    sylar::IOManager m_iom;
     bool m_isrunning;
-    std::shared_ptr<sylar::rpc::RpcTcpServer> m_TcpServer;
+    std::shared_ptr<RpcTcpServer> m_TcpServer = std::make_shared<RpcTcpServer>(this);
+    sylar::IOManager* m_iom;
+    std::shared_ptr<ZkClient> m_zkcli = std::make_shared<ZkClient>();
 };
 
 /// @brief RpcTcpServer类负责底层网络收发
 class RpcTcpServer : public sylar::TcpServer {
 public:
-    /// @brief RpcTcpServer构造函数
-    /// @param _rpcprovider 绑定的 rpcprovider，one provider per server
     RpcTcpServer(RpcProvider* _rpcprovider);
     virtual void handleClient(sylar::Socket::ptr client) override;
 protected:

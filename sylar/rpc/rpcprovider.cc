@@ -5,6 +5,7 @@
 #include "../macro.h"
 #include <vector>
 #include <string>
+#include <memory>
 
 namespace sylar
 {
@@ -13,7 +14,8 @@ namespace rpc
 
 static sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
 
-RpcProvider::RpcProvider() : m_iom(2), m_isrunning(false) {}
+RpcProvider::RpcProvider(sylar::IOManager* _iom) : m_isrunning(false), m_iom(_iom) {
+}
 
 void RpcProvider::NotifyService(google::protobuf::Service * service)
 {
@@ -38,13 +40,12 @@ void RpcProvider::NotifyService(google::protobuf::Service * service)
     m_serviceInfoMap.emplace(serviceName, service_info);
 }
 
-void RpcProvider::ToRun()
-{
+void RpcProvider::InnerStart() {
+    m_isrunning = true;
     // 创建server，绑定server监听端口
     std::string ip = MprpcApplication::GetInstance().GetConfig().Load("rpcserverip");
     std::string port = MprpcApplication::GetInstance().GetConfig().Load("rpcserverport");
-    // sylar::TcpServer::ptr server(new RpcTcpServer(this));
-    m_TcpServer = std::make_shared<RpcTcpServer>(this);
+
     auto addr = sylar::Address::LookupAny(ip + ":" + port);
     SYLAR_ASSERT(addr);
     std::vector<sylar::Address::ptr> addrs;
@@ -56,34 +57,33 @@ void RpcProvider::ToRun()
     SYLAR_LOG_INFO(g_logger) << "bind success, " << m_TcpServer->toString();
     
     // 注册到 zk 上， rpcclient可以从zkserver上发现服务
-    ZkClient zkcli;
-    zkcli.start();
+    // ZkClient zkcli;
+    m_zkcli->start();
     // 设置service_name为永久节点 method_name为临时节点
     for (auto & sp : m_serviceInfoMap)
     {
         std::string service_path = "/" + sp.first;
-        zkcli.create(service_path.c_str(), nullptr, 0);
+        m_zkcli->create(service_path.c_str(), nullptr, 0);
         for (auto & mp : sp.second.m_methodMap)
         {
             std::string method_path = service_path + "/" + mp.first;
             char method_path_data[128] = {0};
             sprintf(method_path_data, "%s:%s", ip.c_str(), port.c_str());
             SYLAR_LOG_INFO(g_logger) << method_path << ":" << method_path_data << " start create !!!";
-            zkcli.create(method_path.c_str(), method_path_data, strlen(method_path_data), ZOO_EPHEMERAL);
+            m_zkcli->create(method_path.c_str(), method_path_data, strlen(method_path_data), ZOO_EPHEMERAL);
         }
     }
 
     m_TcpServer->start();
-    // 保活
-    while (m_isrunning) {
-        sleep(5);
-    }
+    // zkClient保活
+    // while (m_isrunning) {
+    //     std::cout << "------------- tick \n";
+    //     sleep(5);
+    // }   
 }
 
 void RpcProvider::Run() {
-    m_isrunning = true;
-    m_iom.schedule(std::bind(&RpcProvider::ToRun, this));
-    // m_iom.schedule(std::bind(*this->ToRun, this));
+    m_iom->schedule(std::bind(&RpcProvider::InnerStart, this));
 }
 
 RpcTcpServer::RpcTcpServer(RpcProvider* _rpcprovider) : m_rpcprovider(_rpcprovider) {}
@@ -176,6 +176,10 @@ void RpcProvider::SendRpcResopnse(sylar::Socket::ptr client, google::protobuf::M
         SYLAR_LOG_ERROR(g_logger) << "response SerializeToString error !!! ";
     }
     // client->close();
+}
+
+RpcProvider::~RpcProvider() {
+    m_isrunning = false;
 }
 
 } // namespace rpc
