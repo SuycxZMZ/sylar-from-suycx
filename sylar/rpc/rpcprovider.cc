@@ -13,7 +13,7 @@ namespace rpc
 
 static sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
 
-RpcProvider::RpcProvider() : m_iom(2), m_isrunning(false) {}
+RpcProvider::RpcProvider() : m_isrunning(false) {}
 
 void RpcProvider::NotifyService(google::protobuf::Service * service)
 {
@@ -74,6 +74,10 @@ void RpcProvider::ToRun()
     }
 
     m_TcpServer->start();
+    // 保活
+    while (m_isrunning) {
+        sleep(5);
+    }
 }
 
 void RpcProvider::Run() {
