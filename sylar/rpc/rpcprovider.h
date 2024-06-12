@@ -14,7 +14,19 @@ namespace sylar
 namespace rpc
 {
 
-class RpcTcpServer;
+class RpcProvider;
+
+/// @brief RpcTcpServer类负责底层网络收发
+class RpcTcpServer : public sylar::TcpServer {
+public:
+    using ptr = std::shared_ptr<RpcTcpServer>;
+    RpcTcpServer(RpcProvider* _rpcprovider, 
+                sylar::IOManager* io_woker, 
+                sylar::IOManager* accept_worker); 
+    virtual void handleClient(sylar::Socket::ptr client) override;
+protected:
+    RpcProvider* m_rpcprovider = nullptr;
+};
 
 /**
  * @SuycxZMZ
@@ -28,16 +40,19 @@ public:
     ///@param service 传入用户继承自 rpc 方法的子类
     void NotifyService(google::protobuf::Service * service);
 
+    /// @brief 内部开启 server
     virtual void InnerStart();
 
-    /// @brief 开启server
+    /// @brief 开启server并保持心跳
     virtual void Run();
 
     /// @brief 客户端请求的工具函数
     /// @param client 客户端连接 socket
     void InnerHandleClient(sylar::Socket::ptr client);
 
-    RpcProvider(sylar::IOManager* iom);
+    /// @brief 构造函数
+    /// @param iom 传入的调度器指针
+    RpcProvider(sylar::IOManager::ptr iom);
     ~RpcProvider();
 protected:
     ///@brief Service 服务类型信息
@@ -58,19 +73,12 @@ protected:
     void SendRpcResopnse(sylar::Socket::ptr client, google::protobuf::Message* response);
 
     bool m_isrunning;
-    std::shared_ptr<RpcTcpServer> m_TcpServer = std::make_shared<RpcTcpServer>(this);
-    sylar::IOManager* m_iom;
+    RpcTcpServer::ptr m_TcpServer;
+    sylar::IOManager::ptr m_iom;
     std::shared_ptr<ZkClient> m_zkcli = std::make_shared<ZkClient>();
 };
 
-/// @brief RpcTcpServer类负责底层网络收发
-class RpcTcpServer : public sylar::TcpServer {
-public:
-    RpcTcpServer(RpcProvider* _rpcprovider);
-    virtual void handleClient(sylar::Socket::ptr client) override;
-protected:
-    RpcProvider* m_rpcprovider = nullptr;
-};
+
 
 } // namespace rpc
 

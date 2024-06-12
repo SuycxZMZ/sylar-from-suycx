@@ -14,7 +14,11 @@ namespace rpc
 
 static sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
 
-RpcProvider::RpcProvider(sylar::IOManager* _iom) : m_isrunning(false), m_iom(_iom) {
+RpcProvider::RpcProvider(sylar::IOManager::ptr _iom) : 
+        m_isrunning(false), 
+        m_TcpServer(std::make_shared<RpcTcpServer>(this, _iom.get(), _iom.get())),
+        m_iom(_iom)
+{
 }
 
 void RpcProvider::NotifyService(google::protobuf::Service * service)
@@ -38,6 +42,10 @@ void RpcProvider::NotifyService(google::protobuf::Service * service)
     }
     service_info.m_service = service;
     m_serviceInfoMap.emplace(serviceName, service_info);
+
+    if (m_serviceInfoMap.empty()) {
+        SYLAR_LOG_ERROR(g_logger) << "serviceinfo is empty NotifyService error";
+    }
 }
 
 void RpcProvider::InnerStart() {
@@ -60,6 +68,10 @@ void RpcProvider::InnerStart() {
     // ZkClient zkcli;
     m_zkcli->start();
     // 设置service_name为永久节点 method_name为临时节点
+
+    if (m_serviceInfoMap.empty()) {
+        SYLAR_LOG_ERROR(g_logger) << "serviceinfo is empty";
+    }
     for (auto & sp : m_serviceInfoMap)
     {
         std::string service_path = "/" + sp.first;
@@ -73,25 +85,36 @@ void RpcProvider::InnerStart() {
             m_zkcli->create(method_path.c_str(), method_path_data, strlen(method_path_data), ZOO_EPHEMERAL);
         }
     }
-
-    m_TcpServer->start();
-    // zkClient保活
-    // while (m_isrunning) {
-    //     std::cout << "------------- tick \n";
-    //     sleep(5);
-    // }   
+    m_TcpServer->start();  
 }
 
 void RpcProvider::Run() {
     m_iom->schedule(std::bind(&RpcProvider::InnerStart, this));
+    // 主线程参与调度器调度，这里的sleep被hook过，会直接切走，到时间再切回来
+    if (!m_isrunning) {
+        std::cout << "------------- wait iom_scheduler start \n";
+        sleep(1);
+        while (m_isrunning) {
+            std::cout << " ------------- rpcprovider main thread tick ------------- \n";
+            sleep(5);
+        }
+    }
 }
 
-RpcTcpServer::RpcTcpServer(RpcProvider* _rpcprovider) : m_rpcprovider(_rpcprovider) {}
+RpcTcpServer::RpcTcpServer(RpcProvider* _rpcprovider, 
+                sylar::IOManager* io_woker, 
+                sylar::IOManager* accept_worker) :
+        sylar::TcpServer(io_woker, accept_worker),
+        m_rpcprovider(_rpcprovider)
+{
+    std::cout << "*******************************************************************" << std::endl;
+    SYLAR_LOG_INFO(g_logger) << "RpcTcpServer::RpcTcpServer(), m_recvTimeout = " << (m_recvTimeout / 1000) << "s";
+}
 
 void RpcProvider::InnerHandleClient(sylar::Socket::ptr client) {
-    SYLAR_LOG_INFO(g_logger) << "new msg";
+    // SYLAR_LOG_INFO(g_logger) << "new msg";
     std::string recv_buf;
-    recv_buf.resize(4096);
+    recv_buf.resize(1024);
     if (client->recv(&recv_buf[0], recv_buf.size()) <= 0) {
         SYLAR_LOG_ERROR(g_logger) << "recv rpcrequest error";
     }
@@ -116,16 +139,22 @@ void RpcProvider::InnerHandleClient(sylar::Socket::ptr client) {
         return;
     }
 
+    std::cout << "------------- recv --------\n";
+
+    if (method_name == "AppendEntries") {
+        SYLAR_LOG_INFO(g_logger) << "------------- recv AppendEntries";
+    }
+
     // 取参数
     std::string args_str = recv_buf.substr(4 + header_size, args_size);
     // [DEBUG INFO]
-    SYLAR_LOG_INFO(g_logger) << "\n-----------------------------\n" 
+    SYLAR_LOG_INFO(g_logger) << "\n--------- recv info --------\n" 
                 << "header_size : " << header_size << "\n"
                 << "service_name : " << service_name << "\n"
                 << "method_name : " << method_name << "\n"
                 << "args_size : " << args_size << "\n"
                 << "args_str : " << args_str << "\n"
-                << "-----------------------------\n" ;
+                << "--------- recv info --------\n" ;
     
     // 获取service对象和method对象
 
@@ -179,6 +208,7 @@ void RpcProvider::SendRpcResopnse(sylar::Socket::ptr client, google::protobuf::M
 }
 
 RpcProvider::~RpcProvider() {
+    SYLAR_LOG_INFO(g_logger) << "[RpcProvider::~RpcProvider()]";
     m_isrunning = false;
 }
 
