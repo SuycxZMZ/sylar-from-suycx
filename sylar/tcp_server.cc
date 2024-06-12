@@ -17,10 +17,15 @@ TcpServer::TcpServer(sylar::IOManager* io_worker,
     ,m_recvTimeout(g_tcp_server_read_timeout->getValue())
     ,m_name("sylar/1.0.0")
     ,m_type("tcp")
-    ,m_isStop(true) {
+    ,m_isStop(true) 
+{
+    std::cout << "--------------- TcpServer() ----------------------\n";
+    // std::cout << "###########################################################" << std::endl;
+    // SYLAR_LOG_INFO(g_logger) << "--------------- m_recvTimeout :" << (m_recvTimeout / 1000) << "s ----------------------";
 }
 
 TcpServer::~TcpServer() {
+    std::cout << "--------------- TcpServer::~TcpServer() ----------------------\n";
     for(auto& i : m_socks) {
         i->close();
     }
