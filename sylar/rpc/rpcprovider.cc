@@ -107,7 +107,7 @@ RpcTcpServer::RpcTcpServer(RpcProvider* _rpcprovider,
         sylar::TcpServer(io_woker, accept_worker),
         m_rpcprovider(_rpcprovider)
 {
-    std::cout << "*******************************************************************" << std::endl;
+    // std::cout << "*******************************************************************" << std::endl;
     SYLAR_LOG_INFO(g_logger) << "RpcTcpServer::RpcTcpServer(), m_recvTimeout = " << (m_recvTimeout / 1000) << "s";
 }
 
