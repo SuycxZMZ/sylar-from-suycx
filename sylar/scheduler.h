@@ -184,7 +184,7 @@ private:
 
     /// 是否use caller
     bool m_useCaller;
-    /// use_caller为true时，调度器所在线程的调度协程
+    /// use_caller为true时，调度器caller的主协程
     Fiber::ptr m_rootFiber;
     /// use_caller为true时，调度器所在线程的id
     int m_rootThread = 0;

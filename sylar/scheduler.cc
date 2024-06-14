@@ -29,10 +29,6 @@ Scheduler::Scheduler(size_t threads, bool use_caller, const std::string &name) {
         SYLAR_ASSERT(GetThis() == nullptr);
         t_scheduler = this;
 
-        /**
-         * caller线程的主协程不会被线程的调度协程run进行调度，而且，线程的调度协程停止时，应该返回caller线程的主协程
-         * 在user caller情况下，把caller线程的主协程暂时保存起来，等调度协程结束时，再resume caller协程
-         */
         m_rootFiber.reset(new Fiber(std::bind(&Scheduler::run, this), 0, false));
 
         sylar::Thread::SetName(m_name);
@@ -164,11 +160,6 @@ void Scheduler::run() {
 
                 // 找到一个未指定线程，或是指定了当前线程的任务
                 SYLAR_ASSERT(it->fiber || it->cb);
-
-                // if (it->fiber) {
-                //     // 任务队列时的协程一定是READY状态，谁会把RUNNING或TERM状态的协程加入调度呢？
-                //     SYLAR_ASSERT(it->fiber->getState() == Fiber::READY);
-                // }
 
                 // [BUG FIX]: hook IO相关的系统调用时，在检测到IO未就绪的情况下，会先添加对应的读写事件，再yield当前协程，等IO就绪后再resume当前协程
                 // 多线程高并发情境下，有可能发生刚添加事件就被触发的情况，如果此时当前协程还未来得及yield，则这里就有可能出现协程状态仍为RUNNING的情况

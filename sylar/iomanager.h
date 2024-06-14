@@ -185,7 +185,7 @@ private:
     std::atomic<size_t> m_pendingEventCount = {0};
     /// IOManager的Mutex
     RWMutexType m_mutex;
-    /// socket事件上下文的容器
+    /// socket上下文的容器
     std::vector<FdContext *> m_fdContexts;
 };
 
