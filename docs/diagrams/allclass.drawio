@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2024-06-14T07:51:33.705Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="O3jsQyicRrGWh08rAQr_" version="24.5.4" type="github">
+<mxfile host="app.diagrams.net" modified="2024-06-14T09:14:50.854Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="F5pL1aH3Uoy8IRaUYF9K" version="24.5.4" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="2371" dy="377" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2610" dy="503" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -572,8 +572,14 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="r2RtIvfjis7VlBrICgGc-17" value="IOManager的构造函数，先用接收参数构造scheduler基类，再执行构造函数体，主要工作如下：1,初始化epoll文件描述符，初始化通知文件描述符，并将m_tickleFds[0]的可读事件注册到epoll中。2,调用start()开启调度器" style="whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="-1654" y="1800" width="300" height="100" as="geometry" />
+        <mxCell id="r2RtIvfjis7VlBrICgGc-17" value="IOManager的构造函数，先用接收参数构造scheduler基类，再执行构造函数体，主要工作如下：1,初始化epoll文件描述符，初始化通知文件描述符，并将m_tickleFds[0]的可读事件注册到epoll中。2,调用start()开启调度器，各个线程跑run()" style="whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-1640" y="1790" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="r2RtIvfjis7VlBrICgGc-18" value="&lt;font color=&quot;#ff0000&quot;&gt;idle(): &lt;/font&gt;重写自scheduler，当调度器没有任务时会阻塞到idle上。IOManager只关注两件事，第一是有没有新的调度任务，即scheduler::schedule()提交过来的。第二是已经注册的socket文件描述符的感兴趣事件有没有被触发，如果被触发，则也应该去执行对应事件上的回调。&lt;div&gt;&lt;font color=&quot;#ff0000&quot;&gt;如何阻塞：&lt;/font&gt;idle进来先有一个epoll_events数组的初始化，接着是一个死循环。每轮循环都会阻塞到epoll_wait上5s默认时间，并在返回时把发生的事件塞到&lt;span style=&quot;background-color: initial;&quot;&gt;epoll_events数组中。epoll返回之后，再检查定时器集合，把超时定时器的回调塞到 m_tasks任务链表中，然后挨个检查&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;epoll_events数组中的事件，正常情况下先把本次发生的事件从该文件描述符中剔除，再将剩下的事件重新注册上。已经发生的事件调用tiggerEvent，将其对应的回调塞入 m_tasks 中&lt;/span&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-1640" y="1920" width="300" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="r2RtIvfjis7VlBrICgGc-20" value="从epoll_wait返回的epoll_event中拿到" style="whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-1640" y="2170" width="300" height="100" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
