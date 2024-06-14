@@ -163,8 +163,8 @@ unsigned int sleep(unsigned int seconds) {
     sylar::Fiber::ptr fiber = sylar::Fiber::GetThis();
     sylar::IOManager* iom = sylar::IOManager::GetThis();
     iom->addTimer(seconds * 1000, std::bind((void(sylar::Scheduler::*)
-            (sylar::Fiber::ptr, int thread))&sylar::IOManager::schedule
-            ,iom, fiber, -1));
+            (sylar::Fiber::ptr, int thread))&sylar::IOManager::schedule ,iom
+            , fiber, -1));
     sylar::Fiber::GetThis()->yield();
     return 0;
 }
