@@ -42,6 +42,7 @@ void run() {
 int main(int argc, char *argv[]) {
     sylar::EnvMgr::GetInstance()->init(argc, argv);
     sylar::Config::LoadFromConfDir(sylar::EnvMgr::GetInstance()->getConfigPath());
+    g_logger->setLevel(sylar::LogLevel::ERROR);
 
     sylar::IOManager iom(4);
     iom.schedule(&run);
