@@ -1,10 +1,3 @@
-/**
- * @file test_log.cpp
- * @brief 日志类测试
- * @version 0.1
- * @date 2021-06-10
- */
-
 #include "sylar/sylar.h"
 
 #include <unistd.h>

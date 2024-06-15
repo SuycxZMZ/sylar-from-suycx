@@ -92,8 +92,8 @@ public:
 
     /**
      * @brief Socket构造函数
-     * @param[in] family 协议簇
-     * @param[in] type 类型
+     * @param[in] family 协议簇 1:IPv4, 2:IPv6, 3:Unix
+     * @param[in] type 类型, 0:tcp, 1:udp
      * @param[in] protocol 协议
      */
     Socket(int family, int type, int protocol = 0);

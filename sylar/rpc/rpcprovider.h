@@ -53,7 +53,7 @@ public:
     /// @brief 构造函数
     /// @param iom 传入的调度器指针
     RpcProvider(sylar::IOManager::ptr iom);
-    ~RpcProvider();
+    virtual ~RpcProvider();
 protected:
     ///@brief Service 服务类型信息
     struct ServiceInfo
