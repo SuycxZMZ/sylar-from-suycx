@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2024-06-16T06:18:47.413Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="iYlA3U1SeA5WGIoYFHB0" version="24.5.4" type="github">
+<mxfile host="app.diagrams.net" modified="2024-06-17T07:26:15.937Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="nfKpytV1ogK9mNuKUZI1" version="24.5.4" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="4834" dy="2020" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="4522" dy="1508" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -451,14 +451,14 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="gidDz-zyg3I-mhlzq-fM-53" value="scheduler的构造函数，当使用caller线程时，先调用Fiber::GetThis()初始化线程主协程，再将m_rootFiber协程初始化到入口函数为run且不参与调度的协程，将当前线程的调度协程t_scheduler_fiber初始化为m_rootFiber。不参与调度，即该协程切换时是和t_thread_fiber线程主协程进行切换" style="whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+        <mxCell id="gidDz-zyg3I-mhlzq-fM-53" value="scheduler的构造函数，当使用caller线程时，先调用Fiber::GetThis()初始化线程主协程，再将m_rootFiber协程初始化到入口函数为run且不参与调度的协程，将当前线程的调度协程t_scheduler_fiber初始化为m_rootFiber。不参与调度，即该协程切换时是和t_thread_fiber线程主协程进行切换。run作为调度协程，负责从任务队列里取任务并执行。" style="whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="-1650" y="1140" width="300" height="120" as="geometry" />
         </mxCell>
         <mxCell id="gidDz-zyg3I-mhlzq-fM-57" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="gidDz-zyg3I-mhlzq-fM-54" target="gidDz-zyg3I-mhlzq-fM-56" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="gidDz-zyg3I-mhlzq-fM-54" value="run()中是一个死循环，每次循环，都从m_tasks中找一个在当前线程中待执行的任务 A ，顺便找在其他线程中待执行的任务 B ，如果找到了B则执行一下tickle()通知其他线程有任务要执行，类似于muduo中queueInOtherloop往其他线程的通知fd中写一个数据，使其在epoll_wait上返回，执行任务队列。如果找到了A则直接resume，如果找不到A，则resume idle协程" style="whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
-          <mxGeometry x="-1650" y="1280" width="300" height="110" as="geometry" />
+        <mxCell id="gidDz-zyg3I-mhlzq-fM-54" value="run()中是一个死循环，每次循环，都从m_tasks中找一个在当前线程中待执行的任务 A ，顺便找在其他线程中待执行的任务 B ，如果找到了B则执行一下tickle()通知其他线程有任务要执行，类似于muduo中queueInOtherloop往其他线程的通知fd中写一个数据，使其在epoll_wait上返回，执行任务队列。如果找到了A则本线程resume，，如果此时m_tasks非空，则要tickle以下其他线程执行调度任务。如果找不到A，则resume idle协程" style="whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="-1650" y="1260" width="300" height="160" as="geometry" />
         </mxCell>
         <mxCell id="gidDz-zyg3I-mhlzq-fM-55" value="" style="curved=1;endArrow=classic;html=1;rounded=0;dashed=1;dashPattern=1 1;entryX=1.014;entryY=0.595;entryDx=0;entryDy=0;entryPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" target="gidDz-zyg3I-mhlzq-fM-54" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -671,85 +671,85 @@
         <mxCell id="6no8FXHvRrira5nONwh1-35" value="其他的hook见代码，太多了" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="1005" y="1968" width="170" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-0" value="框架使用的是非对称式协程，在协程接受调度器调度时有" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-0" value="框架使用的是非对称式协程，在协程接受调度器调度时有" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="855" y="650" width="320" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-1" value="CoMain" style="rhombus;whiteSpace=wrap;html=1;strokeWidth=2;fillWeight=-1;hachureGap=8;fillStyle=cross-hatch;fillColor=#d5e8d4;sketch=1;strokeColor=#82b366;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-1" value="CoMain" style="rhombus;whiteSpace=wrap;html=1;strokeWidth=2;fillWeight=-1;hachureGap=8;fillStyle=cross-hatch;fillColor=#d5e8d4;sketch=1;strokeColor=#82b366;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="860" y="720" width="80" height="38" as="geometry" />
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-2" value="线程主协程" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-2" value="线程主协程" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="860" y="690" width="80" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-3" value="CoA" style="ellipse;whiteSpace=wrap;html=1;strokeWidth=2;fillWeight=2;hachureGap=8;fillColor=#f8cecc;fillStyle=dots;sketch=1;strokeColor=#b85450;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-3" value="CoA" style="ellipse;whiteSpace=wrap;html=1;strokeWidth=2;fillWeight=2;hachureGap=8;fillColor=#f8cecc;fillStyle=dots;sketch=1;strokeColor=#b85450;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="955" y="777" width="80" height="36" as="geometry" />
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-4" value="CoB" style="ellipse;whiteSpace=wrap;html=1;strokeWidth=2;fillWeight=2;hachureGap=8;fillColor=#f8cecc;fillStyle=dots;sketch=1;strokeColor=#b85450;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-4" value="CoB" style="ellipse;whiteSpace=wrap;html=1;strokeWidth=2;fillWeight=2;hachureGap=8;fillColor=#f8cecc;fillStyle=dots;sketch=1;strokeColor=#b85450;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="1055" y="850" width="80" height="36" as="geometry" />
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-5" value="CoC" style="ellipse;whiteSpace=wrap;html=1;strokeWidth=2;fillWeight=2;hachureGap=8;fillColor=#f8cecc;fillStyle=dots;sketch=1;strokeColor=#b85450;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-5" value="CoC" style="ellipse;whiteSpace=wrap;html=1;strokeWidth=2;fillWeight=2;hachureGap=8;fillColor=#f8cecc;fillStyle=dots;sketch=1;strokeColor=#b85450;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="955" y="922" width="80" height="36" as="geometry" />
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-6" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" target="tZhm7umaejWZ_2DdgFIE-4">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-6" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" target="tZhm7umaejWZ_2DdgFIE-4" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1025" y="808" as="sourcePoint" />
             <mxPoint x="1075" y="758" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-7" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.14;entryY=0.01;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.86;exitY=0.64;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="tZhm7umaejWZ_2DdgFIE-1" target="tZhm7umaejWZ_2DdgFIE-3">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-7" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.14;entryY=0.01;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.86;exitY=0.64;exitDx=0;exitDy=0;exitPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="tZhm7umaejWZ_2DdgFIE-1" target="tZhm7umaejWZ_2DdgFIE-3" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="935" y="750" as="sourcePoint" />
             <mxPoint x="985" y="700" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-8" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="tZhm7umaejWZ_2DdgFIE-4" target="tZhm7umaejWZ_2DdgFIE-5">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-8" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="tZhm7umaejWZ_2DdgFIE-4" target="tZhm7umaejWZ_2DdgFIE-5" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1014" y="863" as="sourcePoint" />
             <mxPoint x="1055" y="910" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-9" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.061;entryY=0.824;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.686;exitY=-0.034;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="tZhm7umaejWZ_2DdgFIE-5" target="tZhm7umaejWZ_2DdgFIE-4">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-9" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.061;entryY=0.824;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.686;exitY=-0.034;exitDx=0;exitDy=0;exitPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="tZhm7umaejWZ_2DdgFIE-5" target="tZhm7umaejWZ_2DdgFIE-4" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1041.5" y="868" as="sourcePoint" />
             <mxPoint x="988.5" y="911" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-10" value="" style="endArrow=classic;html=1;rounded=0;entryX=1.006;entryY=0.691;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="tZhm7umaejWZ_2DdgFIE-4" target="tZhm7umaejWZ_2DdgFIE-3">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-10" value="" style="endArrow=classic;html=1;rounded=0;entryX=1.006;entryY=0.691;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="tZhm7umaejWZ_2DdgFIE-4" target="tZhm7umaejWZ_2DdgFIE-3" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1035" y="818" as="sourcePoint" />
             <mxPoint x="1077" y="865" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-11" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0.325;exitY=-0.019;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="tZhm7umaejWZ_2DdgFIE-3" target="tZhm7umaejWZ_2DdgFIE-1">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-11" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0.325;exitY=-0.019;exitDx=0;exitDy=0;exitPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="tZhm7umaejWZ_2DdgFIE-3" target="tZhm7umaejWZ_2DdgFIE-1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1015" y="792" as="sourcePoint" />
             <mxPoint x="975" y="744" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="tZhm7umaejWZ_2DdgFIE-21" target="tZhm7umaejWZ_2DdgFIE-22">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="tZhm7umaejWZ_2DdgFIE-21" target="tZhm7umaejWZ_2DdgFIE-22" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-21" value="resume的前置操作是，把调用resume的协程置为t_fiber，然后调用swapcontext，将当前上下文保存在一个线程局部变量中，将resume的协程上下文拿出来执行。当resume的协程参与调度器调度时，这个线程局部变量是t_scheduler_fiber，否则是t_thread_fiber" style="whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-21" value="resume的前置操作是，把调用resume的协程置为t_fiber，然后调用swapcontext，将当前上下文保存在一个线程局部变量中，将resume的协程上下文拿出来执行。当resume的协程参与调度器调度时，这个线程局部变量是t_scheduler_fiber，否则是t_thread_fiber" style="whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="1230" y="660" width="280" height="110" as="geometry" />
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-22" value="那么当前协程执行完毕或者半路yield，执行的主要操作是把线程局部变量中保存的上下文恢复，把自己当前的上下文保存到自身的m_ctx中，下次resume拿出来恢复。这里就体现了非对称协程的主要思想，一个协程yield后的返回点是resume它的协程的暂停点" style="whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-22" value="那么当前协程执行完毕或者半路yield，执行的主要操作是把线程局部变量中保存的上下文恢复，把自己当前的上下文保存到自身的m_ctx中，下次resume拿出来恢复。这里就体现了非对称协程的主要思想，一个协程yield后的返回点是resume它的协程的暂停点" style="whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="1230" y="800" width="280" height="100" as="geometry" />
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-25" value="scheduler的caller协程在调度任务协程时，和其他线程没有区别，&lt;span style=&quot;background-color: initial;&quot;&gt;但当scheduler要停止，&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;即调用stop时&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;caller线程就要回到scheduler的开始点上，否则caller线程就飞了。&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;调度器构造时，m_rootfiber记为caller协程，&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;该协程不参与调度器，构造时，将caller上下文保存在t_thread_fiber中，在stop时，m_rootfiber执行resume操作，&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;因为root_fiber上跑的也是run，在stop后run会跑出死循环，即run结束，root_fiber会再执行一次yield，&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;这次yield会恢复t_thread_fiber上的上下文，也就是scheduler构造时保存的caller上下文环境，这样，主线程就正常恢复，而不会跑飞了&lt;/span&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-25" value="scheduler的caller协程在调度任务协程时，和其他线程没有区别，&lt;span style=&quot;background-color: initial;&quot;&gt;但当scheduler要停止，&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;即调用stop时&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;caller线程就要回到scheduler的开始点上，否则caller线程就飞了。&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;调度器构造时，m_rootfiber记为caller协程，&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;该协程不参与调度器，构造时，将caller上下文保存在t_thread_fiber中，在stop时，m_rootfiber执行resume操作，&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;因为root_fiber上跑的也是run，在stop后run会跑出死循环，即run结束，root_fiber会再执行一次yield，&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;这次yield会恢复t_thread_fiber上的上下文，也就是scheduler构造时保存的caller上下文环境，这样，主线程就正常恢复，而不会跑飞了&lt;/span&gt;" style="whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="827" y="983" width="380.98" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-27" value="" style="endArrow=classic;html=1;rounded=0;fillColor=#ffe6cc;strokeColor=#d79b00;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-27" value="" style="endArrow=classic;html=1;rounded=0;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="WIyWlLk6GJQsqaUBKTNV-1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1125" y="983" as="sourcePoint" />
             <mxPoint x="1220" y="880" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-28" value="" style="endArrow=classic;html=1;rounded=0;fillColor=#fff2cc;strokeColor=#d6b656;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-28" value="" style="endArrow=classic;html=1;rounded=0;fillColor=#fff2cc;strokeColor=#d6b656;" parent="WIyWlLk6GJQsqaUBKTNV-1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="820" y="1060" as="sourcePoint" />
             <mxPoint x="700" y="1020" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="tZhm7umaejWZ_2DdgFIE-29" value="对于Fiber的构造函数，带参数的构造接收一个入口函数，但是在协程栈初始化之后，应该把协程的入口函数绑定到 Fiber::MainFunc 上，m_ctx 绑的就是这个函数，在mainfunc中调用用户传来的可执行对象，当可执行对象执行完毕时，主动调一次resume，完成切换，否则执行完就不管，线程也会跑飞" style="whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="tZhm7umaejWZ_2DdgFIE-29" value="对于Fiber的构造函数，带参数的构造接收一个入口函数，但是在协程栈初始化之后，应该把协程的入口函数绑定到 Fiber::MainFunc 上，m_ctx 绑的就是这个函数，在mainfunc中调用用户传来的可执行对象，当可执行对象执行完毕时，主动调一次resume，完成切换，否则执行完就不管，线程也会跑飞" style="whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="1290" y="928" width="280" height="112" as="geometry" />
         </mxCell>
       </root>
