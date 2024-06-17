@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2024-06-17T07:26:15.937Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="nfKpytV1ogK9mNuKUZI1" version="24.5.4" type="github">
+<mxfile host="app.diagrams.net" modified="2024-06-17T09:03:31.167Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="9vFFQ6GAqlFN0elw48_9" version="24.5.4" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="4522" dy="1508" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2451" dy="419" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -148,7 +148,7 @@
         <mxCell id="nBtKbaObXzw0Ui89lDOU-14" value="1，框架是基于协程的，先说一下协程" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="-1630" y="640" width="210" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="nBtKbaObXzw0Ui89lDOU-15" value="&lt;div&gt;&lt;font color=&quot;#ff0000&quot;&gt;概念：&lt;/font&gt;&lt;/div&gt;通常的的说法是轻量级线程或者用户态线程。协程和线程最本质的区别主要是：&lt;div&gt;&lt;font color=&quot;#ff0000&quot;&gt;线程：&lt;/font&gt;线程是操作系统调度的最小单位，调度由操作系统管理、多个线程可以在同一进程中运行、在内核态运行、共享同一个进程的地址空间，每个线程有自己独立的栈空间&lt;br&gt;&lt;div&gt;&lt;font color=&quot;#ff0000&quot;&gt;协程：&lt;/font&gt;通常由程序库提供，并发执行通常不依赖内核、调度由程序员管理、在用户态执行、切换时涉及到上下文指针的保存和少量寄存器切换，比线程切换轻量的多、协程可以有自己的栈空间也可共享堆空间，本项目是有栈协程。对于协程最本质的理解是，它是一个可以暂停的函数，当执行过程中可以暂停切走去执行其他函数，而线程是不可暂停的。&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+        <mxCell id="nBtKbaObXzw0Ui89lDOU-15" value="&lt;div&gt;&lt;font color=&quot;#ff0000&quot;&gt;概念：&lt;/font&gt;&lt;/div&gt;通常的的说法是轻量级线程或者用户态线程。协程和线程最本质的区别主要是：&lt;div&gt;&lt;font color=&quot;#ff0000&quot;&gt;线程：&lt;/font&gt;线程是操作系统调度的最小单位，调度由操作系统管理、多个线程可以在同一进程中运行、在内核态运行、共享同一个进程的地址空间，每个线程有自己独立的栈空间&lt;br&gt;&lt;div&gt;&lt;font color=&quot;#ff0000&quot;&gt;协程：&lt;/font&gt;通常由程序库提供，并发执行通常不依赖内核、调度由程序员管理、在用户态执行、切换时涉及到上下文指针的保存和少量寄存器切换，比线程切换轻量的多、协程可以有自己的栈空间，本项目是有栈协程。对于协程最本质的理解是，它是一个可以暂停的函数，当执行过程中可以暂停切走去执行其他函数，而线程是不可暂停的。&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="-1640" y="670" width="240" height="250" as="geometry" />
         </mxCell>
         <mxCell id="nBtKbaObXzw0Ui89lDOU-16" value="2，框架使用非对称式协程&lt;div&gt;&lt;font color=&quot;#ff0000&quot;&gt;对称式&lt;/font&gt;，也就是以一个协程可以通过调度器切换到其他任意一个协程&lt;/div&gt;&lt;div&gt;&lt;font color=&quot;#ff0000&quot;&gt;非对称&lt;/font&gt;，也就是一个协程yield之后只能切回 resume 它的那一个协程框架中，线程当前协程只能与线程主协程切换&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
