@@ -1,36 +1,37 @@
 #include <iostream>
+#include <ucontext.h>
 #include <chrono>
-#include "sylar/sylar.h"
 
-constexpr int ITERATIONS = 10000000;
+constexpr int STACK_SIZE = 1024 * 64;
+constexpr int SWITCH_COUNT = 1000000;
 
-void coroutine2();
-void coroutine1() {
-    sylar::Fiber::ptr fiber(new sylar::Fiber(coroutine2, 0, false));
-    for (int i = 0; i < ITERATIONS; ++i) {
-        fiber->resume();
-    }
-}
+ucontext_t context1, main_context;
+char stack1[STACK_SIZE];
+int switch_count = 0;
 
-void coroutine2() {
-    for (int i = 0; i < ITERATIONS; ++i) {
-        sylar::Fiber::GetThis()->yield();
+void coroutine() {
+    while (switch_count < SWITCH_COUNT) {
+        ++switch_count;
+        swapcontext(&context1, &main_context);
     }
 }
 
 int main() {
+    getcontext(&context1);
+    context1.uc_stack.ss_sp = stack1;
+    context1.uc_stack.ss_size = sizeof(stack1);
+    context1.uc_link = &main_context;
+    makecontext(&context1, coroutine, 0);
+
     auto start = std::chrono::high_resolution_clock::now();
-
-    sylar::Fiber::ptr fiber(new sylar::Fiber(coroutine1, 0, false));
-    fiber->resume();
-
+    while (switch_count < SWITCH_COUNT) {
+        swapcontext(&main_context, &context1);
+    }
     auto end = std::chrono::high_resolution_clock::now();
 
-    std::chrono::duration<double> duration = end - start;
-    double timePerSwitch = (duration.count() / (2 * ITERATIONS)) * 1e6; // 转换为微秒
-
-    std::cout << "Total time: " << duration.count() << " seconds" << std::endl;
-    std::cout << "Time per coroutine switch: " << timePerSwitch << " microseconds" << std::endl;
+    std::chrono::duration<double> elapsed = end - start;
+    std::cout << "Total time for " << SWITCH_COUNT << " switches: " << elapsed.count() << " seconds" << std::endl;
+    std::cout << "Average time per switch: " << (elapsed.count() / SWITCH_COUNT) << " seconds" << std::endl;
 
     return 0;
 }
