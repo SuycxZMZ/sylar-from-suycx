@@ -45,6 +45,8 @@ void RpcProvider::NotifyService(google::protobuf::Service * service)
 
     if (m_serviceInfoMap.empty()) {
         SYLAR_LOG_ERROR(g_logger) << "serviceinfo is empty NotifyService error";
+    } else {
+        SYLAR_LOG_INFO(g_logger) << "serviceinfo is not empty";
     }
 }
 
@@ -115,76 +117,74 @@ void RpcProvider::InnerHandleClient(sylar::Socket::ptr client) {
     // SYLAR_LOG_INFO(g_logger) << "new msg";
     std::string recv_buf;
     recv_buf.resize(1024);
-    if (client->recv(&recv_buf[0], recv_buf.size()) <= 0) {
-        SYLAR_LOG_ERROR(g_logger) << "recv rpcrequest error";
+
+    while (client->isConnected()) {
+        if (client->recv(&recv_buf[0], recv_buf.size()) <= 0) {
+            SYLAR_LOG_ERROR(g_logger) << "recv rpcrequest error";
+            break;
+        }
+
+        // 读取头部大小
+        uint32_t header_size = 0;
+        recv_buf.copy((char*)&header_size, 4, 0);
+        // 读取头部
+        std::string header_str = recv_buf.substr(4, header_size);
+
+        // 反序列化
+        sylar_rpc::RpcHeader rpcHeader;
+        std::string service_name;
+        std::string method_name;
+        uint32_t args_size;
+        if (rpcHeader.ParseFromString(header_str)) {
+            service_name = rpcHeader.service_name();
+            method_name = rpcHeader.method_name();
+            args_size = rpcHeader.args_size();
+        } else { // 反序列化失败
+            SYLAR_LOG_ERROR(g_logger) << "rpcHeader header_str : " << header_str << " pase error !!!";
+            break;
+        }
+
+        // 取参数
+        std::string args_str = recv_buf.substr(4 + header_size, args_size);
+        // [DEBUG INFO]
+        SYLAR_LOG_INFO(g_logger) << "\n--------- recv info --------\n" 
+                    << "header_size : " << header_size << "\n"
+                    << "service_name : " << service_name << "\n"
+                    << "method_name : " << method_name << "\n"
+                    << "args_size : " << args_size << "\n"
+                    << "args_str : " << args_str << "\n"
+                    << "--------- recv info --------\n" ;
+        
+        // 获取service对象和method对象
+        auto it = m_serviceInfoMap.find(service_name);
+        if (m_serviceInfoMap.end() == it) {
+            SYLAR_LOG_ERROR(g_logger) << service_name << " is not exist !!!";
+            break;
+        }
+        auto mit = it->second.m_methodMap.find(method_name);
+        if (it->second.m_methodMap.end() == mit) {
+            SYLAR_LOG_ERROR(g_logger) << method_name << " is not exist !!!";
+            break;
+        }
+
+        // 取出服务对象
+        google::protobuf::Service* service = it->second.m_service;
+        const google::protobuf::MethodDescriptor * method = mit->second;
+        // 生成rpc方法的请求request 和 response响应参数
+        google::protobuf::Message * request = service->GetRequestPrototype(method).New();
+        if (!request->ParseFromString(args_str))
+        {
+            SYLAR_LOG_ERROR(g_logger) << "request parse error : " << args_str;
+            break;
+        }   
+        google::protobuf::Message * response = service->GetResponsePrototype(method).New();
+        google::protobuf::Closure* done = 
+            google::protobuf::NewCallback<sylar::rpc::RpcProvider, sylar::Socket::ptr, 
+                                        google::protobuf::Message*> 
+            (this, &RpcProvider::SendRpcResopnse, client, response);
+        service->CallMethod(method, nullptr, request, response, done);
     }
-
-    // 读取头部大小
-    uint32_t header_size = 0;
-    recv_buf.copy((char*)&header_size, 4, 0);
-    // 读取头部
-    std::string header_str = recv_buf.substr(4, header_size);
-
-    // 反序列化
-    sylar_rpc::RpcHeader rpcHeader;
-    std::string service_name;
-    std::string method_name;
-    uint32_t args_size;
-    if (rpcHeader.ParseFromString(header_str)) {
-        service_name = rpcHeader.service_name();
-        method_name = rpcHeader.method_name();
-        args_size = rpcHeader.args_size();
-    } else { // 反序列化失败
-        SYLAR_LOG_ERROR(g_logger) << "rpcHeader header_str : " << header_str << " pase error !!!";
-        return;
-    }
-
-    std::cout << "------------- recv --------\n";
-
-    if (method_name == "AppendEntries") {
-        SYLAR_LOG_INFO(g_logger) << "------------- recv AppendEntries";
-    }
-
-    // 取参数
-    std::string args_str = recv_buf.substr(4 + header_size, args_size);
-    // [DEBUG INFO]
-    SYLAR_LOG_INFO(g_logger) << "\n--------- recv info --------\n" 
-                << "header_size : " << header_size << "\n"
-                << "service_name : " << service_name << "\n"
-                << "method_name : " << method_name << "\n"
-                << "args_size : " << args_size << "\n"
-                << "args_str : " << args_str << "\n"
-                << "--------- recv info --------\n" ;
-    
-    // 获取service对象和method对象
-
-    auto it = m_serviceInfoMap.find(service_name);
-    if (m_serviceInfoMap.end() == it) {
-        SYLAR_LOG_ERROR(g_logger) << service_name << " is not exist !!!";
-        return;
-    }
-    auto mit = it->second.m_methodMap.find(method_name);
-    if (it->second.m_methodMap.end() == mit) {
-        SYLAR_LOG_ERROR(g_logger) << method_name << " is not exist !!!";
-        return;
-    }
-
-    // 取出服务对象
-    google::protobuf::Service* service = it->second.m_service;
-    const google::protobuf::MethodDescriptor * method = mit->second;
-    // 生成rpc方法的请求request 和 response响应参数
-    google::protobuf::Message * request = service->GetRequestPrototype(method).New();
-    if (!request->ParseFromString(args_str))
-    {
-        SYLAR_LOG_ERROR(g_logger) << "request parse error : " << args_str;
-        return;
-    }   
-    google::protobuf::Message * response = service->GetResponsePrototype(method).New();
-    google::protobuf::Closure* done = 
-        google::protobuf::NewCallback<sylar::rpc::RpcProvider, sylar::Socket::ptr, 
-                                      google::protobuf::Message*> 
-        (this, &RpcProvider::SendRpcResopnse, client, response);
-    service->CallMethod(method, nullptr, request, response, done);
+    client->close();
 }
 
 void RpcTcpServer::handleClient(sylar::Socket::ptr client) {
