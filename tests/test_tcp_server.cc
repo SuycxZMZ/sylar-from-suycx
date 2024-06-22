@@ -22,7 +22,8 @@ void MyTcpServer::handleClient(sylar::Socket::ptr client) {
     buf.resize(4096);
     client->recv(&buf[0], buf.length()); // 这里有读超时，由tcp_server.read_timeout配置项进行配置，默认120秒
     SYLAR_LOG_INFO(g_logger) << "recv: " << buf;
-    client->close();
+    client->send(buf.c_str(), buf.length());
+    // client->close();
 }
 
 void run() {

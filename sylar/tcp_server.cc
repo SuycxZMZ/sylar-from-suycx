@@ -20,7 +20,6 @@ TcpServer::TcpServer(sylar::IOManager* io_worker,
     ,m_isStop(true) 
 {
     std::cout << "--------------- TcpServer() ----------------------\n";
-    // std::cout << "###########################################################" << std::endl;
     // SYLAR_LOG_INFO(g_logger) << "--------------- m_recvTimeout :" << (m_recvTimeout / 1000) << "s ----------------------";
 }
 

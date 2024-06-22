@@ -49,10 +49,11 @@ int main(int argc, char ** argv)
         std::cout << "rpc register response error : " << reg_response.result().errmsg() << std::endl;
     }
 
-
-    sleep(10);
-    stub.Login(nullptr, &request, &response, nullptr);
-    stub.Register(nullptr, &reg_request, &reg_response, nullptr);
+    for (int i = 0; i < 10; ++i) {
+        sleep(10);
+        stub.Login(nullptr, &request, &response, nullptr);
+        stub.Register(nullptr, &reg_request, &reg_response, nullptr);
+    }
 
     return 0;
 }
