@@ -117,10 +117,21 @@ void RpcProvider::InnerHandleClient(sylar::Socket::ptr client) {
     // SYLAR_LOG_INFO(g_logger) << "new msg";
     std::string recv_buf;
     recv_buf.resize(1024);
-
+    int rt = 0;
     while (client->isConnected()) {
-        if (client->recv(&recv_buf[0], recv_buf.size()) <= 0) {
-            SYLAR_LOG_ERROR(g_logger) << "recv rpcrequest error";
+        if ((rt = client->recv(&recv_buf[0], recv_buf.size())) <= 0) {
+            if (rt == 0) {
+                SYLAR_LOG_INFO(g_logger) << "对端 close";
+                break;
+            }
+            if (rt == -1 && errno == EINTR) {
+                continue;
+            } // ECONNRESET
+            if (rt == -1 && errno == ECONNRESET) {
+                SYLAR_LOG_INFO(g_logger) << "对端异常关闭";
+                break;
+            }
+            SYLAR_LOG_ERROR(g_logger) << "recv rpcrequest error errno:" << errno;
             break;
         }
 
@@ -141,7 +152,7 @@ void RpcProvider::InnerHandleClient(sylar::Socket::ptr client) {
             args_size = rpcHeader.args_size();
         } else { // 反序列化失败
             SYLAR_LOG_ERROR(g_logger) << "rpcHeader header_str : " << header_str << " pase error !!!";
-            break;
+            continue;
         }
 
         // 取参数
@@ -159,12 +170,12 @@ void RpcProvider::InnerHandleClient(sylar::Socket::ptr client) {
         auto it = m_serviceInfoMap.find(service_name);
         if (m_serviceInfoMap.end() == it) {
             SYLAR_LOG_ERROR(g_logger) << service_name << " is not exist !!!";
-            break;
+            continue;
         }
         auto mit = it->second.m_methodMap.find(method_name);
         if (it->second.m_methodMap.end() == mit) {
             SYLAR_LOG_ERROR(g_logger) << method_name << " is not exist !!!";
-            break;
+            continue;
         }
 
         // 取出服务对象
@@ -175,7 +186,7 @@ void RpcProvider::InnerHandleClient(sylar::Socket::ptr client) {
         if (!request->ParseFromString(args_str))
         {
             SYLAR_LOG_ERROR(g_logger) << "request parse error : " << args_str;
-            break;
+            continue;
         }   
         google::protobuf::Message * response = service->GetResponsePrototype(method).New();
         google::protobuf::Closure* done = 
