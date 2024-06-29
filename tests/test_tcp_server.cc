@@ -17,27 +17,20 @@ protected:
 };
 
 void MyTcpServer::handleClient(sylar::Socket::ptr client) {
-    // SYLAR_LOG_INFO(g_logger) << "new client: " << client->toString();
-    // static std::string buf;
-    // buf.resize(4096);
-    // client->recv(&buf[0], buf.length()); // 这里有读超时，由tcp_server.read_timeout配置项进行配置，默认120秒
-    // SYLAR_LOG_INFO(g_logger) << "recv: " << buf;
-    // client->send(buf.c_str(), buf.length());
-    // client->close();
     SYLAR_LOG_INFO(g_logger) << "handleClient " << *client;
     while (true) {
         char buffer[4096];
         int bytes = client->recv(buffer, sizeof(buffer) - 1);
         if (bytes <= 0) {
-            SYLAR_LOG_INFO(g_logger) << "recv failed, bytes=" << bytes;
+            // SYLAR_LOG_INFO(g_logger) << "recv failed, bytes=" << bytes;
             break;
         }
         buffer[bytes] = '\0';
-        SYLAR_LOG_INFO(g_logger) << "recv: " << buffer;
+        // SYLAR_LOG_INFO(g_logger) << "recv: " << buffer;
 
         bytes = client->send(buffer, bytes);
         if (bytes <= 0) {
-            SYLAR_LOG_INFO(g_logger) << "send failed, bytes=" << bytes;
+            // SYLAR_LOG_INFO(g_logger) << "send failed, bytes=" << bytes;
             break;
         }
     }
@@ -64,7 +57,7 @@ void run() {
 int main(int argc, char *argv[]) {
     sylar::EnvMgr::GetInstance()->init(argc, argv);
     sylar::Config::LoadFromConfDir(sylar::EnvMgr::GetInstance()->getConfigPath());
-
+    g_logger->setLevel(sylar::LogLevel::WARN);
     sylar::IOManager iom(2);
     iom.schedule(&run);
 
