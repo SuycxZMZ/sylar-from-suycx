@@ -9,6 +9,8 @@
 #include "../tcp_server.h"
 #include "zookeeperutil.h"
 
+#define RECV_RPC_HEADERSIZE 4
+
 namespace sylar
 {
 namespace rpc

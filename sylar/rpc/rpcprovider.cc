@@ -11,7 +11,6 @@ namespace sylar
 {
 namespace rpc
 {
-
 static sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
 
 RpcProvider::RpcProvider(sylar::IOManager::ptr _iom) : 
@@ -109,35 +108,56 @@ RpcTcpServer::RpcTcpServer(RpcProvider* _rpcprovider,
         sylar::TcpServer(io_woker, accept_worker),
         m_rpcprovider(_rpcprovider)
 {
-    // std::cout << "*******************************************************************" << std::endl;
     SYLAR_LOG_INFO(g_logger) << "RpcTcpServer::RpcTcpServer(), m_recvTimeout = " << (m_recvTimeout / 1000) << "s";
+}
+
+bool RecvFromClientToBuffer(sylar::Socket::ptr client, void *buffer, size_t length) {
+    size_t totalReceived = 0;
+    if (client->isConnected()) {
+        while (totalReceived < length) {
+            size_t bytesReceived = client->recv((char*)buffer + totalReceived,
+                                                 length - totalReceived);
+            if (bytesReceived <= 0) {
+                SYLAR_LOG_ERROR(g_logger) << "recv buffer error and errorno=" << errno;
+                return false;
+            }
+            totalReceived += bytesReceived;
+        }
+        return true;
+    } else {
+        SYLAR_LOG_ERROR(g_logger) << "client is closed";
+        return false;
+    }
 }
 
 void RpcProvider::InnerHandleClient(sylar::Socket::ptr client) {
     // SYLAR_LOG_INFO(g_logger) << "new msg";
-    std::string recv_buf;
+    std::string recv_buf, recv_all_size;
     recv_buf.resize(1024);
-    int rt = 0;
+    recv_all_size.resize(4);
     while (client->isConnected()) {
-        if ((rt = client->recv(&recv_buf[0], recv_buf.size())) <= 0) {
-            if (rt == 0) {
-                SYLAR_LOG_INFO(g_logger) << "对端 close";
-                break;
-            }
-            if (rt == -1 && errno == EINTR) {
-                continue;
-            } // ECONNRESET
-            if (rt == -1 && errno == ECONNRESET) {
-                SYLAR_LOG_INFO(g_logger) << "对端异常关闭";
-                break;
-            }
-            SYLAR_LOG_ERROR(g_logger) << "recv rpcrequest error errno:" << errno;
+        // 读rpc包大小
+        if (!RecvFromClientToBuffer(client, (char*)&recv_all_size[0], recv_all_size.size())) {
+            SYLAR_LOG_ERROR(g_logger) << "recv all rpc size error";
+            break;
+        }
+        // 取rpc包大小
+        uint32_t all_size = 0;
+        recv_all_size.copy((char*)&all_size, 4, 0);
+        if (all_size > recv_buf.size()) {
+            SYLAR_LOG_ERROR(g_logger) << "rpc all size is too big something error";
+            break;
+        }
+        // 读完整rpc包
+        if (!RecvFromClientToBuffer(client, (char*)&recv_buf[0], all_size)) {
+            SYLAR_LOG_ERROR(g_logger) << "recv all rpc package error";
             break;
         }
 
         // 读取头部大小
         uint32_t header_size = 0;
         recv_buf.copy((char*)&header_size, 4, 0);
+
         // 读取头部
         std::string header_str = recv_buf.substr(4, header_size);
 

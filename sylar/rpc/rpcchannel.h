@@ -8,6 +8,8 @@
 #include "rpcheader.pb.h"
 #include "rpccontroller.h"
 
+#define SEND_RPC_HEADERSIZE 4
+
 namespace sylar
 {
 namespace rpc
