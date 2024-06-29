@@ -39,16 +39,15 @@ int main(int argc, char ** argv)
         std::cout << "rpc login response error : " << response.result().errmsg() << std::endl;
     }
 
-    // stub.Register(nullptr, &reg_request, &reg_response, nullptr);
-    // if (0 == reg_response.result().errcode())
-    // {
-    //     std::cout << "rpc register response : " << reg_response.success() << std::endl;
-    // }
-    // else
-    // {
-    //     std::cout << "rpc register response error : " << reg_response.result().errmsg() << std::endl;
-    // }
-
+     stub.Register(nullptr, &reg_request, &reg_response, nullptr);
+     if (0 == reg_response.result().errcode())
+     {
+         std::cout << "rpc register response : " << reg_response.success() << std::endl;
+     }
+     else
+     {
+         std::cout << "rpc register response error : " << reg_response.result().errmsg() << std::endl;
+     }
 
     return 0;
 }
