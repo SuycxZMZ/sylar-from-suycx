@@ -145,7 +145,7 @@ void RpcProvider::InnerHandleClient(sylar::Socket::ptr client) {
         uint32_t all_size = 0;
         recv_all_size.copy((char*)&all_size, 4, 0);
         if (all_size > recv_buf.size()) {
-            SYLAR_LOG_ERROR(g_logger) << "rpc all size is too big something error";
+            SYLAR_LOG_ERROR(g_logger) << "rpc all size is too big something error all_size=" << all_size;
             break;
         }
         // 读完整rpc包
