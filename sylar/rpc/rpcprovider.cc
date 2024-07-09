@@ -111,6 +111,11 @@ RpcTcpServer::RpcTcpServer(RpcProvider* _rpcprovider,
     SYLAR_LOG_INFO(g_logger) << "RpcTcpServer::RpcTcpServer(), m_recvTimeout = " << (m_recvTimeout / 1000) << "s";
 }
 
+/// @brief 从client读取固定长度的数据
+/// @param client 连接socket
+/// @param buffer 读取的数据放入buffer
+/// @param length 指定读取的长度，如果内部一次recv不到长度，会一直阻塞recv
+/// @return 成功返回true，失败返回false
 bool RecvFromClientToBuffer(sylar::Socket::ptr client, void *buffer, size_t length) {
     size_t totalReceived = 0;
     if (client->isConnected()) {
