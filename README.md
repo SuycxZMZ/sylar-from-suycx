@@ -25,7 +25,7 @@ sudo apt-get install -y build-essential autoconf automake libtool curl git unzip
 
 # 源码安装，最好放到一个之后可以随时查看的地方
 git clone https://github.com/jbeder/yaml-cpp.git
-cd cd yaml-cpp
+cd yaml-cpp
 mkdir build
 cd build
 cmake ..
@@ -81,4 +81,4 @@ sudo make install
 
 ## TODO
 
-RPC模块，目前只做完了最简单的mprpc复现，配置读取待优化。
+RPC模块，目前只做完了最简单的mprpc复现，配置读取，支持长连接等待优化。
