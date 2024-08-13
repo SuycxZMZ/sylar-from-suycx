@@ -81,6 +81,10 @@ set(LIBS
     zookeeper_mt
 )
 
+# 仅使用上面 libsylar.so 的构建过程中，如果 yaml-cpp 等库没有明确地链接
+# 链接器可能无法找到并解析 sylar 中所需的符号，导致使用 sylar库 链接阶段报出符号未定义的错误。
+target_link_libraries(sylar PRIVATE yaml-cpp zookeeper_mt pthread dl protobuf)
+
 if(BUILD_TEST)
     sylar_add_executable(test_log "tests/test_log.cpp" sylar "${LIBS}")
     sylar_add_executable(test_util "tests/test_util.cpp" sylar "${LIBS}")
