@@ -183,13 +183,13 @@ void RpcProvider::InnerHandleClient(sylar::Socket::ptr client) {
         // 取参数
         std::string args_str = recv_buf.substr(4 + header_size, args_size);
         // [DEBUG INFO]
-        SYLAR_LOG_INFO(g_logger) << "\n--------- recv info --------\n" 
-                    << "header_size : " << header_size << "\n"
-                    << "service_name : " << service_name << "\n"
-                    << "method_name : " << method_name << "\n"
-                    << "args_size : " << args_size << "\n"
-                    << "args_str : " << args_str << "\n"
-                    << "--------- recv info --------\n" ;
+        // SYLAR_LOG_INFO(g_logger) << "\n--------- recv info --------\n" 
+        //             << "header_size : " << header_size << "\n"
+        //             << "service_name : " << service_name << "\n"
+        //             << "method_name : " << method_name << "\n"
+        //             << "args_size : " << args_size << "\n"
+        //             << "args_str : " << args_str << "\n"
+        //             << "--------- recv info --------\n" ;
         
         // 获取service对象和method对象
         auto it = m_serviceInfoMap.find(service_name);
