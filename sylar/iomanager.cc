@@ -111,7 +111,8 @@ IOManager::IOManager(size_t threads, bool use_caller, const std::string &name)
     // 关注pipe读句柄的可读事件，用于tickle协程
     epoll_event event;
     memset(&event, 0, sizeof(epoll_event));
-    event.events  = EPOLLIN | EPOLLET;
+    // event.events  = EPOLLIN | EPOLLET;
+    event.events = EPOLLIN;
     event.data.fd = m_tickleFds[0];
 
     // 非阻塞方式，配合边缘触发

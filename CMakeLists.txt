@@ -25,10 +25,10 @@ include_directories(/usr/local/include)
 
 option(BUILD_TEST "ON for complile test" ON)
 
-find_package(Boost REQUIRED) 
-if(Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIRS})
-endif()
+# find_package(Boost REQUIRED) 
+# if(Boost_FOUND)
+#     include_directories(${Boost_INCLUDE_DIRS})
+# endif()
 
 # 源文件列表
 set(LIB_SRC

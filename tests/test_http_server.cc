@@ -13,7 +13,7 @@ static sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
 sylar::IOManager::ptr worker;
 
 void run() {
-    g_logger->setLevel(sylar::LogLevel::INFO);
+    g_logger->setLevel(sylar::LogLevel::WARN);
     //sylar::http::HttpServer::ptr server(new sylar::http::HttpServer(true, worker.get(), sylar::IOManager::GetThis()));
     sylar::http::HttpServer::ptr server(new sylar::http::HttpServer(true));
     sylar::Address::ptr addr = sylar::Address::LookupAnyIPAddress("0.0.0.0:8020");
@@ -64,7 +64,7 @@ int main(int argc, char **argv) {
     sylar::Config::LoadFromConfDir(sylar::EnvMgr::GetInstance()->getConfigPath());
     
     sylar::IOManager iom(1, true, "main");
-    worker.reset(new sylar::IOManager(3, false, "worker"));
+    worker.reset(new sylar::IOManager(4, false, "worker"));
     iom.schedule(run);
     return 0;
 }
