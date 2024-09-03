@@ -37,9 +37,9 @@ protected:
 class RpcProvider
 {
 public:
-    ///@brief 框架提供给外部使用的，可以发布rpc调用的接口
-    ///@details 发布方要重写 protobuf 生成的 RPC 方法, 通过该函数将服务发布
-    ///@param service 传入用户继承自 rpc 方法的子类
+    /// @brief 框架提供给外部使用的，可以发布rpc调用的接口
+    /// @details 发布方要重写 protobuf 生成的 RPC 方法, 通过该函数将服务发布
+    /// @param service 传入用户继承自 rpc 方法的子类
     void NotifyService(google::protobuf::Service * service);
 
     /// @brief 内部开启 server
@@ -57,7 +57,7 @@ public:
     RpcProvider(sylar::IOManager::ptr iom);
     virtual ~RpcProvider();
 protected:
-    ///@brief Service 服务类型信息
+    // Service 服务类型信息
     struct ServiceInfo
     {
         // 服务对象
@@ -66,7 +66,7 @@ protected:
         std::unordered_map<std::string, const google::protobuf::MethodDescriptor *> m_methodMap;
     };
     
-    ///@brief 存储注册成功的服务对象和其服务方法的所有信息 {service_name : service_info}
+    // 存储注册成功的服务对象和其服务方法的所有信息 {service_name : service_info}
     std::unordered_map<std::string, ServiceInfo> m_serviceInfoMap;
 
     /// @brief 调用完本地服务后给客户端回发消息的函数，将response转为字符流发出
