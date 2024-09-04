@@ -14,8 +14,8 @@ sylar::IOManager::ptr worker;
 
 void run() {
     g_logger->setLevel(sylar::LogLevel::WARN);
-    //sylar::http::HttpServer::ptr server(new sylar::http::HttpServer(true, worker.get(), sylar::IOManager::GetThis()));
-    sylar::http::HttpServer::ptr server(new sylar::http::HttpServer(true));
+    sylar::http::HttpServer::ptr server(new sylar::http::HttpServer(true, worker.get(), sylar::IOManager::GetThis()));
+    // sylar::http::HttpServer::ptr server(new sylar::http::HttpServer(true));
     sylar::Address::ptr addr = sylar::Address::LookupAnyIPAddress("0.0.0.0:8020");
     while (!server->bind(addr)) {
         sleep(2);
@@ -62,9 +62,10 @@ void run() {
 int main(int argc, char **argv) {
     sylar::EnvMgr::GetInstance()->init(argc, argv);
     sylar::Config::LoadFromConfDir(sylar::EnvMgr::GetInstance()->getConfigPath());
-    
+    g_logger->setLevel(sylar::LogLevel::ERROR);
+
     sylar::IOManager iom(1, true, "main");
-    worker.reset(new sylar::IOManager(4, false, "worker"));
+    worker.reset(new sylar::IOManager(8, false, "worker"));
     iom.schedule(run);
     return 0;
 }
