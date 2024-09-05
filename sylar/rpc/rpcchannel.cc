@@ -1,5 +1,4 @@
 #include "rpcchannel.h"
-#include "rpcapplication.h"
 #include "zookeeperutil.h"
 #include <sys/types.h> 
 #include <sys/socket.h>
@@ -35,7 +34,6 @@ void SylarRpcChannel::CallMethod(const google::protobuf::MethodDescriptor* metho
     if (!request->SerializeToString(&args_str))
     {
         controller->SetFailed("Serialize request args_str error !!!");
-        // std::cout << "Serialize request args_str error !!!" << std::endl;
         return;
     }
 
@@ -52,7 +50,6 @@ void SylarRpcChannel::CallMethod(const google::protobuf::MethodDescriptor* metho
     if (!rpcheader.SerializeToString(&rpcheader_str))
     {
         controller->SetFailed("Serialize request rpcheader error !!!");
-        // std::cout << "Serialize request rpcheader error !!!" << std::endl;
         return;
     }
     uint32_t send_all_size = SEND_RPC_HEADERSIZE + rpcheader_str.size() + args_str.size();
@@ -83,8 +80,6 @@ void SylarRpcChannel::CallMethod(const google::protobuf::MethodDescriptor* metho
     if (-1 == clientfd) 
     {
         controller->SetFailed("error create socket : " + std::to_string(errno));
-        // std::cout << "error create socket : " << errno << std::endl;
-        // exit(EXIT_FAILURE);
         return;
     }
 
@@ -120,9 +115,7 @@ void SylarRpcChannel::CallMethod(const google::protobuf::MethodDescriptor* metho
     if (-1 == connect(clientfd, (sockaddr*)&server_addr, sizeof(server_addr)))
     {
         controller->SetFailed("connect error : " + std::to_string(errno));
-        // std::cout << "connect error : " << errno << std::endl;
         close(clientfd);
-        // exit(EXIT_FAILURE);
         return;
     }
 
@@ -130,9 +123,7 @@ void SylarRpcChannel::CallMethod(const google::protobuf::MethodDescriptor* metho
     if (-1 == send(clientfd, rpc_send_str.c_str(), rpc_send_str.size(), 0))
     {
         controller->SetFailed("send error : " + std::to_string(errno));
-        // std::cout << "send error : " << errno << std::endl;
         close(clientfd);
-        // exit(EXIT_FAILURE); 
         return;       
     }
 
@@ -142,19 +133,14 @@ void SylarRpcChannel::CallMethod(const google::protobuf::MethodDescriptor* metho
     if ((recv_size = recv(clientfd, recv_buf, 1024, 0)) < 0)
     {
         controller->SetFailed("recv error : " + std::to_string(errno));
-        // std::cout << "recv error : " << errno << std::endl;
         close(clientfd);
         return;
     }
 
     // 反序列化 response
-    // std::string response_str(recv_buf, 0, recv_size);
     if (!response->ParseFromArray(recv_buf, recv_size))
-    // if (!response->ParseFromString(response_str))
     {
         controller->SetFailed("parse response error !!!");
-        // std::cout << "parse response error !!! " << std::endl;
-        // std::cout << response_str << std::endl;
         close(clientfd);
         return;
     }

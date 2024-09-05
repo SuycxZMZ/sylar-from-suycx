@@ -1,7 +1,6 @@
 #include "rpcprovider.h"
 #include "rpcapplication.h"
 #include "rpcheader.pb.h"
-#include "zookeeperutil.h"
 #include "../macro.h"
 #include <vector>
 #include <string>

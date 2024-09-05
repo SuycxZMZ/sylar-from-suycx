@@ -4,9 +4,7 @@
 #include <google/protobuf/service.h>
 #include <google/protobuf/message.h>
 #include <google/protobuf/descriptor.h>
-#include <string>
 #include "rpcheader.pb.h"
-#include "rpccontroller.h"
 
 #define SEND_RPC_HEADERSIZE 4
 
