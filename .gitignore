@@ -5,3 +5,4 @@ lib/
 cmake-build-debug/
 .idea/
 .vscode/*
+.cache/*
