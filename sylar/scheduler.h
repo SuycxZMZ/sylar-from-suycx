@@ -10,10 +10,10 @@
 
 #include <functional>
 #include <list>
+#include <vector>
 #include <memory>
 #include <string>
 #include "fiber.h"
-#include "log.h"
 #include "thread.h"
 
 namespace sylar {

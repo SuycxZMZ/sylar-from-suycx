@@ -1,0 +1,386 @@
+[
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/log.cpp\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/log.cpp.o -c /home/suycx/Code/sylar-from-suycx/sylar/log.cpp",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/log.cpp",
+  "output": "CMakeFiles/sylar.dir/sylar/log.cpp.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/util.cpp\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/util.cpp.o -c /home/suycx/Code/sylar-from-suycx/sylar/util.cpp",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/util.cpp",
+  "output": "CMakeFiles/sylar.dir/sylar/util.cpp.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/mutex.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/mutex.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/mutex.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/mutex.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/mutex.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/env.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/env.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/env.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/env.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/env.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/config.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/config.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/config.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/config.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/config.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/thread.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/thread.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/thread.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/thread.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/thread.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/fiber.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/fiber.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/fiber.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/fiber.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/fiber.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/scheduler.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/scheduler.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/scheduler.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/scheduler.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/scheduler.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/iomanager.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/iomanager.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/iomanager.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/iomanager.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/iomanager.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/timer.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/timer.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/timer.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/timer.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/timer.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/fd_manager.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/fd_manager.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/fd_manager.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/fd_manager.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/fd_manager.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/hook.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/hook.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/hook.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/hook.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/hook.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/address.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/address.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/address.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/address.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/address.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/socket.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/socket.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/socket.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/socket.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/socket.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/bytearray.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/bytearray.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/bytearray.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/bytearray.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/bytearray.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/tcp_server.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/tcp_server.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/tcp_server.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/tcp_server.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/tcp_server.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/cc -Dsylar_EXPORTS -D__FILE__=\\\"sylar/http/http-parser/http_parser.c\\\" -I/home/suycx/Code/sylar-from-suycx/. -g -fPIC -o CMakeFiles/sylar.dir/sylar/http/http-parser/http_parser.c.o -c /home/suycx/Code/sylar-from-suycx/sylar/http/http-parser/http_parser.c",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/http/http-parser/http_parser.c",
+  "output": "CMakeFiles/sylar.dir/sylar/http/http-parser/http_parser.c.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/http/http.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/http/http.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/http/http.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/http/http.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/http/http.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/http/http_parser.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/http/http_parser.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/http/http_parser.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/http/http_parser.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/http/http_parser.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/stream.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/stream.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/stream.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/stream.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/stream.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/streams/socket_stream.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/streams/socket_stream.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/streams/socket_stream.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/streams/socket_stream.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/streams/socket_stream.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/http/http_session.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/http/http_session.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/http/http_session.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/http/http_session.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/http/http_session.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/http/servlet.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/http/servlet.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/http/servlet.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/http/servlet.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/http/servlet.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/http/http_server.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/http/http_server.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/http/http_server.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/http/http_server.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/http/http_server.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/uri.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/uri.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/uri.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/uri.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/uri.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/http/http_connection.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/http/http_connection.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/http/http_connection.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/http/http_connection.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/http/http_connection.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/daemon.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/daemon.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/daemon.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/daemon.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/daemon.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/rpc/rpcconfig.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/rpc/rpcconfig.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/rpc/rpcconfig.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/rpc/rpcconfig.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/rpc/rpcconfig.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/rpc/rpccontroller.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/rpc/rpccontroller.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/rpc/rpccontroller.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/rpc/rpccontroller.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/rpc/rpccontroller.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/rpc/rpcheader.pb.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/rpc/rpcheader.pb.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/rpc/rpcheader.pb.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/rpc/rpcheader.pb.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/rpc/rpcheader.pb.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/rpc/rpcchannel.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/rpc/rpcchannel.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/rpc/rpcchannel.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/rpc/rpcchannel.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/rpc/rpcchannel.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/rpc/rpcapplication.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/rpc/rpcapplication.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/rpc/rpcapplication.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/rpc/rpcapplication.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/rpc/rpcapplication.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/rpc/zookeeperutil.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/rpc/zookeeperutil.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/rpc/zookeeperutil.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/rpc/zookeeperutil.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/rpc/zookeeperutil.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++ -Dsylar_EXPORTS -D__FILE__=\\\"sylar/rpc/rpcprovider.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/sylar.dir/sylar/rpc/rpcprovider.cc.o -c /home/suycx/Code/sylar-from-suycx/sylar/rpc/rpcprovider.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/sylar/rpc/rpcprovider.cc",
+  "output": "CMakeFiles/sylar.dir/sylar/rpc/rpcprovider.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_log.cpp\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_log.dir/tests/test_log.cpp.o -c /home/suycx/Code/sylar-from-suycx/tests/test_log.cpp",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_log.cpp",
+  "output": "CMakeFiles/test_log.dir/tests/test_log.cpp.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_util.cpp\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_util.dir/tests/test_util.cpp.o -c /home/suycx/Code/sylar-from-suycx/tests/test_util.cpp",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_util.cpp",
+  "output": "CMakeFiles/test_util.dir/tests/test_util.cpp.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_env.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_env.dir/tests/test_env.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_env.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_env.cc",
+  "output": "CMakeFiles/test_env.dir/tests/test_env.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_config.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_config.dir/tests/test_config.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_config.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_config.cc",
+  "output": "CMakeFiles/test_config.dir/tests/test_config.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_thread.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_thread.dir/tests/test_thread.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_thread.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_thread.cc",
+  "output": "CMakeFiles/test_thread.dir/tests/test_thread.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_fiber.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_fiber.dir/tests/test_fiber.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_fiber.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_fiber.cc",
+  "output": "CMakeFiles/test_fiber.dir/tests/test_fiber.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_fiber2.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_fiber2.dir/tests/test_fiber2.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_fiber2.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_fiber2.cc",
+  "output": "CMakeFiles/test_fiber2.dir/tests/test_fiber2.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_fiber_swap.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_fiber_swap.dir/tests/test_fiber_swap.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_fiber_swap.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_fiber_swap.cc",
+  "output": "CMakeFiles/test_fiber_swap.dir/tests/test_fiber_swap.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_thread_swap.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_thread_swap.dir/tests/test_thread_swap.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_thread_swap.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_thread_swap.cc",
+  "output": "CMakeFiles/test_thread_swap.dir/tests/test_thread_swap.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_scheduler.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_scheduler.dir/tests/test_scheduler.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_scheduler.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_scheduler.cc",
+  "output": "CMakeFiles/test_scheduler.dir/tests/test_scheduler.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_iomanager.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_iomanager.dir/tests/test_iomanager.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_iomanager.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_iomanager.cc",
+  "output": "CMakeFiles/test_iomanager.dir/tests/test_iomanager.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_timer.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_timer.dir/tests/test_timer.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_timer.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_timer.cc",
+  "output": "CMakeFiles/test_timer.dir/tests/test_timer.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_hook.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_hook.dir/tests/test_hook.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_hook.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_hook.cc",
+  "output": "CMakeFiles/test_hook.dir/tests/test_hook.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_address.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_address.dir/tests/test_address.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_address.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_address.cc",
+  "output": "CMakeFiles/test_address.dir/tests/test_address.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_socket_tcp_server.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_socket_tcp_server.dir/tests/test_socket_tcp_server.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_socket_tcp_server.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_socket_tcp_server.cc",
+  "output": "CMakeFiles/test_socket_tcp_server.dir/tests/test_socket_tcp_server.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_socket_tcp_client.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_socket_tcp_client.dir/tests/test_socket_tcp_client.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_socket_tcp_client.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_socket_tcp_client.cc",
+  "output": "CMakeFiles/test_socket_tcp_client.dir/tests/test_socket_tcp_client.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_bytearray.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_bytearray.dir/tests/test_bytearray.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_bytearray.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_bytearray.cc",
+  "output": "CMakeFiles/test_bytearray.dir/tests/test_bytearray.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_tcp_server.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_tcp_server.dir/tests/test_tcp_server.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_tcp_server.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_tcp_server.cc",
+  "output": "CMakeFiles/test_tcp_server.dir/tests/test_tcp_server.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_http.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_http.dir/tests/test_http.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_http.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_http.cc",
+  "output": "CMakeFiles/test_http.dir/tests/test_http.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_http_parser.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_http_parser.dir/tests/test_http_parser.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_http_parser.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_http_parser.cc",
+  "output": "CMakeFiles/test_http_parser.dir/tests/test_http_parser.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_http_server.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_http_server.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_http_server.cc",
+  "output": "CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_tcpserver_passure.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_tcpserver_passure.dir/tests/test_tcpserver_passure.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_tcpserver_passure.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_tcpserver_passure.cc",
+  "output": "CMakeFiles/test_tcpserver_passure.dir/tests/test_tcpserver_passure.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_tcpserver_bench.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_tcpserver_bench.dir/tests/test_tcpserver_bench.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_tcpserver_bench.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_tcpserver_bench.cc",
+  "output": "CMakeFiles/test_tcpserver_bench.dir/tests/test_tcpserver_bench.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_uri.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_uri.dir/tests/test_uri.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_uri.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_uri.cc",
+  "output": "CMakeFiles/test_uri.dir/tests/test_uri.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_http_connection.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_http_connection.dir/tests/test_http_connection.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_http_connection.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_http_connection.cc",
+  "output": "CMakeFiles/test_http_connection.dir/tests/test_http_connection.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build",
+  "command": "/usr/bin/c++  -D__FILE__=\\\"tests/test_daemon.cc\\\" -I/home/suycx/Code/sylar-from-suycx/.  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/test_daemon.dir/tests/test_daemon.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/test_daemon.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/test_daemon.cc",
+  "output": "CMakeFiles/test_daemon.dir/tests/test_daemon.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build/tests/rpc",
+  "command": "/usr/bin/c++  -I/home/suycx/Code/sylar-from-suycx/. -I/home/suycx/Code/sylar-from-suycx/sylar  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/caller.dir/calluserservice.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/rpc/calluserservice.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/rpc/calluserservice.cc",
+  "output": "tests/rpc/CMakeFiles/caller.dir/calluserservice.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build/tests/rpc",
+  "command": "/usr/bin/c++  -I/home/suycx/Code/sylar-from-suycx/. -I/home/suycx/Code/sylar-from-suycx/sylar  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/caller.dir/user.pb.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/rpc/user.pb.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/rpc/user.pb.cc",
+  "output": "tests/rpc/CMakeFiles/caller.dir/user.pb.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build/tests/rpc",
+  "command": "/usr/bin/c++  -I/home/suycx/Code/sylar-from-suycx/. -I/home/suycx/Code/sylar-from-suycx/sylar  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/provider.dir/userservice.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/rpc/userservice.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/rpc/userservice.cc",
+  "output": "tests/rpc/CMakeFiles/provider.dir/userservice.cc.o"
+},
+{
+  "directory": "/home/suycx/Code/sylar-from-suycx/build/tests/rpc",
+  "command": "/usr/bin/c++  -I/home/suycx/Code/sylar-from-suycx/. -I/home/suycx/Code/sylar-from-suycx/sylar  -std=c++11 -O0 -ggdb -Wall -Werror -rdynamic -fPIC -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations -g -o CMakeFiles/provider.dir/user.pb.cc.o -c /home/suycx/Code/sylar-from-suycx/tests/rpc/user.pb.cc",
+  "file": "/home/suycx/Code/sylar-from-suycx/tests/rpc/user.pb.cc",
+  "output": "tests/rpc/CMakeFiles/provider.dir/user.pb.cc.o"
+}
+]

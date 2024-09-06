@@ -5,12 +5,14 @@
  * @date 2021-06-16
  */
 
-#include <unistd.h>    // for pipe()
-#include <sys/epoll.h> // for epoll_xxx()
-#include <fcntl.h>     // for fcntl()
 #include "iomanager.h"
 #include "log.h"
 #include "macro.h"
+// #include "util.h"
+#include <cstring>     // for memset()
+#include <fcntl.h>     // for fcntl()
+#include <sys/epoll.h> // for epoll_xxx()
+#include <unistd.h>    // for pipe()
 
 namespace sylar {
 

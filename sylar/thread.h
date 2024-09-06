@@ -11,6 +11,8 @@
 
 #include "mutex.h"
 #include <string>
+#include <memory>
+#include <functional>
 
 namespace sylar {
 

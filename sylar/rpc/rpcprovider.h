@@ -3,7 +3,6 @@
 
 #include "google/protobuf/service.h"
 #include <string>
-#include <functional>
 #include <unordered_map>
 #include <google/protobuf/descriptor.h>
 #include "../tcp_server.h"

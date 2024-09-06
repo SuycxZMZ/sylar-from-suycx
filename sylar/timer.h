@@ -12,6 +12,7 @@
 #include <memory>
 #include <vector>
 #include <set>
+#include <functional>
 #include "mutex.h"
 
 namespace sylar {

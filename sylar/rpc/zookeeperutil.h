@@ -1,9 +1,11 @@
-#ifndef ZOOKEEPERUTIL_H
-#define ZOOKEEPERUTIL_H
+#ifndef ZKEEPERUTIL_H
+#define ZKEEPERUTIL_H
 
+#include <string>
+extern "C" {
 #include <semaphore.h>
 #include <zookeeper/zookeeper.h>
-#include <string>
+}
 
 namespace sylar
 {

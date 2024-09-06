@@ -9,10 +9,8 @@
 #ifndef __SYLAR_MACRO_H__
 #define __SYLAR_MACRO_H__
 
-#include <string.h>
 #include <assert.h>
 #include "log.h"
-#include "util.h"
 
 #if defined __GNUC__ || defined __llvm__
 /// LIKCLY 宏的封装, 告诉编译器优化,条件大概率成立

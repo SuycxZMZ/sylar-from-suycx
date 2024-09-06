@@ -2,8 +2,6 @@
 #define RPCAPPLICATION_H
 
 #include "rpcconfig.h"
-#include "rpcchannel.h"
-#include "rpccontroller.h"
 
 namespace sylar
 {

@@ -2,12 +2,10 @@
 #define __SYLAR_TCP_SERVER_H__
 
 #include <memory>
-#include <functional>
 #include "address.h"
 #include "iomanager.h"
 #include "socket.h"
 #include "noncopyable.h"
-#include "config.h"
 
 namespace sylar {
     

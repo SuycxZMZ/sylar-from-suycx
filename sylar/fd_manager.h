@@ -11,7 +11,7 @@
 
 #include <memory>
 #include <vector>
-#include "thread.h"
+#include "mutex.h"
 #include "singleton.h"
 
 namespace sylar {
