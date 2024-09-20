@@ -11,12 +11,15 @@ namespace sylar
 {
 namespace rpc
 {
-///@brief 所有使用 stub 代理类调用的rpc方法都走到这里，进行序列化和网络发送，接收RPC服务方的 response
-///@param method 远程方法
-///@param controller 控制类，用于设置超时时间等
-///@param request 请求参数
-///@param response 返回结果
-///@param done 回调函数
+/**
+ * @brief 所有使用 stub
+          代理类调用的rpc方法都走到这里，进行序列化和网络发送，接收RPC服务方的response
+ * @param method 远程方法
+ * @param controller 控制类，用于设置超时时间等
+ * @param request 请求参数
+ * @param response 返回结果
+ * @param done
+ */
 void SylarRpcChannel::CallMethod(const google::protobuf::MethodDescriptor* method,
                         google::protobuf::RpcController* controller, 
                         const google::protobuf::Message* request,

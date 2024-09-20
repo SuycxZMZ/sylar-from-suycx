@@ -12,11 +12,12 @@ namespace rpc
 {
 static sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
 
-RpcProvider::RpcProvider(sylar::IOManager::ptr _iom) : 
-        m_isrunning(false), 
-        m_TcpServer(std::make_shared<RpcTcpServer>(this, _iom.get(), _iom.get())),
-        m_iom(_iom)
-{
+RpcProvider::RpcProvider(sylar::IOManager::ptr _iom)
+    : m_isRunning(false),
+      m_tcpServer(std::make_shared<RpcTcpServer>(this, _iom.get(), _iom.get())),
+      m_iom(_iom),
+      m_zkcli(std::make_shared<ZkClient>()) {
+  
 }
 
 void RpcProvider::NotifyService(google::protobuf::Service * service)
@@ -49,7 +50,7 @@ void RpcProvider::NotifyService(google::protobuf::Service * service)
 }
 
 void RpcProvider::InnerStart() {
-    m_isrunning = true;
+    m_isRunning = true;
     // 创建server，绑定server监听端口
     std::string ip = MprpcApplication::GetInstance().GetConfig().Load("rpcserverip");
     std::string port = MprpcApplication::GetInstance().GetConfig().Load("rpcserverport");
@@ -59,10 +60,10 @@ void RpcProvider::InnerStart() {
     std::vector<sylar::Address::ptr> addrs;
     addrs.push_back(addr);
     std::vector<sylar::Address::ptr> fails;
-    while(!m_TcpServer->bind(addrs, fails)) {
+    while(!m_tcpServer->bind(addrs, fails)) {
         sleep(2);
     }
-    SYLAR_LOG_INFO(g_logger) << "bind success, " << m_TcpServer->toString();
+    SYLAR_LOG_INFO(g_logger) << "bind success, " << m_tcpServer->toString();
     
     // 注册到 zk 上， rpcclient可以从zkserver上发现服务
     // ZkClient zkcli;
@@ -85,36 +86,39 @@ void RpcProvider::InnerStart() {
             m_zkcli->create(method_path.c_str(), method_path_data, strlen(method_path_data), ZOO_EPHEMERAL);
         }
     }
-    m_TcpServer->start();  
+    m_tcpServer->start();  
 }
 
 void RpcProvider::Run() {
     m_iom->schedule(std::bind(&RpcProvider::InnerStart, this));
     // 主线程参与调度器调度，这里的sleep被hook过，会直接切走，到时间再切回来
-    if (!m_isrunning) {
+    if (!m_isRunning) {
         std::cout << "------------- wait iom_scheduler start \n";
         sleep(1);
-        while (m_isrunning) {
+        while (m_isRunning) {
             std::cout << " ------------- rpcprovider main thread tick ------------- \n";
             sleep(5);
         }
     }
 }
 
-RpcTcpServer::RpcTcpServer(RpcProvider* _rpcprovider, 
-                sylar::IOManager* io_woker, 
-                sylar::IOManager* accept_worker) :
-        sylar::TcpServer(io_woker, accept_worker),
-        m_rpcprovider(_rpcprovider)
-{
-    SYLAR_LOG_INFO(g_logger) << "RpcTcpServer::RpcTcpServer(), m_recvTimeout = " << (m_recvTimeout / 1000) << "s";
+RpcTcpServer::RpcTcpServer(RpcProvider *_rpcprovider,
+                           sylar::IOManager *io_woker,
+                           sylar::IOManager *accept_worker)
+    : sylar::TcpServer(io_woker, accept_worker), m_rpcprovider(_rpcprovider) {
+  SYLAR_LOG_INFO(g_logger) << "RpcTcpServer::RpcTcpServer(), m_recvTimeout = "
+                           << (m_recvTimeout / 1000) << "s";
 }
 
-/// @brief 从client读取固定长度的数据
-/// @param client 连接socket
-/// @param buffer 读取的数据放入buffer
-/// @param length 指定读取的长度，如果内部一次recv不到长度，会一直阻塞recv
-/// @return 成功返回true，失败返回false
+/**
+ * @brief 从client读取固定长度的数据
+ *
+ * @param client 连接socket
+ * @param buffer 读取的数据放入buffer
+ * @param length 指定读取的长度，如果内部一次recv不到长度，会一直阻塞recv
+ * @return true 成功返回
+ * @return false 失败返回
+ */
 bool RecvFromClientToBuffer(sylar::Socket::ptr client, void *buffer, size_t length) {
     size_t totalReceived = 0;
     if (client->isConnected()) {
@@ -135,7 +139,6 @@ bool RecvFromClientToBuffer(sylar::Socket::ptr client, void *buffer, size_t leng
 }
 
 void RpcProvider::InnerHandleClient(sylar::Socket::ptr client) {
-    // SYLAR_LOG_INFO(g_logger) << "new msg";
     std::string recv_buf, recv_all_size;
     recv_buf.resize(1024);
     recv_all_size.resize(4);
@@ -223,8 +226,8 @@ void RpcProvider::InnerHandleClient(sylar::Socket::ptr client) {
 }
 
 void RpcTcpServer::handleClient(sylar::Socket::ptr client) {
-    if (nullptr == m_rpcprovider) {
-        SYLAR_LOG_FATAL(g_logger) << "server not correct init !!!";
+    if (!m_rpcprovider) {
+      SYLAR_LOG_FATAL(g_logger) << "server not correct init !!!";
     }
     m_rpcprovider->InnerHandleClient(client);
 }
@@ -244,7 +247,7 @@ void RpcProvider::SendRpcResopnse(sylar::Socket::ptr client, google::protobuf::M
 
 RpcProvider::~RpcProvider() {
     SYLAR_LOG_INFO(g_logger) << "[RpcProvider::~RpcProvider()]";
-    m_isrunning = false;
+    m_isRunning = false;
 }
 
 } // namespace rpc
