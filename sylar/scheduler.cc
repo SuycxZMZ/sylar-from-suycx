@@ -15,6 +15,7 @@ namespace sylar {
 static sylar::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
 
 /// 当前线程的调度器，同一个调度器下的所有线程共享同一个实例
+/// 注意，Scheduler::GetThis在没有调度器时返回的是nullptr，并不会自动创建
 static thread_local Scheduler *t_scheduler = nullptr;
 /// 当前线程的调度协程，每个线程都独有一份
 static thread_local Fiber *t_scheduler_fiber = nullptr;
