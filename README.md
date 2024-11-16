@@ -73,17 +73,27 @@ sudo make install
 
 头文件引入示例：
 
-    基本组件头文件引入 #include "sylar/sylar.h"
-
-    附加应用组件 #include "sylar/rpc/..."
+```C++
+    // 基本组件头文件引入 
+    #include "sylar/sylar.h"
+    //附加应用组件 
+    #include "sylar/rpc/..."
+```
 
 编译的时候链接库 (protobuf pthread yaml-cpp zookeeper_mt sylar), 如果不想连接这么多，直接改成编译静态库就行了
 
-## TODO
+## 资料
 
-- 长连接待优化。
+- [sylar和muduo的一些总结](https://zakuv5r1g02.feishu.cn/wiki/NTbawzte0iyYnrkYfyMc8PmwnlP?from=from_copylink)，批判性的看就行，这是我秋招刚开始时写的，后面没有再改
+- 根据项目总结的一张图，用的`drawio`，[链接](docs/diagrams/allclass.drawio)，大图如下
+
+![sylarall](docs/images/sylarall.png)
+
+## 说明
+
+- rpc长连接待优化
   - 目前这个版本是对mprpc的基本复现
   - 如果要改长连接，provider端不用改太多，caller端的代码可能要再写一份实现，原本项目中的 channel 中每次rpc调用都会重新分配一个socket进行连接-->发送-->接收，长连接的话应该重新写一份channel的实现，记录对端地址、在zookeeper上注册watcher等
-  - 这个目前在分布式KV中参考原项目改了一个简单版的长连接rpc。但是不能作为通用型。后续优化价值不大，成熟的项目直接用gRPC
+  - 这个目前在分布式KV中参考原项目改了一个简单版的长连接rpc。但是不能作为通用型。后续优化价值不大，成熟的项目直接用`gRPC`吧
 
-- gitbub这个东西也是个纯**，手机验证不支持中国大陆，最新的代码在[gitee](https://gitee.com/suycx/sylar-from-suycx)
+- 最新的代码在[gitee](https://gitee.com/suycx/sylar-from-suycx)
